@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abdul Musawar Soomro - Animated Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+        :root {
+            /* Core Colors - Professional Tech Palette */
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #111121;
+            --bg-tertiary: #1a1a2e;
+            --surface-primary: rgba(26, 26, 46, 0.8);
+            --surface-secondary: rgba(17, 17, 33, 0.9);
+            
+            /* Glassmorphism Colors */
+            --glass-primary: rgba(255, 255, 255, 0.05);
+            --glass-secondary: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            
+            /* Technical Accent Colors */
+            --accent-primary: #00d4ff;
+            --accent-secondary: #0099cc;
+            --accent-ai: #9b59b6;
+            --accent-cloud: #ff6b35;
+            --accent-code: #32d74b;
+            --accent-warning: #ff8e8e;
+            
+            /* Typography Colors */
+            --text-primary: #ffffff;
+            --text-secondary: #b4bcd0;
+            --text-muted: #64748b;
+            --text-accent: var(--accent-primary);
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            --gradient-ai: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            --gradient-cloud: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            --gradient-code: linear-gradient(135deg, #32d74b 0%, #27ae60 100%);
+            --gradient-surface: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            
+            /* Shadows & Effects */
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+            --shadow-glow: 0 0 40px rgba(0, 212, 255, 0.3);
+            --shadow-glow-ai: 0 0 40px rgba(155, 89, 182, 0.3);
+            --shadow-glow-cloud: 0 0 40px rgba(255, 107, 53, 0.3);
+            
+            /* Spacing */
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+            
+            /* Border Radius */
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-full: 9999px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Global Background Effects */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -2;
+            opacity: 0.5;
+        }
+
+        /* Enhanced Animation Styles */
+        .section-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            margin-bottom: var(--space-lg);
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animation Type 1: Slide In from Different Directions */
+        .animate-slide-right {
+            transform: translateX(-100px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .animate-slide-left {
+            transform: translateX(100px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .animate-slide-up {
+            transform: translateY(50px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .animate-slide-down {
+            transform: translateY(-50px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .animate-slide-right.in-view,
+        .animate-slide-left.in-view,
+        .animate-slide-up.in-view,
+        .animate-slide-down.in-view {
+            transform: translate(0);
+            opacity: 1;
+        }
+
+        /* Animation Type 2: Typewriter Effect */
+        .typewriter {
+            overflow: hidden;
+            border-right: 0.15em solid var(--accent-primary);
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--accent-primary); }
+        }
+
+        /* Animation Type 3: Split Text Animation */
+        .split-text {
+            overflow: hidden;
+        }
+
+        .split-text .char {
+            display: inline-block;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .split-text.animate .char {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Animation Type 4: Scale and Rotate */
+        .animate-scale-rotate {
+            transform: scale(0.8) rotate(-5deg);
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .animate-scale-rotate.in-view {
+            transform: scale(1) rotate(0deg);
+            opacity: 1;
+        }
+
+        /* Animation Type 5: Gradient Animation */
+        .gradient-animate {
+            background: linear-gradient(
+                45deg,
+                #00d4ff,
+                #9b59b6,
+                #ff6b35,
+                #32d74b,
+                #00d4ff
+            );
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Animation Type 6: Glitch Effect */
+        .glitch {
+            position: relative;
+            animation: glitch-skew 1s ease infinite;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch::before {
+            animation: glitch-anim-1 0.3s ease infinite;
+            color: #ff6b35;
+            z-index: -1;
+        }
+
+        .glitch::after {
+            animation: glitch-anim-2 0.3s ease infinite;
+            color: #00d4ff;
+            z-index: -2;
+        }
+
+        @keyframes glitch-anim-1 {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes glitch-anim-2 {
+            0% { transform: translate(0); }
+            20% { transform: translate(2px, -2px); }
+            40% { transform: translate(2px, 2px); }
+            60% { transform: translate(-2px, -2px); }
+            80% { transform: translate(-2px, 2px); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes glitch-skew {
+            0% { transform: skew(0deg); }
+            10% { transform: skew(2deg); }
+            20% { transform: skew(0deg); }
+            30% { transform: skew(-1deg); }
+            40% { transform: skew(0deg); }
+            50% { transform: skew(1deg); }
+            60% { transform: skew(0deg); }
+            70% { transform: skew(-2deg); }
+            80% { transform: skew(0deg); }
+            90% { transform: skew(1deg); }
+            100% { transform: skew(0deg); }
+        }
+
+        /* Animation Type 7: Morphing Text */
+        .morphing-text {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .morphing-text .text-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .morphing-text .text-layer.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Animation Type 8: Stagger Animation */
+        .stagger-animation .word {
+            display: inline-block;
+            transform: translateY(100%);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .stagger-animation.animate .word {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Glassmorphism Components */
+        .glass {
+            background: var(--glass-primary);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+        }
+
+        .glass-strong {
+            background: var(--glass-secondary);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: var(--space-lg) 0;
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+            background: var(--surface-secondary);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--space-xl);
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-2xl);
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: var(--space-sm) 0;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::before {
+            width: 100%;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        /* Sections */
+        .section {
+            padding: 120px 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--space-xl);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+        }
+
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 100px;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 50%, rgba(155, 89, 182, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--space-xl);
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: var(--space-lg);
+            letter-spacing: -2px;
+            color: var(--text-primary);
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-lg);
+            font-weight: 500;
+        }
+
+        /* Demo Controls */
+        .demo-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--glass-primary);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+        }
+
+        .demo-controls h4 {
+            color: var(--accent-primary);
+            margin-bottom: var(--space-md);
+            font-size: 1rem;
+        }
+
+        .demo-controls button {
+            display: block;
+            width: 100%;
+            margin-bottom: var(--space-sm);
+            padding: var(--space-sm) var(--space-md);
+            background: var(--glass-secondary);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.875rem;
+        }
+
+        .demo-controls button:hover {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .demo-controls {
+                bottom: 10px;
+                right: 10px;
+                padding: var(--space-md);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">MUSAWAR.DEV</div>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h1 id="main-title" class="hero-title typewriter">
+                Building the Future with Code
+            </h1>
+            <p class="hero-subtitle animate-slide-up">
+                Where Software Engineering Meets AI Innovation
+            </p>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 id="about-title" class="section-title animate-slide-right" data-text="The Complete Tech Stack">
+                    The Complete Tech Stack
+                </h2>
+                <p class="section-subtitle animate-slide-left">
+                    More than a developer - I'm your technical co-founder who codes
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 id="skills-title" class="section-title split-text">
+                    Technical Arsenal
+                </h2>
+                <p class="section-subtitle animate-slide-up">
+                    Cutting-edge technologies mastered through real-world experience
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 id="projects-title" class="section-title animate-scale-rotate">
+                    Featured Projects & Solutions
+                </h2>
+                <p class="section-subtitle animate-slide-down">
+                    From AI-powered platforms to enterprise infrastructure
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Innovation Section -->
+    <section id="innovation" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 id="innovation-title" class="section-title gradient-animate">
+                    Innovation Laboratory
+                </h2>
+                <p class="section-subtitle stagger-animation">
+                    <span class="word">Experimenting</span>
+                    <span class="word">with</span>
+                    <span class="word">tomorrow's</span>
+                    <span class="word">technologies</span>
+                    <span class="word">today</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section for Morphing Text -->
+    <section id="demo" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 id="morphing-title" class="section-title morphing-text">
+                    <span class="text-layer active">AI-Powered Solutions</span>
+                    <span class="text-layer">Cloud Architecture</span>
+                    <span class="text-layer">Full-Stack Development</span>
+                    <span class="text-layer">DevOps Excellence</span>
+                </h2>
+                <p class="section-subtitle animate-slide-up">
+                    Watch the magic happen in real-time
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 id="contact-title" class="section-title glitch" data-text="Ready to Build Something Epic?">
+                    Ready to Build Something Epic?
+                </h2>
+                <p class="section-subtitle animate-slide-up">
+                    Let's transform your vision into scalable reality
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Controls -->
+    <div class="demo-controls">
+        <h4>🎬 Animation Controls</h4>
+        <button onclick="triggerSlideAnimations()">Slide Animations</button>
+        <button onclick="triggerSplitText()">Split Text Effect</button>
+        <button onclick="triggerMorphing()">Morphing Text</button>
+        <button onclick="triggerStagger()">Stagger Words</button>
+        <button onclick="triggerGlitch()">Glitch Effect</button>
+        <button onclick="resetAllAnimations()">Reset All</button>
+    </div>
+
+    <script>
+        // Animation Functions
+        function triggerSlideAnimations() {
+            const elements = document.querySelectorAll('.animate-slide-right, .animate-slide-left, .animate-slide-up, .animate-slide-down, .animate-scale-rotate');
+            elements.forEach((el, index) => {
+                el.classList.remove('in-view');
+                setTimeout(() => {
+                    el.classList.add('in-view');
+                }, index * 200);
+            });
+        }
+
+        function triggerSplitText() {
+            const splitTextElements = document.querySelectorAll('.split-text');
+            splitTextElements.forEach(element => {
+                const text = element.textContent;
+                element.innerHTML = '';
+                element.classList.remove('animate');
+                
+                for (let i = 0; i < text.length; i++) {
+                    const span = document.createElement('span');
+                    span.classList.add('char');
+                    span.textContent = text[i] === ' ' ? '\u00A0' : text[i];
+                    element.appendChild(span);
+                }
+                
+                setTimeout(() => {
+                    element.classList.add('animate');
+                    const chars = element.querySelectorAll('.char');
+                    chars.forEach((char, index) => {
+                        char.style.transitionDelay = `${index * 0.05}s`;
+                    });
+                }, 100);
+            });
+        }
+
+        function triggerMorphing() {
+            const morphingElement = document.querySelector('.morphing-text');
+            const textLayers = morphingElement.querySelectorAll('.text-layer');
+            let currentIndex = 0;
+            
+            setInterval(() => {
+                textLayers[currentIndex].classList.remove('active');
+                currentIndex = (currentIndex + 1) % textLayers.length;
+                textLayers[currentIndex].classList.add('active');
+            }, 2000);
+        }
+
+        function triggerStagger() {
+            const staggerElements = document.querySelectorAll('.stagger-animation');
+            staggerElements.forEach(element => {
+                element.classList.remove('animate');
+                const words = element.querySelectorAll('.word');
+                words.forEach((word, index) => {
+                    word.style.transitionDelay = `${index * 0.1}s`;
+                });
+                
+                setTimeout(() => {
+                    element.classList.add('animate');
+                }, 100);
+            });
+        }
+
+        function triggerGlitch() {
+            const glitchElement = document.querySelector('.glitch');
+            glitchElement.style.animation = 'none';
+            setTimeout(() => {
+                glitchElement.style.animation = 'glitch-skew 1s ease infinite';
+            }, 10);
+        }
+
+        function resetAllAnimations() {
+            // Reset slide animations
+            const slideElements = document.querySelectorAll('.animate-slide-right, .animate-slide-left, .animate-slide-up, .animate-slide-down, .animate-scale-rotate');
+            slideElements.forEach(el => {
+                el.classList.remove('in-view');
+            });
+            
+            // Reset split text
+            const splitTextElements = document.querySelectorAll('.split-text');
+            splitTextElements.forEach(element => {
+                element.classList.remove('animate');
+                // Restore original text
+                if (element.id === 'skills-title') {
+                    element.textContent = 'Technical Arsenal';
+                }
+            });
+            
+            // Reset stagger
+            const staggerElements = document.querySelectorAll('.stagger-animation');
+            staggerElements.forEach(element => {
+                element.classList.remove('animate');
+            });
+            
+            // Reset morphing to first state
+            const morphingElement = document.querySelector('.morphing-text');
+            const textLayers = morphingElement.querySelectorAll('.text-layer');
+            textLayers.forEach((layer, index) => {
+                layer.classList.toggle('active', index === 0);
+            });
+        }
+
+        // Intersection Observer for automatic animations
+        function initAnimationObserver() {
+            const observerOptions = {
+                threshold: 0.3,
+                rootMargin: '0px 0px -100px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const element = entry.target;
+                        
+                        if (element.classList.contains('animate-slide-right') ||
+                            element.classList.contains('animate-slide-left') ||
+                            element.classList.contains('animate-slide-up') ||
+                            element.classList.contains('animate-slide-down') ||
+                            element.classList.contains('animate-scale-rotate')) {
+                            element.classList.add('in-view');
+                        }
+                        
+                        if (element.classList.contains('split-text')) {
+                            triggerSplitTextForElement(element);
+                        }
+                        
+                        if (element.classList.contains('stagger-animation')) {
+                            element.classList.add('animate');
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all animated elements
+            const animatedElements = document.querySelectorAll(`
+                .animate-slide-right, .animate-slide-left, .animate-slide-up, .animate-slide-down,
+                .animate-scale-rotate, .split-text, .stagger-animation
+            `);
+            
+            animatedElements.forEach(el => observer.observe(el));
+        }
+
+        function triggerSplitTextForElement(element) {
+            const text = element.textContent;
+            element.innerHTML = '';
+            element.classList.remove('animate');
+            
+            for (let i = 0; i < text.length; i++) {
+                const span = document.createElement('span');
+                span.classList.add('char');
+                span.textContent = text[i] === ' ' ? '\u00A0' : text[i];
+                element.appendChild(span);
+            }
+            
+            setTimeout(() => {
+                element.classList.add('animate');
+                const chars = element.querySelectorAll('.char');
+                chars.forEach((char, index) => {
+                    char.style.transitionDelay = `${index * 0.05}s`;
+                });
+            }, 100);
+        }
+
+        // Header scroll effect
+        function initScrollEffects() {
+            window.addEventListener('scroll', () => {
+                const header = document.querySelector('.header');
+                if (header) {
+                    if (window.scrollY > 100) {
+                        header.classList.add('scrolled');
+                    } else {
+                        header.classList.remove('scrolled');
+                    }
+                }
+            });
+        }
+
+        // Smooth scrolling for nav links
+        function initSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Auto-start morphing text animation
+        function startMorphingAnimation() {
+            const morphingElement = document.querySelector('.morphing-text');
+            if (!morphingElement) return;
+            
+            const textLayers = morphingElement.querySelectorAll('.text-layer');
+            let currentIndex = 0;
+            
+            setInterval(() => {
+                textLayers[currentIndex].classList.remove('active');
+                currentIndex = (currentIndex + 1) % textLayers.length;
+                textLayers[currentIndex].classList.add('active');
+            }, 3000);
+        }
+
+        // Advanced typewriter effect with multiple texts
+        function initAdvancedTypewriter() {
+            const typewriterElement = document.querySelector('.typewriter');
+            if (!typewriterElement) return;
+            
+            const texts = [
+                "Building the Future with Code",
+                "AI-Powered Solutions Expert",
+                "Cloud Architecture Specialist", 
+                "Full-Stack Development Master",
+                "DevOps & Infrastructure Guru"
+            ];
+            
+            let textIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            
+            function type() {
+                const currentText = texts[textIndex];
+                
+                if (isDeleting) {
+                    typewriterElement.textContent = currentText.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    typewriterElement.textContent = currentText.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+                
+                let typeSpeed = isDeleting ? 50 : 100;
+                
+                if (!isDeleting && charIndex === currentText.length) {
+                    typeSpeed = 2000; // Pause at end
+                    isDeleting = true;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    textIndex = (textIndex + 1) % texts.length;
+                    typeSpeed = 500; // Pause before next text
+                }
+                
+                setTimeout(type, typeSpeed);
+            }
+            
+            // Start after initial animation
+            setTimeout(type, 4000);
+        }
+
+        // Parallax scrolling effect for headings
+        function initParallaxScrolling() {
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const parallaxElements = document.querySelectorAll('.section-title');
+                
+                parallaxElements.forEach((element, index) => {
+                    const rate = scrolled * -0.1 * (index + 1);
+                    element.style.transform = `translateY(${rate}px)`;
+                });
+            });
+        }
+
+        // Advanced GSAP animations (if GSAP is loaded)
+        function initGSAPAnimations() {
+            if (typeof gsap === 'undefined') {
+                console.log('GSAP not loaded, skipping GSAP animations');
+                return;
+            }
+            
+            // Timeline for sequential animations
+            const tl = gsap.timeline({ paused: true });
+            
+            // Hero title animation
+            tl.from("#main-title", {
+                duration: 1.5,
+                y: 100,
+                opacity: 0,
+                ease: "power4.out"
+            });
+            
+            // Section titles with stagger
+            tl.from(".section-title", {
+                duration: 1,
+                y: 50,
+                opacity: 0,
+                stagger: 0.2,
+                ease: "power3.out"
+            }, "-=0.5");
+            
+            // Play timeline when page loads
+            window.addEventListener('load', () => {
+                tl.play();
+            });
+            
+            // Scroll-triggered animations (only if ScrollTrigger is available)
+            if (typeof ScrollTrigger !== 'undefined') {
+                try {
+                    gsap.registerPlugin(ScrollTrigger);
+                    
+                    gsap.utils.toArray(".section-title").forEach((title, index) => {
+                        gsap.from(title, {
+                            scrollTrigger: {
+                                trigger: title,
+                                start: "top 80%",
+                                end: "bottom 20%",
+                                toggleActions: "play none none reverse"
+                            },
+                            duration: 1,
+                            y: 100,
+                            opacity: 0,
+                            rotation: index % 2 === 0 ? 5 : -5,
+                            ease: "power3.out"
+                        });
+                    });
+                } catch (error) {
+                    console.warn('ScrollTrigger error:', error);
+                }
+            } else {
+                console.log('ScrollTrigger not loaded, using alternative scroll animations');
+                // Fallback to Intersection Observer
+                initAlternativeScrollAnimations();
+            }
+        }
+
+        // Alternative scroll animations without ScrollTrigger
+        function initAlternativeScrollAnimations() {
+            if (typeof gsap === 'undefined') return;
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const title = entry.target;
+                        const index = Array.from(document.querySelectorAll('.section-title')).indexOf(title);
+                        
+                        gsap.from(title, {
+                            duration: 1,
+                            y: 100,
+                            opacity: 0,
+                            rotation: index % 2 === 0 ? 5 : -5,
+                            ease: "power3.out"
+                        });
+                    }
+                });
+            }, {
+                threshold: 0.3,
+                rootMargin: '0px 0px -100px 0px'
+            });
+            
+            document.querySelectorAll('.section-title').forEach(title => {
+                observer.observe(title);
+            });
+        }
+
+        // Text reveal animation
+        function textRevealAnimation() {
+            const reveals = document.querySelectorAll('.section-title');
+            
+            reveals.forEach(reveal => {
+                const text = reveal.textContent;
+                reveal.innerHTML = `<span class="reveal-text">${text}</span>`;
+                
+                const span = reveal.querySelector('.reveal-text');
+                span.style.cssText = `
+                    display: inline-block;
+                    overflow: hidden;
+                    position: relative;
+                `;
+                
+                span.innerHTML = text.split('').map(char => 
+                    `<span style="display: inline-block; transform: translateY(100%); transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);">${char === ' ' ? '&nbsp;' : char}</span>`
+                ).join('');
+            });
+        }
+
+        // Magnetic effect for headings
+        function initMagneticEffect() {
+            const magneticElements = document.querySelectorAll('.section-title');
+            
+            magneticElements.forEach(element => {
+                element.addEventListener('mousemove', (e) => {
+                    const rect = element.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    
+                    element.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+                });
+                
+                element.addEventListener('mouseleave', () => {
+                    element.style.transform = 'translate(0, 0)';
+                });
+            });
+        }
+
+        // Wave text animation
+        function createWaveAnimation(element) {
+            const text = element.textContent;
+            element.innerHTML = '';
+            
+            text.split('').forEach((char, index) => {
+                const span = document.createElement('span');
+                span.textContent = char === ' ' ? '\u00A0' : char;
+                span.style.cssText = `
+                    display: inline-block;
+                    animation: wave 2s ease-in-out ${index * 0.1}s infinite;
+                `;
+                element.appendChild(span);
+            });
+            
+            // Add wave keyframes if not exists
+            if (!document.getElementById('wave-styles')) {
+                const style = document.createElement('style');
+                style.id = 'wave-styles';
+                style.textContent = `
+                    @keyframes wave {
+                        0%, 100% { transform: translateY(0); }
+                        50% { transform: translateY(-10px); }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+
+        // 3D text rotation effect
+        function init3DRotation() {
+            const titles = document.querySelectorAll('.section-title');
+            
+            titles.forEach(title => {
+                title.style.cssText += `
+                    transform-style: preserve-3d;
+                    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+                `;
+                
+                title.addEventListener('mouseenter', () => {
+                    title.style.transform = 'rotateX(15deg) rotateY(15deg) scale(1.05)';
+                });
+                
+                title.addEventListener('mouseleave', () => {
+                    title.style.transform = 'rotateX(0) rotateY(0) scale(1)';
+                });
+            });
+        }
+
+        // Hologram effect
+        function initHologramEffect() {
+            const hologramTitles = document.querySelectorAll('.gradient-animate');
+            
+            hologramTitles.forEach(title => {
+                title.style.cssText += `
+                    position: relative;
+                    text-shadow: 
+                        0 0 5px currentColor,
+                        0 0 10px currentColor,
+                        0 0 15px currentColor,
+                        0 0 20px #00d4ff,
+                        0 0 35px #00d4ff,
+                        0 0 40px #00d4ff;
+                `;
+                
+                // Add scanning line effect
+                const scanLine = document.createElement('div');
+                scanLine.style.cssText = `
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 2px;
+                    background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+                    animation: scan 2s linear infinite;
+                `;
+                title.appendChild(scanLine);
+            });
+            
+            // Add scan animation
+            if (!document.getElementById('scan-styles')) {
+                const style = document.createElement('style');
+                style.id = 'scan-styles';
+                style.textContent = `
+                    @keyframes scan {
+                        0% { transform: translateY(-100%); opacity: 0; }
+                        50% { opacity: 1; }
+                        100% { transform: translateY(500%); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+
+        // Initialize everything
+        function initializeAnimations() {
+            initScrollEffects();
+            initSmoothScroll();
+            initAnimationObserver();
+            startMorphingAnimation();
+            initAdvancedTypewriter();
+            initParallaxScrolling();
+            initGSAPAnimations();
+            textRevealAnimation();
+            initMagneticEffect();
+            init3DRotation();
+            initHologramEffect();
+            
+            // Auto-trigger some animations after page load
+            setTimeout(() => {
+                triggerSlideAnimations();
+            }, 1000);
+            
+            console.log('🎬 All animations initialized!');
+        }
+
+        // Wait for DOM and external libraries
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeAnimations);
+        } else {
+            setTimeout(initializeAnimations, 100);
+        }
+
+        // Add some fun keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.altKey) {
+                switch(e.key) {
+                    case '1':
+                        triggerSlideAnimations();
+                        break;
+                    case '2':
+                        triggerSplitText();
+                        break;
+                    case '3':
+                        triggerStagger();
+                        break;
+                    case '4':
+                        triggerGlitch();
+                        break;
+                    case '0':
+                        resetAllAnimations();
+                        break;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
