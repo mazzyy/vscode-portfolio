@@ -3,2592 +3,787 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abdul Musawar Soomro - Full-Stack Architect & Cloud Wizard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <title>Abdul Musawar | System Architect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Core Colors - Professional Tech Palette */
-            --bg-primary: #0a0a0f;
-            --bg-secondary: #111121;
-            --bg-tertiary: #1a1a2e;
-            --surface-primary: rgba(26, 26, 46, 0.8);
-            --surface-secondary: rgba(17, 17, 33, 0.9);
-            
-            /* Glassmorphism Colors */
-            --glass-primary: rgba(255, 255, 255, 0.05);
-            --glass-secondary: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            
-            /* Technical Accent Colors */
-            --accent-primary: #00d4ff;
-            --accent-secondary: #0099cc;
-            --accent-ai: #9b59b6;
-            --accent-cloud: #ff6b35;
-            --accent-code: #32d74b;
-            --accent-warning: #ff8e8e;
-            
-            /* Typography Colors */
-            --text-primary: #ffffff;
-            --text-secondary: #b4bcd0;
-            --text-muted: #64748b;
-            --text-accent: var(--accent-primary);
-            
-            /* Gradients */
-            --gradient-primary: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
-            --gradient-ai: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
-            --gradient-cloud: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-            --gradient-code: linear-gradient(135deg, #32d74b 0%, #27ae60 100%);
-            --gradient-surface: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-            
-            /* Shadows & Effects */
-            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
-            --shadow-glow: 0 0 40px rgba(0, 212, 255, 0.3);
-            --shadow-glow-ai: 0 0 40px rgba(155, 89, 182, 0.3);
-            --shadow-glow-cloud: 0 0 40px rgba(255, 107, 53, 0.3);
-            
-            /* Spacing */
-            --space-xs: 0.25rem;
-            --space-sm: 0.5rem;
-            --space-md: 1rem;
-            --space-lg: 1.5rem;
-            --space-xl: 2rem;
-            --space-2xl: 3rem;
-            --space-3xl: 4rem;
-            
-            /* Border Radius */
-            --radius-sm: 6px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --radius-xl: 24px;
-            --radius-full: 9999px;
+            --bg-dark: #020408;
+            --bg-panel: rgba(10, 15, 25, 0.85);
+            --primary: #00f3ff; /* Cyan */
+            --secondary: #bd00ff; /* Neon Purple */
+            --accent: #0aff00; /* Terminal Green */
+            --text-main: #e0f7fa;
+            --text-dim: #78909c;
+            --border-light: rgba(0, 243, 255, 0.2);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Rajdhani', sans-serif;
             overflow-x: hidden;
-            position: relative;
+            line-height: 1.6;
         }
 
-        /* Global Background Effects */
-        .bg-grid {
+        /* --- BACKGROUND FX --- */
+        #canvas-bg {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 50px 50px;
-            z-index: -2;
-            opacity: 0.5;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; opacity: 0.5;
         }
 
-        /* Custom Cursor */
-        .cursor {
+        .grid-overlay {
             position: fixed;
-            width: 20px;
-            height: 20px;
-            background: var(--gradient-primary);
-            border-radius: 50%;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
             pointer-events: none;
-            z-index: 9999;
-            transition: all 0.1s ease;
-            box-shadow: var(--shadow-glow);
-            mix-blend-mode: difference;
+            z-index: -1;
         }
 
-        .cursor.hover {
-            transform: scale(2);
-            background: var(--gradient-ai);
-            box-shadow: var(--shadow-glow-ai);
+        /* --- TYPOGRAPHY --- */
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .text-primary { color: var(--primary); }
+        .text-accent { color: var(--accent); }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
         }
 
-        /* Glassmorphism Components */
-        .glass {
-            background: var(--glass-primary);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-lg);
+        .section-header h2 {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.4);
         }
 
-        .glass-strong {
-            background: var(--glass-secondary);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
+        .header-line {
+            flex-grow: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--primary), transparent);
         }
 
-        /* Header */
-        .header {
+        /* --- NAV --- */
+        nav {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            padding: var(--space-lg) 0;
-            transition: all 0.3s ease;
-        }
-
-        .header.scrolled {
-            background: var(--surface-secondary);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .nav {
+            top: 0; width: 100%;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 var(--space-xl);
+            background: rgba(2, 4, 8, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-light);
+            z-index: 1000;
         }
 
-        .logo {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -0.5px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: var(--space-2xl);
-            list-style: none;
-        }
-
-        .nav-link {
-            color: var(--text-secondary);
+        .logo { font-size: 1.2rem; font-weight: 800; letter-spacing: 2px; }
+        
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a {
+            color: var(--text-dim);
             text-decoration: none;
-            font-weight: 500;
-            position: relative;
-            transition: all 0.3s ease;
-            padding: var(--space-sm) 0;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            text-transform: uppercase;
         }
+        .nav-links a:hover { color: var(--primary); text-shadow: 0 0 5px var(--primary); }
 
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--gradient-primary);
-            transition: width 0.3s ease;
-        }
+        @media(max-width: 768px) { .nav-links { display: none; } }
 
-        .nav-link:hover::before {
-            width: 100%;
-        }
-
-        .nav-link:hover {
-            color: var(--text-primary);
-        }
-
-        .theme-toggle {
-            background: var(--glass-primary);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-full);
-            padding: var(--space-sm);
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .theme-toggle:hover {
-            background: var(--glass-secondary);
-            color: var(--text-primary);
-        }
-
-        /* Hero Section */
+        /* --- HERO --- */
         .hero {
-            min-height: 100vh;
+            min-height: 90vh;
             display: flex;
             align-items: center;
-            position: relative;
-            overflow: hidden;
-            padding-top: 100px;
+            justify-content: center;
+            padding: 8rem 2rem 4rem;
         }
 
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .hero-container {
+            max-width: 1200px;
             width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 30% 50%, rgba(155, 89, 182, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 30%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
-            z-index: 1;
-        }
-
-        .particles-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-        }
-
-        .hero-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 var(--space-xl);
-            position: relative;
-            z-index: 10;
             display: grid;
-            grid-template-columns: 1fr 400px;
-            gap: var(--space-3xl);
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
             align-items: center;
         }
 
-        .hero-text {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        @media(max-width: 968px) { .hero-container { grid-template-columns: 1fr; text-align: center; } }
 
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-sm);
-            padding: var(--space-sm) var(--space-lg);
-            background: var(--glass-primary);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-full);
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--accent-primary);
-            margin-bottom: var(--space-xl);
-            backdrop-filter: blur(10px);
-        }
-
-        .hero-title {
-            font-size: clamp(3rem, 8vw, 5rem);
-            font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: var(--space-lg);
-            letter-spacing: -2px;
-            color: var(--text-primary);
-        }
-
-        .hero-title .gradient-text {
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .hero-text h1 {
+            font-size: clamp(3rem, 5vw, 4.5rem);
+            line-height: 1;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
         }
 
         .hero-subtitle {
-            font-size: 1.5rem;
-            color: var(--text-secondary);
-            margin-bottom: var(--space-lg);
-            font-weight: 500;
-        }
-
-        .hero-description {
-            font-size: 1.125rem;
-            color: var(--text-muted);
-            margin-bottom: var(--space-2xl);
-            max-width: 600px;
-            line-height: 1.7;
-        }
-
-        .cta-buttons {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
             display: flex;
-            gap: var(--space-lg);
-            margin-bottom: var(--space-2xl);
-            justify-content: center;
+            gap: 1rem;
+            align-items: center;
         }
+        @media(max-width: 968px) { .hero-subtitle { justify-content: center; } }
+
+        .hero-desc {
+            color: var(--text-dim);
+            max-width: 500px;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        @media(max-width: 968px) { .hero-desc { margin: 0 auto 2rem; } }
 
         .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-sm);
-            padding: var(--space-lg) var(--space-xl);
-            border-radius: var(--radius-lg);
-            font-weight: 600;
+            display: inline-block;
+            padding: 12px 24px;
+            background: rgba(0, 243, 255, 0.05);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-family: 'JetBrains Mono';
             text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            font-size: 1rem;
-            border: none;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            transition: 0.3s;
             cursor: pointer;
+            margin-right: 1rem;
+            margin-bottom: 1rem;
         }
 
-        .btn-primary {
-            background: var(--gradient-primary);
-            color: var(--text-primary);
-            box-shadow: var(--shadow-glow);
+        .btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 60px rgba(0, 212, 255, 0.5);
+        /* --- KEYNOTE IMAGE (CLEAN) --- */
+        .keynote-wrapper {
+            position: relative;
+            padding: 5px;
+            border: 1px solid var(--border-light);
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
-        .btn-secondary {
-            background: var(--glass-primary);
-            color: var(--text-primary);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(10px);
+        .keynote-wrapper::before, .keynote-wrapper::after {
+            content: ''; position: absolute; width: 30px; height: 30px;
+            border: 3px solid var(--primary); transition: 0.3s;
         }
+        .keynote-wrapper::before { top: -2px; left: -2px; border-bottom: none; border-right: none; }
+        .keynote-wrapper::after { bottom: -2px; right: -2px; border-top: none; border-left: none; }
 
-        .btn-secondary:hover {
-            background: var(--glass-secondary);
-            transform: translateY(-2px);
-        }
-
-        /* Stats */
-        .hero-stats {
-            display: flex;
-            gap: var(--space-xl);
-        }
-
-        .stat {
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 900;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .keynote-img {
+            width: 100%;
             display: block;
+            /* REMOVED ALL FILTERS AS REQUESTED */
+            filter: none; 
         }
 
-        .stat-label {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* 3D Scene Container */
-        .hero-3d {
-            position: relative;
-            height: 500px;
-            border-radius: var(--radius-xl);
-            overflow: hidden;
-            background: var(--glass-primary);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(20px);
-        }
-
-        #three-container {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Tech Skills Orbiting */
-        .tech-orbit {
+        .hud-label {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 300px;
-            border: 2px solid rgba(0, 212, 255, 0.3);
-            border-radius: 50%;
-            animation: rotate 30s linear infinite;
-        }
-
-        .tech-skill {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
+            bottom: 15px; left: 15px;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 8px 15px;
+            border-left: 3px solid var(--accent);
+            font-size: 0.8rem;
             color: white;
-            animation: counter-rotate 30s linear infinite;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            line-height: 1;
         }
 
-        .tech-skill:nth-child(1) { 
-            top: -30px; 
-            left: 50%; 
-            transform: translateX(-50%);
-            background: var(--gradient-cloud);
+        /* --- STATS BAR --- */
+        .stats-bar {
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+            background: rgba(0,0,0,0.3);
+            padding: 2rem 0;
+            margin-bottom: 6rem;
         }
-        .tech-skill:nth-child(2) { 
-            top: 50%; 
-            right: -30px; 
-            transform: translateY(-50%);
-            background: var(--gradient-primary);
+        .stats-container {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem; text-align: center;
         }
-        .tech-skill:nth-child(3) { 
-            bottom: -30px; 
-            left: 50%; 
-            transform: translateX(-50%);
-            background: var(--gradient-ai);
+        .stat-item h3 { font-size: 2.5rem; color: var(--accent); line-height: 1; }
+        .stat-item p { color: var(--text-dim); font-family: 'JetBrains Mono'; font-size: 0.9rem; }
+
+        /* --- ABOUT SECTION --- */
+        .section-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem 6rem; }
+        
+        .about-grid {
+            display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem;
         }
-        .tech-skill:nth-child(4) { 
-            top: 50%; 
-            left: -30px; 
-            transform: translateY(-50%);
-            background: var(--gradient-code);
+        @media(max-width: 900px) { .about-grid { grid-template-columns: 1fr; } }
+
+        .about-text p { margin-bottom: 1.5rem; color: var(--text-dim); }
+        .about-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .about-list li { display: flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono'; font-size: 0.9rem; }
+        .about-list li::before { content: '>'; color: var(--primary); }
+
+        /* --- SERVICES CARDS --- */
+        .services-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .service-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-light);
+            padding: 2rem;
+            transition: 0.3s;
+        }
+        .service-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .service-icon { font-size: 2rem; margin-bottom: 1rem; }
+        .service-card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-main); }
+        .service-card p { color: var(--text-dim); font-size: 0.95rem; }
+
+        /* --- TERMINAL LOGS --- */
+        .terminal-window {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .terminal-header {
+            background: #161b22; padding: 10px 15px; border-bottom: 1px solid #30363d;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
+        .terminal-body { padding: 2rem; font-family: 'JetBrains Mono'; font-size: 0.9rem; color: #8b949e; }
+        .log-entry { margin-bottom: 2rem; border-left: 1px solid #30363d; padding-left: 1.5rem; position: relative; }
+        .log-entry::before { content: '>'; position: absolute; left: -5px; top: 0; background: #0d1117; color: var(--accent); font-weight: bold; }
+        .log-date { color: var(--secondary); font-size: 0.8rem; margin-bottom: 4px; display: block; }
+        .log-title { color: var(--text-main); font-weight: bold; font-size: 1.2rem; }
+        .log-company { color: var(--primary); margin-bottom: 8px; display: block; }
+
+        /* --- EDUCATION --- */
+        .edu-grid { display: grid; gap: 1.5rem; }
+        .edu-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid var(--secondary);
+            padding: 1.5rem;
         }
 
-        .tech-skill:hover {
-            transform: scale(1.2);
-            box-shadow: var(--shadow-glow);
-        }
-
-        @keyframes rotate { to { transform: translate(-50%, -50%) rotate(360deg); } }
-        @keyframes counter-rotate { to { transform: rotate(-360deg); } }
-
-        /* Sections */
-        .section {
-            padding: 120px 0;
-            position: relative;
-            z-index: 10;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 var(--space-xl);
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: var(--space-3xl);
-        }
-
-        .section-title {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 900;
-            margin-bottom: var(--space-lg);
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -1px;
-        }
-
-        .section-subtitle {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* About Section */
-        .about-content {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: var(--space-3xl);
-            align-items: center;
-        }
-
-        .about-text {
-            max-width: none;
-        }
-
-        .about-text h3 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: var(--space-lg);
-            color: var(--text-primary);
-        }
-
-        .about-text p {
-            color: var(--text-secondary);
-            margin-bottom: var(--space-lg);
-            font-size: 1.125rem;
-            line-height: 1.7;
-        }
-
+        /* --- SKILLS CHIPS --- */
         .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--space-lg);
-            margin-top: var(--space-2xl);
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;
         }
-
-        .skill-card {
-            padding: var(--space-xl);
-            background: var(--glass-primary);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-lg);
-            backdrop-filter: blur(20px);
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        .skill-card:hover {
-            background: var(--glass-secondary);
-            transform: translateY(-5px);
-        }
-
-        .skill-icon {
-            font-size: 2.5rem;
-            margin-bottom: var(--space-lg);
-            line-height: 1;
-        }
-
-        .skill-card h4 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: var(--space-sm);
-        }
-
-        .skill-card p {
-            color: var(--text-muted);
-            font-size: 0.875rem;
-            margin: 0;
-        }
-
-        /* Technical Skills */
-        .skills-categories {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: var(--space-2xl);
-            margin-top: var(--space-3xl);
-        }
-
         .skill-category {
-            background: var(--glass-primary);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-lg);
-            padding: var(--space-2xl);
-            backdrop-filter: blur(20px);
+            background: var(--bg-panel); border: 1px solid var(--border-light); padding: 1.5rem;
         }
-
-        .skill-category h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: var(--space-xl);
-            color: var(--accent-primary);
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
+        .cat-title {
+            color: var(--accent); font-size: 0.9rem; text-transform: uppercase;
+            margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;
         }
-
-        .skill-item {
-            margin-bottom: var(--space-lg);
+        .chip-container { display: flex; flex-wrap: wrap; gap: 8px; }
+        .chip {
+            font-family: 'JetBrains Mono'; font-size: 0.75rem; padding: 5px 10px;
+            background: rgba(0, 243, 255, 0.05); border: 1px solid var(--border-light);
+            color: var(--text-main); transition: 0.2s;
         }
+        .chip:hover { background: var(--primary); color: #000; }
 
-        .skill-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--space-sm);
-        }
-
-        .skill-name {
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 1rem;
-        }
-
-        .skill-level {
-            font-size: 0.875rem;
-            color: var(--accent-primary);
-            font-weight: 600;
-        }
-
-        .skill-bar {
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: var(--radius-full);
-            overflow: hidden;
-            position: relative;
-        }
-
-        .skill-progress {
-            height: 100%;
-            background: var(--gradient-primary);
-            border-radius: var(--radius-full);
-            width: 0;
-            transition: width 2s ease;
-            position: relative;
-        }
-
-        .skill-progress::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100px;
-            width: 100px;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            animation: shine 2s infinite;
-        }
-
-        @keyframes shine {
-            0% { left: -100px; }
-            100% { left: 100%; }
-        }
-
-        /* Projects Grid */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: var(--space-2xl);
-            margin-top: var(--space-3xl);
-        }
-
+        /* --- PROJECTS --- */
         .project-card {
-            background: var(--glass-primary);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            backdrop-filter: blur(20px);
+            background: var(--bg-panel);
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 3rem;
+            display: grid; grid-template-columns: 1.5fr 1fr;
+        }
+        @media(max-width: 900px) { .project-card { grid-template-columns: 1fr; } }
+        .video-container {
+            position: relative; padding-bottom: 56.25%; height: 0; background: #000;
+        }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .project-info { padding: 2rem; display: flex; flex-direction: column; justify-content: center; }
+
+        /* --- REPOS --- */
+        .repo-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem; margin-top: 2rem;
+        }
+        .repo-card {
+            background: rgba(13, 17, 23, 0.6);
+            border: 1px solid #30363d;
+            padding: 1.5rem;
             transition: all 0.3s ease;
+            text-decoration: none; display: block;
         }
+        .repo-card:hover { border-color: var(--primary); transform: translateY(-5px); background: rgba(13, 17, 23, 0.9); }
+        .repo-name { font-family: 'JetBrains Mono'; font-size: 1.1rem; color: var(--text-main); font-weight: 700; margin: 10px 0 5px; }
+        .repo-desc { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1.5rem; }
+        .repo-meta { display: flex; justify-content: space-between; font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--text-dim); }
+        .lang-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 5px; }
 
-        .project-card:hover {
-            background: var(--glass-secondary);
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-xl);
-        }
-
-        .project-header {
-            padding: var(--space-2xl);
-            background: var(--gradient-surface);
-            position: relative;
-        }
-
-        .project-icon {
-            width: 60px;
-            height: 60px;
-            background: var(--gradient-primary);
-            border-radius: var(--radius-lg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: white;
-            margin-bottom: var(--space-lg);
-        }
-
-        .project-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: var(--space-sm);
-            color: var(--text-primary);
-        }
-
-        .project-type {
-            color: var(--accent-primary);
-            font-size: 0.875rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .project-content {
-            padding: var(--space-2xl);
-        }
-
-        .project-description {
-            color: var(--text-secondary);
-            margin-bottom: var(--space-xl);
-            line-height: 1.6;
-        }
-
-        .project-description.expanded {
-            max-height: none;
-        }
-
-        .project-details {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        .project-details.expanded {
-            max-height: 1000px;
-            margin-bottom: var(--space-lg);
-        }
-
-        .read-more-btn {
-            background: none;
-            border: none;
-            color: var(--accent-primary);
-            font-weight: 600;
-            cursor: pointer;
-            padding: var(--space-sm) 0;
-            margin-bottom: var(--space-lg);
-            transition: all 0.3s ease;
-            font-size: 0.875rem;
-            text-decoration: underline;
-            font-family: inherit;
-        }
-
-        .read-more-btn:hover {
-            color: var(--text-primary);
-            transform: translateY(-1px);
-        }
-
-        .read-more-btn:focus {
-            outline: 2px solid var(--accent-primary);
-            outline-offset: 2px;
-        }
-
-        .feature-list {
-            list-style: none;
-            padding: 0;
-            margin: var(--space-lg) 0;
-        }
-
-        .feature-list li {
-            padding: var(--space-sm) 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-        }
-
-        .feature-list li:last-child {
-            border-bottom: none;
-        }
-
-        .feature-icon {
-            color: var(--accent-primary);
-            font-size: 0.875rem;
-        }
-
-        .project-image {
-            margin-bottom: var(--space-xl);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            background: var(--glass-primary);
-            border: 1px solid var(--glass-border);
-            position: relative;
-        }
-
-        .project-image img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-radius: var(--radius-sm);
-        }
-
-        .dummy-image {
-            width: 100%;
-            height: 250px;
-            background: #00d4ff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            border-radius: var(--radius-sm);
-            border: 2px solid white;
-        }
-
-        .dummy-image-icon {
-            font-size: 6rem;
-            margin-bottom: var(--space-lg);
-            font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
-            font-weight: bold;
-        }
-
-        .dummy-image-text {
-            font-size: 1.2rem;
+        /* --- FOOTER --- */
+        footer {
+            border-top: 1px solid var(--border-light);
+            padding: 4rem 2rem;
+            background: #000;
             text-align: center;
-            color: white;
-            font-weight: bold;
         }
+        .social-icons { margin-bottom: 1.5rem; display: flex; justify-content: center; gap: 1.5rem; }
+        .social-icons a { color: var(--text-dim); transition: 0.3s; }
+        .social-icons a:hover { color: var(--primary); transform: scale(1.1); }
 
-        .project-stats {
-            display: flex;
-            gap: var(--space-lg);
-            margin-bottom: var(--space-xl);
-            flex-wrap: wrap;
-        }
-
-        .project-stat {
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-            color: var(--text-muted);
-            font-size: 0.875rem;
-        }
-
-        .project-tech {
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--space-sm);
-            margin-bottom: var(--space-xl);
-        }
-
-        .tech-tag {
-            background: rgba(0, 212, 255, 0.1);
-            color: var(--accent-primary);
-            padding: var(--space-xs) var(--space-sm);
-            border-radius: var(--radius-sm);
-            font-size: 0.75rem;
-            font-weight: 600;
-            border: 1px solid rgba(0, 212, 255, 0.2);
-        }
-
-        .project-video {
-            margin-bottom: var(--space-xl);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            background: var(--glass-primary);
-            border: 1px solid var(--glass-border);
-        }
-
-        .project-video iframe {
-            width: 100%;
-            height: 250px;
-            border: none;
-            border-radius: var(--radius-sm);
-        }
-
-        .project-links {
-            display: flex;
-            gap: var(--space-sm);
-            flex-wrap: wrap;
-        }
-
-        .project-link {
-            padding: var(--space-sm) var(--space-lg);
-            background: var(--glass-primary);
-            color: var(--accent-primary);
-            text-decoration: none;
-            border-radius: var(--radius-sm);
-            font-weight: 600;
-            font-size: 0.875rem;
-            border: 1px solid var(--glass-border);
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-xs);
-        }
-
-        .project-link:hover {
-            background: var(--accent-primary);
-            color: var(--text-primary);
-        }
-
-        .project-link.youtube {
-            background: linear-gradient(135deg, #ff0000, #cc0000);
-            color: white;
-            border: 1px solid #ff0000;
-        }
-
-        .project-link.youtube:hover {
-            background: linear-gradient(135deg, #cc0000, #990000);
-            transform: translateY(-2px);
-        }
-
-        /* Contact Section */
-        .contact {
-            background: radial-gradient(circle at center, rgba(0, 212, 255, 0.05) 0%, transparent 70%);
-        }
-
-        .contact-card {
-            background: var(--glass-primary);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-xl);
-            padding: var(--space-3xl);
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-            backdrop-filter: blur(30px);
-        }
-
-        .contact-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--gradient-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: white;
-            margin: 0 auto var(--space-xl);
-            box-shadow: var(--shadow-glow);
-        }
-
-        .contact-title {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: var(--space-lg);
-            color: var(--text-primary);
-        }
-
-        .contact-description {
-            font-size: 1.125rem;
-            color: var(--text-secondary);
-            margin-bottom: var(--space-2xl);
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.6;
-        }
-
-        .contact-links {
-            display: flex;
-            justify-content: center;
-            gap: var(--space-lg);
-            margin-top: var(--space-2xl);
-        }
-
-        .contact-link {
-            width: 60px;
-            height: 60px;
-            background: var(--glass-primary);
-            border: 1px solid var(--glass-border);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent-primary);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .contact-link:hover {
-            background: var(--accent-primary);
-            color: var(--text-primary);
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-glow);
-        }
-
-        /* Footer */
-        .footer {
-            background: var(--bg-secondary);
-            border-top: 1px solid var(--glass-border);
-            padding: var(--space-xl) 0;
-            text-align: center;
-            color: var(--text-muted);
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animate-in {
-            animation: fadeInUp 0.8s ease forwards;
-        }
-
-        /* Profile Picture Section */
-        .profile-section {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: var(--space-lg);
-        }
-
-        .profile-container {
-            position: relative;
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            overflow: hidden;
-            background: var(--gradient-primary);
-            border: 4px solid var(--accent-primary);
-            box-shadow: var(--shadow-glow);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .profile-container:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 60px var(--accent-primary);
-        }
-
-        .profile-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-        }
-
-        .profile-image-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #00d4ff;
-            border-radius: 50%;
-            font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
-            color: white;
-            font-size: 6rem;
-            font-weight: bold;
-        }
-
-        .profile-info {
-            text-align: center;
-            margin-top: var(--space-lg);
-        }
-
-        .profile-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: var(--space-sm);
-        }
-
-        .profile-title {
-            font-size: 1rem;
-            color: var(--accent-primary);
-            font-weight: 600;
-        }
-
-        .contact-link {
-            font-size: 1.2rem;
-        }
-
-        .tech-skill {
-            font-size: 1.5rem;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .hero-content {
-                grid-template-columns: 1fr;
-                gap: var(--space-2xl);
-                text-align: center;
-            }
-            
-            .about-content {
-                grid-template-columns: 1fr;
-                gap: var(--space-2xl);
-                text-align: center;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-
-            .skills-categories {
-                grid-template-columns: 1fr;
-            }
-
-            .profile-container {
-                width: 150px;
-                height: 150px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 3rem;
-            }
-            
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-            }
-            
-            .hero-stats {
-                justify-content: center;
-            }
-            
-            .skills-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .project-stats {
-                flex-direction: column;
-                gap: var(--space-sm);
-            }
-
-            .project-video iframe {
-                height: 200px;
-            }
-
-            .project-links {
-                flex-direction: column;
-            }
-
-            .project-links .project-link {
-                text-align: center;
-                justify-content: center;
-            }
-
-            .feature-list li {
-                font-size: 0.875rem;
-                padding: var(--space-xs) 0;
-            }
-
-            .project-details.expanded {
-                max-height: 800px;
-            }
-
-            .profile-container {
-                width: 120px;
-                height: 120px;
-            }
-
-            .contact .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-            }
-        }
-
-        /* Emoji and Icon Fixes */
-        .skill-icon, .project-icon, .contact-icon, .tech-skill {
-            font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
-            font-style: normal;
-            font-variant: normal;
-            text-rendering: auto;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .project-stat {
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-            color: var(--text-muted);
-            font-size: 0.875rem;
-            font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 10000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .modal.show {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: modalFadeIn 0.3s ease;
-        }
-
-        .modal-content {
-            background: var(--glass-primary);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-xl);
-            padding: var(--space-3xl);
-            max-width: 800px;
-            max-height: 90vh;
-            width: 90%;
-            position: relative;
-            overflow-y: auto;
-            animation: modalSlideIn 0.3s ease;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--space-2xl);
-            padding-bottom: var(--space-lg);
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .modal-title {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: var(--space-md);
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 2rem;
-            color: var(--text-muted);
-            cursor: pointer;
-            padding: var(--space-sm);
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-close:hover {
-            background: var(--glass-secondary);
-            color: var(--text-primary);
-            transform: scale(1.1);
-        }
-
-        .modal-body {
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        .modal-body h4 {
-            color: var(--accent-primary);
-            margin-bottom: var(--space-lg);
-            font-size: 1.5rem;
-        }
-
-        .modal-feature-list {
-            list-style: none;
-            padding: 0;
-            margin: var(--space-lg) 0;
-        }
-
-        .modal-feature-list li {
-            padding: var(--space-md) 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: flex-start;
-            gap: var(--space-md);
-            font-size: 1rem;
-        }
-
-        .modal-feature-list li:last-child {
-            border-bottom: none;
-        }
-
-        .modal-feature-icon {
-            color: var(--accent-primary);
-            font-size: 1rem;
-            margin-top: 2px;
-            flex-shrink: 0;
-        }
-
-        @keyframes modalFadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes modalSlideIn {
-            from { 
-                opacity: 0;
-                transform: translateY(50px) scale(0.9);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        /* Remove old project details styles */
-        .project-details {
-            display: none;
-        }
-
-        /* Performance optimizations */
-        .will-change-transform {
-            will-change: transform;
-        }
-
-        .gpu-accelerated {
-            transform: translateZ(0);
-            backface-visibility: hidden;
-        }
     </style>
 </head>
 <body>
-    <div class="cursor"></div>
-    <div class="bg-grid"></div>
-    
-    <!-- Header -->
-    <header class="header">
-        <nav class="nav">
-            <div class="logo">MUSAWAR.DEV</div>
-            <ul class="nav-links">
-                <li><a href="#home" class="nav-link">Home</a></li>
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#skills" class="nav-link">Skills</a></li>
-                <li><a href="#projects" class="nav-link">Projects</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
-            </ul>
-            <button class="theme-toggle" id="themeToggle">
-                🌙
-            </button>
-        </nav>
-    </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-bg"></div>
-        <div class="particles-container" id="particles-js"></div>
-        
-        <div class="hero-content">
+    <div class="grid-overlay"></div>
+    <canvas id="canvas-bg"></canvas>
+
+    <nav>
+        <div class="logo mono"><span class="text-primary">&lt;</span>MUSAWAR<span class="text-primary">/&gt;</span></div>
+        <div class="nav-links mono">
+            <a href="#about">Profile</a>
+            <a href="#experience">History</a>
+            <a href="#stack">Modules</a>
+            <a href="#projects">Systems</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-container">
             <div class="hero-text">
-                <div class="hero-badge">
-                    <span style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;">💻</span> Full-Stack Architect & Cloud Wizard
-                </div>
-                <h1 class="hero-title">
-                    Building the <span class="gradient-text">Future</span><br>
-                    One Algorithm at a Time
-                </h1>
-                <p class="hero-subtitle">
-                    Where Software Engineering Meets AI Innovation
-                </p>
-                <p class="hero-description">
-                    I architect scalable cloud solutions, engineer intelligent systems, and build 
-                    enterprise-grade applications that transform businesses. From Kubernetes orchestration 
-                    to machine learning pipelines, I turn complex problems into elegant solutions.
-                </p>
-                <div class="cta-buttons">
-                    <a href="#projects" class="btn btn-primary">
-                        <i class="fas fa-rocket"></i>
-                        Explore My Work
-                    </a>
-                    <a href="#contact" class="btn btn-secondary">
-                        <i class="fas fa-coffee"></i>
-                        Let's Connect
-                    </a>
-                </div>
-                <div class="hero-stats">
-                    <div class="stat">
-                        <span class="stat-value">5+</span>
-                        <span class="stat-label">Years Experience</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-value">100+</span>
-                        <span class="stat-label">Projects Delivered</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-value">∞</span>
-                        <span class="stat-label">Problems Solved</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="hero-3d">
-                <div id="three-container"></div>
-                <div class="tech-orbit">
-                    <div class="tech-skill" title="Cloud Architecture & AWS">
-                        <span style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;">☁️</span>
-                    </div>
-                    <div class="tech-skill" title="Software Engineering & Code">
-                        <span style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;">💻</span>
-                    </div>
-                    <div class="tech-skill" title="Artificial Intelligence & ML">
-                        <span style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;">🤖</span>
-                    </div>
-                    <div class="tech-skill" title="DevOps & Infrastructure">
-                        <span style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;">⚙️</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">The Complete Tech Stack</h2>
-                <p class="section-subtitle">
-                    More than a developer - I'm your technical co-founder who codes
-                </p>
-            </div>
-            
-            <div class="about-content">
-                <div class="profile-section">
-                    <div class="profile-container">
-                        <div class="profile-image-placeholder">
-                            👨‍💻
-                        </div>
-                    </div>
-                    <div class="profile-info">
-                        <h3 class="profile-name">Abdul Musawar Soomro</h3>
-                        <p class="profile-title">Full-Stack Architect & Cloud Wizard</p>
-                        <p class="profile-note" style="font-size: 0.875rem; color: var(--text-muted); margin-top: var(--space-sm);">
-                            Replace with your photo by updating the image src
-                        </p>
-                    </div>
-                </div>
+                <div class="mono text-accent" style="margin-bottom: 1rem;">>> INITIALIZING PROFILE...</div>
+                <h1>ABDUL MUSAWAR <span class="text-primary">SOOMRO</span></h1>
                 
-                <div class="about-text">
-                    <h3>Meet Your <span style="color: var(--accent-primary);">Digital Architect</span></h3>
-                    <p>
-                        I don't just write code - I architect digital experiences. With expertise spanning 
-                        full-stack development, cloud infrastructure, and AI/ML systems, I'm the complete 
-                        package that Fortune 500 companies seek.
-                    </p>
-                    <p>
-                        From Siemens Healthineers' Kubernetes orchestration to PUMA's Azure transformation, 
-                        I've proven that one skilled engineer can outperform entire teams when armed with 
-                        the right expertise and tools.
-                    </p>
-                    <p>
-                        My approach combines technical excellence with business acumen, ensuring every 
-                        solution not only works flawlessly but drives measurable business outcomes.
-                    </p>
+                <div class="hero-subtitle mono">
+                    <span>CLOUD ARCHITECT</span> // <span>AI ENGINEER</span> // <span>DATA SCIENTIST</span>
+                </div>
+
+                <p class="hero-desc">
+                    Software Engineer with 5+ years of experience in building scalable web applications and cloud infrastructure. Passionate about leveraging cutting-edge technologies to create innovative solutions.
+                </p>
+
+                <div>
+                    <a href="#projects" class="btn">View Deployed Systems</a>
+                    <a href="https://github.com/mazzyy" target="_blank" class="btn" style="border-color: var(--secondary); color: var(--secondary);">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="margin-right:5px;"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        GitHub (59+ Repos)
+                    </a>
                 </div>
             </div>
 
-                <div class="skills-grid">
-                    <div class="skill-card">
-                        <div class="skill-icon">
-                            <span style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;">💻</span>
-                        </div>
-                        <h4>Full-Stack Mastery</h4>
-                        <p>React to Django, I speak every layer of the stack fluently</p>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-icon">
-                            <span style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;">☁️</span>
-                        </div>
-                        <h4>Cloud Architecture</h4>
-                        <p>AWS, Azure, GCP - I design and deploy at enterprise scale</p>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-icon">
-                            <span style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;">🤖</span>
-                        </div>
-                        <h4>AI & Data Science</h4>
-                        <p>Making machines intelligent and data actionable</p>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-icon">
-                            <span style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;">🚀</span>
-                        </div>
-                        <h4>DevOps Automation</h4>
-                        <p>CI/CD pipelines that deploy code while you sleep</p>
+            <div class="hero-visual">
+                <div class="keynote-wrapper">
+                    <img src="image_b9b378.jpg" alt="Abdul Musawar Speaking" class="keynote-img">
+                    <div class="hud-label mono">
+                        <span class="text-accent">● LIVE FEED</span>: AGENTIC AI KEYNOTE
                     </div>
                 </div>
+            </div>
         </div>
     </section>
 
-    <!-- Skills Section -->
-    <section id="skills" class="section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Technical Arsenal</h2>
-                <p class="section-subtitle">
-                    Cutting-edge technologies mastered through real-world experience
+    <section class="stats-bar">
+        <div class="stats-container">
+            <div class="stat-item">
+                <h3>5+</h3>
+                <p>YEARS EXPERIENCE</p>
+            </div>
+            <div class="stat-item">
+                <h3>59+</h3>
+                <p>GITHUB REPOS</p>
+            </div>
+            <div class="stat-item">
+                <h3>100%</h3>
+                <p>COMMITMENT</p>
+            </div>
+            <div class="stat-item">
+                <h3>M.Sc.</h3>
+                <p>DATA SCIENCE</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section-container">
+        <div class="section-header">
+            <h2>Identity Matrix</h2>
+            <div class="header-line"></div>
+        </div>
+        <div class="about-grid">
+            <div class="about-text">
+                <p>
+                    I am a Software Engineer based in Erlangen, Germany, with a proven track record of successfully implementing CI/CD pipelines, automating complex infrastructure, and delivering engaging user experiences. 
+                </p>
+                <p>
+                    My expertise spans the entire development lifecycle, from designing scalable cloud architectures on AWS and Azure to building responsive front-end applications with React. I am passionate about leveraging cutting-edge AI technologies to solve complex problems.
                 </p>
             </div>
-            
-            <div class="skills-categories">
-                <div class="skill-category">
-                    <h3>
-                        💻 Programming Languages
-                    </h3>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">Python</span>
-                            <span class="skill-level">Expert</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="95"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">JavaScript/TypeScript</span>
-                            <span class="skill-level">Expert</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="92"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">Go</span>
-                            <span class="skill-level">Advanced</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="85"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">Rust</span>
-                            <span class="skill-level">Intermediate</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="75"></div>
-                        </div>
-                    </div>
-                </div>
+            <div class="about-list">
+                <li>Kubernetes Orchestration</li>
+                <li>AI Agent Workflows</li>
+                <li>Full Stack Development</li>
+                <li>Cloud Infrastructure (IaC)</li>
+                <li>System Security</li>
+                <li>Data Science & ML</li>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-container">
+        <div class="section-header">
+            <h2>Operational Capabilities</h2>
+            <div class="header-line"></div>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">☁️</div>
+                <h3>Cloud Architecture</h3>
+                <p>Designing and deploying scalable Azure/AWS solutions. Specializing in Docker containerization, Kubernetes orchestration, and Terraform infrastructure as code.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🤖</div>
+                <h3>AI Engineering</h3>
+                <p>Building intelligent agents using LangChain and OpenAI. Experience with RAG pipelines, LLM integration, and automated decision-making systems.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">💻</div>
+                <h3>Full Stack Dev</h3>
+                <p>End-to-end development using Python (Django/FastAPI) and JavaScript (React/Node.js). Creating secure, high-performance web applications.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="section-container">
+        <div class="section-header">
+            <h2>Execution Logs</h2>
+            <div class="header-line"></div>
+        </div>
+
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+                <span class="mono text-dim" style="font-size: 0.8rem; margin-left: 10px;">user@musawar:~/career_history.log</span>
+            </div>
+            <div class="terminal-body">
                 
-                <div class="skill-category">
-                    <h3>
-                        ☁️ Cloud Platforms
-                    </h3>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">AWS</span>
-                            <span class="skill-level">Expert</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="93"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">Azure</span>
-                            <span class="skill-level">Expert</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="90"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">Google Cloud</span>
-                            <span class="skill-level">Advanced</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="82"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">Kubernetes</span>
-                            <span class="skill-level">Expert</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="95"></div>
-                        </div>
-                    </div>
+                <div class="log-entry">
+                    <span class="log-date">[JAN 2024 - PRESENT]</span>
+                    <span class="log-title">KUBERNETES DEVELOPER</span>
+                    <span class="log-company">SIEMENS HEALTHINEERS | Erlangen, Germany</span>
+                    <p class="log-desc">
+                        // Architecting Kubernetes infrastructure and automated deployment processes.<br>
+                        // Integrating CI/CD pipelines and upholding security standards for containers.<br>
+                        // Automating container image analysis and Dockerization.
+                    </p>
                 </div>
-                
-                <div class="skill-category">
-                    <h3>
-                        🧠 AI & Machine Learning
-                    </h3>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">TensorFlow</span>
-                            <span class="skill-level">Advanced</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="88"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">PyTorch</span>
-                            <span class="skill-level">Advanced</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="85"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">Scikit-learn</span>
-                            <span class="skill-level">Expert</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="92"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">MLOps</span>
-                            <span class="skill-level">Advanced</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="87"></div>
-                        </div>
-                    </div>
+
+                <div class="log-entry">
+                    <span class="log-date">[SEP 2022 - MAR 2023]</span>
+                    <span class="log-title">CLOUD INFRASTRUCTURE ENGINEER</span>
+                    <span class="log-company">PUMA | Herzogenaurach, Germany</span>
+                    <p class="log-desc">
+                        // Managed Azure-based cloud solutions focusing on containerization.<br>
+                        // Reduced deployment time via Terraform and shell scripting.<br>
+                        // Optimized cloud infrastructure and maintained comprehensive documentation.
+                    </p>
+                </div>
+
+                <div class="log-entry">
+                    <span class="log-date">[JUN 2021 - AUG 2022]</span>
+                    <span class="log-title">CO-FOUNDER & LEAD DEV</span>
+                    <span class="log-company">ASAAN RECOVERY | Karachi, Pakistan</span>
+                    <p class="log-desc">
+                        // Created custom CRM enhancing work management transparency.<br>
+                        // Developed role-based access systems and integrated SMS services.<br>
+                        // Optimized account/payroll management and ensured data security.
+                    </p>
+                </div>
+
+                <div class="log-entry">
+                    <span class="log-date">[JUN 2020 - JUN 2021]</span>
+                    <span class="log-title">FULL-STACK WEB DEVELOPER</span>
+                    <span class="log-company">ONE STOP SOLUTION | Karachi, Pakistan</span>
+                    <p class="log-desc">
+                        // Developed CRM projects utilizing backend development and frontend designing.<br>
+                        // Integrated RESTful services into software programs.<br>
+                        // Conducted root cause analysis and technical documentation.
+                    </p>
+                </div>
+
+                <div class="log-entry">
+                    <span class="log-date">[OCT 2019 - MAR 2020]</span>
+                    <span class="log-title">FULL-STACK WEB DEVELOPER</span>
+                    <span class="log-company">DXIGNLAB PVT LTD</span>
+                    <p class="log-desc">
+                        // Assisted in web architecture design and implementation.<br>
+                        // Contributed to optimizing the tech stack for speed and scalability.<br>
+                        // Helped build web application features meeting user needs.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="section-container">
+        <div class="section-header">
+            <h2>Knowledge Database</h2>
+            <div class="header-line"></div>
+        </div>
+        <div class="edu-grid">
+            <div class="edu-card">
+                <div class="mono text-accent">[OCT 2021 - PRESENT]</div>
+                <h3 class="text-main">Master of Science in Data Science</h3>
+                <div class="text-primary">Friedrich-Alexander-Universität Erlangen-Nürnberg</div>
+                <p class="text-dim">Specialization: Artificial Intelligence / Machine Learning</p>
+            </div>
+            <div class="edu-card">
+                <div class="mono text-accent">[JUN 2016 - MAY 2020]</div>
+                <h3 class="text-main">Bachelor of Science in Computer Science</h3>
+                <div class="text-primary">Mohammad Ali Jinnah University</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="stack" class="section-container">
+        <div class="section-header">
+            <h2>System Modules</h2>
+            <div class="header-line"></div>
+        </div>
+
+        <div class="skills-grid">
+            <div class="skill-category">
+                <div class="cat-title mono">LANGUAGES & SCRIPTING</div>
+                <div class="chip-container">
+                    <span class="chip">Python</span>
+                    <span class="chip">JavaScript</span>
+                    <span class="chip">Bash/Shell</span>
+                    <span class="chip">SQL</span>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <div class="cat-title mono">CLOUD & DEVOPS</div>
+                <div class="chip-container">
+                    <span class="chip">Kubernetes</span>
+                    <span class="chip">Docker</span>
+                    <span class="chip">AWS</span>
+                    <span class="chip">Azure</span>
+                    <span class="chip">Terraform</span>
+                    <span class="chip">GitHub Actions</span>
+                    <span class="chip">Jenkins</span>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <div class="cat-title mono">BACKEND & AI</div>
+                <div class="chip-container">
+                    <span class="chip">Django</span>
+                    <span class="chip">FastAPI</span>
+                    <span class="chip">Node.js</span>
+                    <span class="chip">Express</span>
+                    <span class="chip">PostgreSQL</span>
+                    <span class="chip">MongoDB</span>
+                    <span class="chip">NoSQL</span>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <div class="cat-title mono">FRONTEND</div>
+                <div class="chip-container">
+                    <span class="chip">React.js</span>
+                    <span class="chip">Vue.js</span>
+                    <span class="chip">Tailwind CSS</span>
+                    <span class="chip">UI/UX Design</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Projects Section -->
-    <section id="projects" class="section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Featured Projects & Solutions</h2>
-                <p class="section-subtitle">
-                    From AI-powered platforms to enterprise infrastructure - watch them in action
-                </p>
+    <section id="projects" class="section-container">
+        <div class="section-header">
+            <h2>Deployed Systems</h2>
+            <div class="header-line"></div>
+        </div>
+
+        <div class="project-card">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/CL3smZv6ojM?rel=0" title="MarketMap" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             </div>
+            <div class="project-info">
+                <h3 class="text-primary">MarketMap</h3>
+                <p class="mono text-accent" style="font-size: 0.8rem; margin-bottom: 1rem;">AGENTIC AI | AUTOMATION</p>
+                <p class="text-dim">A modular architecture for automated market mapping. Uses agent-based collaboration (Router, Verification, Map Creation) to structure company data from natural language prompts.</p>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/ZxK9OYwRzKQ?rel=0" title="AI Web Builder" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="project-info">
+                <h3 class="text-primary">AI Web App Builder</h3>
+                <p class="mono text-accent" style="font-size: 0.8rem; margin-bottom: 1rem;">GENERATIVE UI | GEMINI AI</p>
+                <p class="text-dim">Enables users to create professional-grade websites using natural language. Google's Gemini AI generates responsive HTML/CSS/JS code automatically.</p>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/YaozBMgRDRI?rel=0" title="Talent Finder" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="project-info">
+                <h3 class="text-primary">Talent Finder</h3>
+                <p class="mono text-accent" style="font-size: 0.8rem; margin-bottom: 1rem;">SMART SEARCH | RECRUITMENT</p>
+                <p class="text-dim">Intelligent recruitment assistant that matches requirements with profiles. Features smart search filters and AI-powered matching logic.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="repos" class="section-container">
+        <div class="section-header">
+            <h2>Repository Archive</h2>
+            <div class="header-line"></div>
+        </div>
+        
+        <div class="repo-grid">
+            <a href="https://github.com/mazzyy/DevopsGenie" target="_blank" class="repo-card">
+                <div class="repo-name">DevOps Genie</div>
+                <p class="repo-desc">AI-powered assistant that automates infrastructure tasks using JavaScript and AI.</p>
+                <div class="repo-meta">
+                    <div class="repo-lang"><span class="lang-dot" style="background: #f1e05a"></span>JavaScript</div>
+                    <span>Public</span>
+                </div>
+            </a>
+
+            <a href="https://github.com/mazzyy/SynapseBot" target="_blank" class="repo-card">
+                <div class="repo-name">SynapseBot</div>
+                <p class="repo-desc">Browser automation tool built with Python and Selenium for complex workflows.</p>
+                <div class="repo-meta">
+                    <div class="repo-lang"><span class="lang-dot" style="background: #3572A5"></span>Python</div>
+                    <span>Public</span>
+                </div>
+            </a>
+
+            <a href="https://github.com/mazzyy/XcelBot" target="_blank" class="repo-card">
+                <div class="repo-name">XcelBot</div>
+                <p class="repo-desc">Intelligent Excel processing automation leveraging web technologies.</p>
+                <div class="repo-meta">
+                    <div class="repo-lang"><span class="lang-dot" style="background: #2b7489"></span>TypeScript</div>
+                    <span>Public</span>
+                </div>
+            </a>
+
+            <a href="https://github.com/mazzyy/Aurguide" target="_blank" class="repo-card">
+                <div class="repo-name">Aurguide</div>
+                <p class="repo-desc">AI-powered education platform for university recommendations using Machine Learning.</p>
+                <div class="repo-meta">
+                    <div class="repo-lang"><span class="lang-dot" style="background: #3572A5"></span>Python</div>
+                    <span>Public</span>
+                </div>
+            </a>
             
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-header">
-                        <div class="project-icon">
-                            👥
-                        </div>
-                        <h3 class="project-title">OmniCRM - Intelligent CRM Platform</h3>
-                        <p class="project-type">Full-Stack SaaS Platform</p>
-                    </div>
-                    <div class="project-content">
-                        <div class="project-video">
-                            <iframe src="https://www.youtube.com/embed/gMZF3wPXEDA?rel=0&modestbranding=1" 
-                                    title="OmniCRM Demo" 
-                                    frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                                    allowfullscreen></iframe>
-                        </div>
-                        <p class="project-description">
-                            A full-featured, role-based Customer Relationship Management platform designed for modern 
-                            businesses. Features advanced RBAC, lead management, Zoom integration, team collaboration, 
-                            and comprehensive analytics.
-                        </p>
-                        <div class="project-details" id="crm-details">
-                            <h4 style="color: var(--accent-primary); margin-bottom: var(--space-lg);">🎯 Core Features</h4>
-                            <ul class="feature-list">
-                                <li><span class="feature-icon">🔐</span> <strong>Role-Based Access Control:</strong> Admin, Sales, Marketing, Support, and Manager roles with custom permission sets</li>
-                                <li><span class="feature-icon">🧲</span> <strong>Lead Management:</strong> Create and track leads from various sources with auto-capture via integrations</li>
-                                <li><span class="feature-icon">📅</span> <strong>Meeting Scheduler:</strong> Google Calendar and Zoom integration with OAuth-based authentication</li>
-                                <li><span class="feature-icon">👥</span> <strong>Team Management:</strong> Complete team directory with roles, departments, and communication history</li>
-                                <li><span class="feature-icon">✅</span> <strong>Task Management:</strong> Assign tasks with priority, deadlines, and progress tracking</li>
-                                <li><span class="feature-icon">🔍</span> <strong>Advanced Search:</strong> Global search with saved filters and smart segments</li>
-                                <li><span class="feature-icon">📊</span> <strong>Analytics:</strong> KPI widgets, custom reports, and CSV/PDF export</li>
-                                <li><span class="feature-icon">💬</span> <strong>Notifications:</strong> In-app notifications, email alerts, and optional SMS</li>
-                                <li><span class="feature-icon">🔗</span> <strong>Integrations:</strong> Zoom, Google Calendar, Email providers, and CRM APIs</li>
-                            </ul>
-                        </div>
-                        <button class="read-more-btn" onclick="window.openModal('crm-modal')">
-                            📖 See More Details
-                        </button>
-                        <div class="project-stats">
-                            <div class="project-stat">
-                                🛡️ <span>5 Role Types</span>
-                            </div>
-                            <div class="project-stat">
-                                📹 <span>Zoom Integration</span>
-                            </div>
-                            <div class="project-stat">
-                                📈 <span>Real-time Analytics</span>
-                            </div>
-                        </div>
-                        <div class="project-tech">
-                            <span class="tech-tag">Django</span>
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">PostgreSQL</span>
-                            <span class="tech-tag">Zoom API</span>
-                            <span class="tech-tag">Google Calendar</span>
-                            <span class="tech-tag">OAuth</span>
-                        </div>
-                        <div class="project-links">
-                           
-                           
-                        </div>
-                    </div>
+            <a href="https://github.com/mazzyy/AuditIQ_CRM" target="_blank" class="repo-card">
+                <div class="repo-name">AuditIQ CRM</div>
+                <p class="repo-desc">Modern CRM with intelligent audit capabilities built with React and TypeScript.</p>
+                <div class="repo-meta">
+                    <div class="repo-lang"><span class="lang-dot" style="background: #2b7489"></span>TypeScript</div>
+                    <span>Public</span>
                 </div>
-
-                <div class="project-card">
-                    <div class="project-header">
-                        <div class="project-icon">
-                            ✨
-                        </div>
-                        <h3 class="project-title">AI Web Builder</h3>
-                        <p class="project-type">AI-Powered Development Tool</p>
-                        
-                    </div>
-                    <div class="project-content">
-                        <div class="project-video">
-                            <iframe src="https://www.youtube.com/embed/ZxK9OYwRzKQ?rel=0&modestbranding=1" 
-                                    title="AI Web Builder Demo" 
-                                    frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                                    allowfullscreen></iframe>
-                        </div>
-                        <p class="project-description">
-                            Revolutionary AI-powered web development platform that transforms natural language prompts 
-                            into professional-grade websites using Google Gemini AI with VS Code-like editing environment.
-                        </p>
-                        <div class="project-details" id="ai-builder-details">
-                            <h4 style="color: var(--accent-primary); margin-bottom: var(--space-lg);">🎯 Key Capabilities</h4>
-                            <ul class="feature-list">
-                                <li><span class="feature-icon">🤖</span> <strong>AI-Powered Generation:</strong> Google Gemini AI transforms natural language into responsive HTML, CSS, and JavaScript</li>
-                                <li><span class="feature-icon">💻</span> <strong>VS Code Experience:</strong> Professional editing environment with syntax highlighting and code completion</li>
-                                <li><span class="feature-icon">👁️</span> <strong>Real-Time Preview:</strong> Instant visual feedback as you build and modify your websites</li>
-                                <li><span class="feature-icon">📱</span> <strong>Responsive Design:</strong> Automatically generates mobile-friendly, responsive layouts</li>
-                                <li><span class="feature-icon">🎨</span> <strong>Customizable Templates:</strong> Pre-built templates that can be modified with natural language</li>
-                                <li><span class="feature-icon">📁</span> <strong>File Management:</strong> Organized project structure with efficient asset management</li>
-                                <li><span class="feature-icon">🚀</span> <strong>Modern Standards:</strong> Generates clean, semantic HTML with modern CSS and JavaScript</li>
-                                <li><span class="feature-icon">♿</span> <strong>Accessibility First:</strong> Built-in accessibility features and WCAG compliance</li>
-                                <li><span class="feature-icon">⚡</span> <strong>Performance Optimized:</strong> Lightweight, fast-loading websites with optimized code</li>
-                            </ul>
-                        </div>
-                        <button class="read-more-btn" onclick="window.openModal('ai-builder-modal')">
-                            📖 See More Details
-                        </button>
-                        <div class="project-stats">
-                            <div class="project-stat">
-                                🧠 <span>Gemini AI</span>
-                            </div>
-                            <div class="project-stat">
-                                💻 <span>VS Code Interface</span>
-                            </div>
-                            <div class="project-stat">
-                                👁️ <span>Real-time Preview</span>
-                            </div>
-                        </div>
-                        <div class="project-tech">
-                            <span class="tech-tag">Google Gemini AI</span>
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">Node.js</span>
-                            <span class="tech-tag">CodeMirror</span>
-                            <span class="tech-tag">WebSockets</span>
-                        </div>
-                        <div class="project-links">
-                         
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-header">
-                        <div class="project-icon">
-                            📊
-                        </div>
-                        <h3 class="project-title">MarketMap - AI Market Intelligence</h3>
-                        <p class="project-type">AI-Powered Analytics Platform</p>
-                    </div>
-                    <div class="project-content">
-                        <div class="project-video">
-                            <iframe src="https://www.youtube.com/embed/CL3smZv6ojM?rel=0&modestbranding=1" 
-                                    title="MarketMap Demo" 
-                                    frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                                    allowfullscreen></iframe>
-                        </div>
-                        <p class="project-description">
-                            Intelligent market mapping system leveraging agent-based collaboration to dynamically 
-                            fetch, verify, and structure talent/company data with AI-powered verification.
-                        </p>
-                        <div class="project-details" id="marketmap-details">
-                            <h4 style="color: var(--accent-primary); margin-bottom: var(--space-lg);">🏗️ System Architecture & Components</h4>
-                            <ul class="feature-list">
-                                <li><span class="feature-icon">💬</span> <strong>Chat Agent:</strong> Captures user requirements in natural language and transforms them into structured tasks</li>
-                                <li><span class="feature-icon">🎯</span> <strong>Router Agent:</strong> Acts as workflow orchestrator, routing tasks to appropriate functional agents</li>
-                                <li><span class="feature-icon">🏢</span> <strong>Company Search:</strong> Pulls company data using internal search APIs based on location, industry, and size criteria</li>
-                                <li><span class="feature-icon">✅</span> <strong>AI Verification:</strong> Validates each company through AI-powered web checks and assigns verification status</li>
-                                <li><span class="feature-icon">📝</span> <strong>Title Generation:</strong> Uses large language models to generate relevant job titles aligned with user goals</li>
-                                <li><span class="feature-icon">🗺️</span> <strong>Map Creation:</strong> Aggregates verified data into structured market maps with experience, gender, location, and skills</li>
-                                <li><span class="feature-icon">📊</span> <strong>CSV Export:</strong> Enables easy download of generated market maps in standardized format</li>
-                                <li><span class="feature-icon">🔄</span> <strong>Real-Time Processing:</strong> Dynamic data processing with live updates and progress tracking</li>
-                                <li><span class="feature-icon">🎲</span> <strong>Agent Collaboration:</strong> Multiple AI agents working together for comprehensive market intelligence</li>
-                            </ul>
-                        </div>
-                        <button class="read-more-btn" onclick="window.openModal('marketmap-modal')">
-                            📖 See More Details
-                        </button>
-                        <div class="project-stats">
-                            <div class="project-stat">
-                                🤖 <span>Multi-Agent System</span>
-                            </div>
-                            <div class="project-stat">
-                                ✅ <span>AI Verification</span>
-                            </div>
-                            <div class="project-stat">
-                                📄 <span>CSV Export</span>
-                            </div>
-                        </div>
-                        <div class="project-tech">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">LangChain</span>
-                            <span class="tech-tag">OpenAI</span>
-                            <span class="tech-tag">FastAPI</span>
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">Web Scraping</span>
-                        </div>
-                        <div class="project-links">
-                           
-                            
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-header">
-                        <div class="project-icon">
-                            🔍
-                        </div>
-                        <h3 class="project-title">Talent Finder - AI Recruitment</h3>
-                        <p class="project-type">AI-Powered Talent Discovery</p>
-                    </div>
-                    <div class="project-content">
-                        <div class="project-video">
-                            <iframe src="https://www.youtube.com/embed/YaozBMgRDRI?rel=0&modestbranding=1" 
-                                    title="Talent Finder Demo" 
-                                    frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                                    allowfullscreen></iframe>
-                        </div>
-                        <p class="project-description">
-                            Intelligent recruitment assistant that discovers top-tier candidates in seconds using 
-                            AI-powered matching and smart search filters with global talent reach.
-                        </p>
-                        <div class="project-details" id="talent-finder-details">
-                            <h4 style="color: var(--accent-primary); margin-bottom: var(--space-lg);">🚀 Key Features</h4>
-                            <ul class="feature-list">
-                                <li><span class="feature-icon">🔍</span> <strong>Smart Search Filters:</strong> Find candidates by skillset, job title, location, and years of experience</li>
-                                <li><span class="feature-icon">🤖</span> <strong>AI-Powered Matching:</strong> Instantly match job descriptions with relevant, real-world candidate profiles</li>
-                                <li><span class="feature-icon">🎨</span> <strong>Visual Results:</strong> Detailed profile cards with photos, location, role, and experience levels</li>
-                                <li><span class="feature-icon">🌍</span> <strong>Global Talent Reach:</strong> Discover candidates from any region worldwide - from Erlangen to Singapore</li>
-                                <li><span class="feature-icon">⚡</span> <strong>Real-Time Discovery:</strong> Instant candidate search with sub-second response times</li>
-                                <li><span class="feature-icon">📊</span> <strong>Profile Analytics:</strong> Comprehensive candidate data with skills assessment and experience verification</li>
-                                <li><span class="feature-icon">🎯</span> <strong>Precision Targeting:</strong> Advanced filters for specific requirements like language fluency and industry experience</li>
-                                <li><span class="feature-icon">📱</span> <strong>Mobile Optimized:</strong> Full functionality on all devices with responsive design</li>
-                                <li><span class="feature-icon">🔗</span> <strong>Integration Ready:</strong> API-first design for seamless integration with existing HR systems</li>
-                            </ul>
-                        </div>
-                        <button class="read-more-btn" onclick="window.openModal('talent-finder-modal')">
-                            📖 See More Details
-                        </button>
-                        <div class="project-stats">
-                            <div class="project-stat">
-                                🌍 <span>Global Reach</span>
-                            </div>
-                            <div class="project-stat">
-                                🔽 <span>Smart Filters</span>
-                            </div>
-                            <div class="project-stat">
-                                ⚡ <span>Instant Matching</span>
-                            </div>
-                        </div>
-                        <div class="project-tech">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">Machine Learning</span>
-                            <span class="tech-tag">NLP</span>
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">Elasticsearch</span>
-                            <span class="tech-tag">API Integration</span>
-                        </div>
-                        <div class="project-links">
-                           
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-header">
-                        <div class="project-icon">
-                            🏥
-                        </div>
-                        <h3 class="project-title">HealthTech Kubernetes Platform</h3>
-                        <p class="project-type">Enterprise Infrastructure</p>
-                    </div>
-                    <div class="project-content">
-                        <div class="project-image">
-                            <div class="dummy-image">
-                                <div class="dummy-image-icon">🏥</div>
-                                <div class="dummy-image-text">Enterprise Healthcare Infrastructure</div>
-                            </div>
-                        </div>
-                        <p class="project-description">
-                            Architected and deployed mission-critical Kubernetes infrastructure for Siemens 
-                            Healthineers, handling container orchestration for medical imaging systems with 
-                            99.9% uptime and sub-second response times.
-                        </p>
-                        <div class="project-details" id="healthtech-details">
-                            <h4 style="color: var(--accent-primary); margin-bottom: var(--space-lg);">🏗️ Infrastructure & Architecture</h4>
-                            <ul class="feature-list">
-                                <li><span class="feature-icon">🐳</span> <strong>Container Orchestration:</strong> Kubernetes cluster managing 50+ microservices for medical imaging workflows</li>
-                                <li><span class="feature-icon">📊</span> <strong>Monitoring & Observability:</strong> Prometheus, Grafana, and ELK stack for comprehensive system monitoring</li>
-                                <li><span class="feature-icon">🔄</span> <strong>CI/CD Pipeline:</strong> GitLab CI with automated testing, security scans, and rolling deployments</li>
-                                <li><span class="feature-icon">🛡️</span> <strong>Security & Compliance:</strong> HIPAA-compliant infrastructure with network policies and RBAC</li>
-                                <li><span class="feature-icon">🚀</span> <strong>Auto-scaling:</strong> Horizontal Pod Autoscaler (HPA) and Vertical Pod Autoscaler (VPA) for optimal resource utilization</li>
-                                <li><span class="feature-icon">💾</span> <strong>Data Management:</strong> Persistent volumes with automated backup and disaster recovery</li>
-                                <li><span class="feature-icon">🌐</span> <strong>Service Mesh:</strong> Istio implementation for secure service-to-service communication</li>
-                                <li><span class="feature-icon">📈</span> <strong>Performance:</strong> Sub-second response times with 99.9% uptime SLA</li>
-                                <li><span class="feature-icon">🔧</span> <strong>DevOps Tools:</strong> Helm charts, ArgoCD for GitOps, and automated certificate management</li>
-                            </ul>
-                        </div>
-                        <button class="read-more-btn" onclick="window.openModal('healthtech-modal')">
-                            📖 See More Details
-                        </button>
-                        <div class="project-stats">
-                            <div class="project-stat">
-                                🖥️ <span>50+ Microservices</span>
-                            </div>
-                            <div class="project-stat">
-                                👥 <span>10K+ Users</span>
-                            </div>
-                            <div class="project-stat">
-                                📈 <span>99.9% Uptime</span>
-                            </div>
-                        </div>
-                        <div class="project-tech">
-                            <span class="tech-tag">Kubernetes</span>
-                            <span class="tech-tag">Docker</span>
-                            <span class="tech-tag">GitLab CI</span>
-                            <span class="tech-tag">Prometheus</span>
-                            <span class="tech-tag">Grafana</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#" class="project-link">
-                                📄 Case Study
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-header">
-                        <div class="project-icon">
-                            🏃
-                        </div>
-                        <h3 class="project-title">PUMA Cloud Migration</h3>
-                        <p class="project-type">Cloud Transformation</p>
-                    </div>
-                    <div class="project-content">
-                        <div class="project-image">
-                            <div class="dummy-image">
-                                <div class="dummy-image-icon">☁️</div>
-                                <div class="dummy-image-text">Azure Cloud Transformation</div>
-                            </div>
-                        </div>
-                        <p class="project-description">
-                            Led complete Azure cloud transformation for PUMA, migrating legacy systems to 
-                            scalable infrastructure. Implemented Infrastructure as Code reducing deployment 
-                            errors by 90% and cutting costs by 40%.
-                        </p>
-                        <div class="project-details" id="puma-details">
-                            <h4 style="color: var(--accent-primary); margin-bottom: var(--space-lg);">🚀 Migration & Transformation</h4>
-                            <ul class="feature-list">
-                                <li><span class="feature-icon">☁️</span> <strong>Azure Migration:</strong> Complete lift-and-shift plus re-architecture of legacy applications to Azure services</li>
-                                <li><span class="feature-icon">🏗️</span> <strong>Infrastructure as Code:</strong> Terraform and ARM templates for automated, reproducible infrastructure deployments</li>
-                                <li><span class="feature-icon">🔄</span> <strong>DevOps Pipeline:</strong> Azure DevOps with automated testing, deployment, and rollback capabilities</li>
-                                <li><span class="feature-icon">💰</span> <strong>Cost Optimization:</strong> 40% cost reduction through rightsizing, reserved instances, and auto-scaling</li>
-                                <li><span class="feature-icon">🛡️</span> <strong>Security Framework:</strong> Azure Security Center, Key Vault, and compliance with retail industry standards</li>
-                                <li><span class="feature-icon">📊</span> <strong>Monitoring Setup:</strong> Azure Monitor, Application Insights, and custom dashboards for business metrics</li>
-                                <li><span class="feature-icon">🌐</span> <strong>Global Scale:</strong> Multi-region deployment with CDN and traffic management for worldwide operations</li>
-                                <li><span class="feature-icon">📈</span> <strong>Performance Gains:</strong> 3x faster deployment cycles and 90% reduction in deployment errors</li>
-                                <li><span class="feature-icon">🔧</span> <strong>Automation:</strong> PowerShell DSC, Azure Automation, and self-healing infrastructure</li>
-                            </ul>
-                        </div>
-                        <button class="read-more-btn" onclick="window.openModal('puma-modal')">
-                            📖 See More Details
-                        </button>
-                        <div class="project-stats">
-                            <div class="project-stat">
-                                ⏰ <span>6 Month Migration</span>
-                            </div>
-                            <div class="project-stat">
-                                💰 <span>40% Cost Reduction</span>
-                            </div>
-                            <div class="project-stat">
-                                🚀 <span>3x Faster Deploys</span>
-                            </div>
-                        </div>
-                        <div class="project-tech">
-                            <span class="tech-tag">Azure</span>
-                            <span class="tech-tag">Terraform</span>
-                            <span class="tech-tag">ARM Templates</span>
-                            <span class="tech-tag">PowerShell</span>
-                            <span class="tech-tag">DevOps</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#" class="project-link">
-                                🏗️ Architecture
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </a>
+        </div>
+        
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="https://github.com/mazzyy" target="_blank" class="btn">VIEW ALL 59+ REPOSITORIES</a>
         </div>
     </section>
 
-    <!-- Modal Templates -->
-    <!-- CRM Modal -->
-    <div id="crm-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">👥 OmniCRM - Intelligent CRM Platform</h3>
-                <button class="modal-close" onclick="window.closeModal('crm-modal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <h4>🎯 Core Features</h4>
-                <ul class="modal-feature-list">
-                    <li><span class="modal-feature-icon">🔐</span> <strong>Role-Based Access Control:</strong> Admin, Sales, Marketing, Support, and Manager roles with custom permission sets</li>
-                    <li><span class="modal-feature-icon">🧲</span> <strong>Lead Management:</strong> Create and track leads from various sources with auto-capture via integrations</li>
-                    <li><span class="modal-feature-icon">📅</span> <strong>Meeting Scheduler:</strong> Google Calendar and Zoom integration with OAuth-based authentication</li>
-                    <li><span class="modal-feature-icon">👥</span> <strong>Team Management:</strong> Complete team directory with roles, departments, and communication history</li>
-                    <li><span class="modal-feature-icon">✅</span> <strong>Task Management:</strong> Assign tasks with priority, deadlines, and progress tracking</li>
-                    <li><span class="modal-feature-icon">🔍</span> <strong>Advanced Search:</strong> Global search with saved filters and smart segments</li>
-                    <li><span class="modal-feature-icon">📊</span> <strong>Analytics:</strong> KPI widgets, custom reports, and CSV/PDF export</li>
-                    <li><span class="modal-feature-icon">💬</span> <strong>Notifications:</strong> In-app notifications, email alerts, and optional SMS</li>
-                    <li><span class="modal-feature-icon">🔗</span> <strong>Integrations:</strong> Zoom, Google Calendar, Email providers, and CRM APIs</li>
-                </ul>
-            </div>
+    <footer id="contact">
+        <div class="logo mono" style="margin-bottom: 1rem; display: inline-block;"><span class="text-primary">&lt;</span>END_SESSION<span class="text-primary">/&gt;</span></div>
+        
+        <div class="social-icons">
+            <a href="https://www.linkedin.com/in/musawar/" target="_blank">
+                <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            </a>
+            <a href="https://github.com/mazzyy" target="_blank">
+                <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            </a>
+            <a href="mailto:musawar.soomro25@gmail.com">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </a>
         </div>
-    </div>
-
-    <!-- AI Web Builder Modal -->
-    <div id="ai-builder-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">✨ AI Web Builder</h3>
-                <button class="modal-close" onclick="window.closeModal('ai-builder-modal')">&times;</button>
-          
-            </div>
-            <div class="modal-body">
-                <h4>🎯 Key Capabilities</h4>
-                <ul class="modal-feature-list">
-                    <li><span class="modal-feature-icon">🤖</span> <strong>AI-Powered Generation:</strong> Google Gemini AI transforms natural language into responsive HTML, CSS, and JavaScript</li>
-                    <li><span class="modal-feature-icon">💻</span> <strong>VS Code Experience:</strong> Professional editing environment with syntax highlighting and code completion</li>
-                    <li><span class="modal-feature-icon">👁️</span> <strong>Real-Time Preview:</strong> Instant visual feedback as you build and modify your websites</li>
-                    <li><span class="modal-feature-icon">📱</span> <strong>Responsive Design:</strong> Automatically generates mobile-friendly, responsive layouts</li>
-                    <li><span class="modal-feature-icon">🎨</span> <strong>Customizable Templates:</strong> Pre-built templates that can be modified with natural language</li>
-                    <li><span class="modal-feature-icon">📁</span> <strong>File Management:</strong> Organized project structure with efficient asset management</li>
-                    <li><span class="modal-feature-icon">🚀</span> <strong>Modern Standards:</strong> Generates clean, semantic HTML with modern CSS and JavaScript</li>
-                    <li><span class="modal-feature-icon">♿</span> <strong>Accessibility First:</strong> Built-in accessibility features and WCAG compliance</li>
-                    <li><span class="modal-feature-icon">⚡</span> <strong>Performance Optimized:</strong> Lightweight, fast-loading websites with optimized code</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- MarketMap Modal -->
-    <div id="marketmap-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">📊 MarketMap - AI Market Intelligence</h3>
-                <button class="modal-close" onclick="window.closeModal('marketmap-modal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <h4>🏗️ System Architecture & Components</h4>
-                <ul class="modal-feature-list">
-                    <li><span class="modal-feature-icon">💬</span> <strong>Chat Agent:</strong> Captures user requirements in natural language and transforms them into structured tasks</li>
-                    <li><span class="modal-feature-icon">🎯</span> <strong>Router Agent:</strong> Acts as workflow orchestrator, routing tasks to appropriate functional agents</li>
-                    <li><span class="modal-feature-icon">🏢</span> <strong>Company Search:</strong> Pulls company data using internal search APIs based on location, industry, and size criteria</li>
-                    <li><span class="modal-feature-icon">✅</span> <strong>AI Verification:</strong> Validates each company through AI-powered web checks and assigns verification status</li>
-                    <li><span class="modal-feature-icon">📝</span> <strong>Title Generation:</strong> Uses large language models to generate relevant job titles aligned with user goals</li>
-                    <li><span class="modal-feature-icon">🗺️</span> <strong>Map Creation:</strong> Aggregates verified data into structured market maps with experience, gender, location, and skills</li>
-                    <li><span class="modal-feature-icon">📊</span> <strong>CSV Export:</strong> Enables easy download of generated market maps in standardized format</li>
-                    <li><span class="modal-feature-icon">🔄</span> <strong>Real-Time Processing:</strong> Dynamic data processing with live updates and progress tracking</li>
-                    <li><span class="modal-feature-icon">🎲</span> <strong>Agent Collaboration:</strong> Multiple AI agents working together for comprehensive market intelligence</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- Talent Finder Modal -->
-    <div id="talent-finder-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">🔍 Talent Finder - AI Recruitment</h3>
-                <button class="modal-close" onclick="window.closeModal('talent-finder-modal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <h4>🚀 Key Features</h4>
-                <ul class="modal-feature-list">
-                    <li><span class="modal-feature-icon">🔍</span> <strong>Smart Search Filters:</strong> Find candidates by skillset, job title, location, and years of experience</li>
-                    <li><span class="modal-feature-icon">🤖</span> <strong>AI-Powered Matching:</strong> Instantly match job descriptions with relevant, real-world candidate profiles</li>
-                    <li><span class="modal-feature-icon">🎨</span> <strong>Visual Results:</strong> Detailed profile cards with photos, location, role, and experience levels</li>
-                    <li><span class="modal-feature-icon">🌍</span> <strong>Global Talent Reach:</strong> Discover candidates from any region worldwide - from Erlangen to Singapore</li>
-                    <li><span class="modal-feature-icon">⚡</span> <strong>Real-Time Discovery:</strong> Instant candidate search with sub-second response times</li>
-                    <li><span class="modal-feature-icon">📊</span> <strong>Profile Analytics:</strong> Comprehensive candidate data with skills assessment and experience verification</li>
-                    <li><span class="modal-feature-icon">🎯</span> <strong>Precision Targeting:</strong> Advanced filters for specific requirements like language fluency and industry experience</li>
-                    <li><span class="modal-feature-icon">📱</span> <strong>Mobile Optimized:</strong> Full functionality on all devices with responsive design</li>
-                    <li><span class="modal-feature-icon">🔗</span> <strong>Integration Ready:</strong> API-first design for seamless integration with existing HR systems</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- HealthTech Modal -->
-    <div id="healthtech-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">🏥 HealthTech Kubernetes Platform</h3>
-                <button class="modal-close" onclick="window.closeModal('healthtech-modal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <h4>🏗️ Infrastructure & Architecture</h4>
-                <ul class="modal-feature-list">
-                    <li><span class="modal-feature-icon">🐳</span> <strong>Container Orchestration:</strong> Kubernetes cluster managing 50+ microservices for medical imaging workflows</li>
-                    <li><span class="modal-feature-icon">📊</span> <strong>Monitoring & Observability:</strong> Prometheus, Grafana, and ELK stack for comprehensive system monitoring</li>
-                    <li><span class="modal-feature-icon">🔄</span> <strong>CI/CD Pipeline:</strong> GitLab CI with automated testing, security scans, and rolling deployments</li>
-                    <li><span class="modal-feature-icon">🛡️</span> <strong>Security & Compliance:</strong> HIPAA-compliant infrastructure with network policies and RBAC</li>
-                    <li><span class="modal-feature-icon">🚀</span> <strong>Auto-scaling:</strong> Horizontal Pod Autoscaler (HPA) and Vertical Pod Autoscaler (VPA) for optimal resource utilization</li>
-                    <li><span class="modal-feature-icon">💾</span> <strong>Data Management:</strong> Persistent volumes with automated backup and disaster recovery</li>
-                    <li><span class="modal-feature-icon">🌐</span> <strong>Service Mesh:</strong> Istio implementation for secure service-to-service communication</li>
-                    <li><span class="modal-feature-icon">📈</span> <strong>Performance:</strong> Sub-second response times with 99.9% uptime SLA</li>
-                    <li><span class="modal-feature-icon">🔧</span> <strong>DevOps Tools:</strong> Helm charts, ArgoCD for GitOps, and automated certificate management</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- PUMA Modal -->
-    <div id="puma-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">🏃 PUMA Cloud Migration</h3>
-                <button class="modal-close" onclick="window.closeModal('puma-modal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <h4>🚀 Migration & Transformation</h4>
-                <ul class="modal-feature-list">
-                    <li><span class="modal-feature-icon">☁️</span> <strong>Azure Migration:</strong> Complete lift-and-shift plus re-architecture of legacy applications to Azure services</li>
-                    <li><span class="modal-feature-icon">🏗️</span> <strong>Infrastructure as Code:</strong> Terraform and ARM templates for automated, reproducible infrastructure deployments</li>
-                    <li><span class="modal-feature-icon">🔄</span> <strong>DevOps Pipeline:</strong> Azure DevOps with automated testing, deployment, and rollback capabilities</li>
-                    <li><span class="modal-feature-icon">💰</span> <strong>Cost Optimization:</strong> 40% cost reduction through rightsizing, reserved instances, and auto-scaling</li>
-                    <li><span class="modal-feature-icon">🛡️</span> <strong>Security Framework:</strong> Azure Security Center, Key Vault, and compliance with retail industry standards</li>
-                    <li><span class="modal-feature-icon">📊</span> <strong>Monitoring Setup:</strong> Azure Monitor, Application Insights, and custom dashboards for business metrics</li>
-                    <li><span class="modal-feature-icon">🌐</span> <strong>Global Scale:</strong> Multi-region deployment with CDN and traffic management for worldwide operations</li>
-                    <li><span class="modal-feature-icon">📈</span> <strong>Performance Gains:</strong> 3x faster deployment cycles and 90% reduction in deployment errors</li>
-                    <li><span class="modal-feature-icon">🔧</span> <strong>Automation:</strong> PowerShell DSC, Azure Automation, and self-healing infrastructure</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- Contact Section -->
-    <section id="contact" class="section contact">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Ready to Build Something Epic?</h2>
-                <p class="section-subtitle">
-                    Let's transform your vision into scalable reality
-                </p>
-            </div>
-            
-            <div class="contact-card">
-                <div class="contact-icon">
-                    📧
-                </div>
-                <h3 class="contact-title">Let's Create Magic Together</h3>
-                <p class="contact-description">
-                    Ready to transform your business with cutting-edge technology? I'm here to architect 
-                    solutions that don't just meet your needs—they exceed your wildest expectations. 
-                    From cloud infrastructure to AI-powered applications, let's build the future together.
-                </p>
-                <div class="cta-buttons">
-                    <a href="mailto:musawar.soomro25@gmail.com" class="btn btn-primary">
-                        ✉️ Start Your Project
-                    </a>
-                    <a href="tel:+491521713647" class="btn btn-secondary">
-                        📞 Schedule a Call
-                    </a>
-                </div>
-                <div class="contact-links">
-                    <a href="mailto:musawar.soomro25@gmail.com" class="contact-link" title="Email">
-                        ✉️
-                    </a>
-                    <a href="tel:+491521713647" class="contact-link" title="Phone">
-                        📞
-                    </a>
-                    <a href="https://www.youtube.com/@Ideeaflux" class="contact-link" title="YouTube Channel" target="_blank">
-                        📺
-                    </a>
-                    <a href="#" class="contact-link" title="LinkedIn">
-                        💼
-                    </a>
-                    <a href="#" class="contact-link" title="GitHub">
-                        🐙
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Abdul Musawar Soomro. Crafted with ⚡ and lots of ☕</p>
+        
+        <div class="mono text-dim" style="font-size: 0.8rem;">
+            +49 152 17136471 | ERLANGEN, GERMANY<br>
+            © 2024 ABDUL MUSAWAR SOOMRO
         </div>
     </footer>
 
     <script>
-        // Modal Functions
-        window.openModal = function(modalId) {
-            console.log('Opening modal:', modalId);
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.classList.add('show');
-                document.body.style.overflow = 'hidden'; // Prevent background scrolling
-            } else {
-                console.error('Modal not found:', modalId);
-            }
-        };
+        // BACKGROUND ANIMATION
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        let width, height;
 
-        window.closeModal = function(modalId) {
-            console.log('Closing modal:', modalId);
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.classList.remove('show');
-                document.body.style.overflow = 'auto'; // Restore scrolling
-            }
-        };
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
 
-        // Close modal when clicking outside
-        window.addEventListener('click', function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.classList.remove('show');
-                document.body.style.overflow = 'auto';
-            }
-        });
+        const particles = [];
+        const particleCount = 70;
 
-        // Close modal with Escape key
-        window.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                const openModal = document.querySelector('.modal.show');
-                if (openModal) {
-                    openModal.classList.remove('show');
-                    document.body.style.overflow = 'auto';
-                }
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
             }
-        });
-
-        // Error handling wrapper
-        function safeExecute(fn, errorMessage) {
-            try {
-                fn();
-            } catch (error) {
-                console.warn(errorMessage, error);
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if(this.x < 0 || this.x > width) this.vx *= -1;
+                if(this.y < 0 || this.y > height) this.vy *= -1;
+            }
+            draw() {
+                ctx.fillStyle = '#00f3ff';
+                ctx.fillRect(this.x, this.y, 2, 2);
             }
         }
 
-        // Enhanced cursor functionality
-        function initCursor() {
-            const cursor = document.querySelector('.cursor');
-            if (!cursor) return;
+        for(let i=0; i<particleCount; i++) particles.push(new Particle());
 
-            let mouseX = 0, mouseY = 0;
-            let cursorX = 0, cursorY = 0;
-
-            document.addEventListener('mousemove', (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-            });
-
-            function animateCursor() {
-                cursorX += (mouseX - cursorX) * 0.1;
-                cursorY += (mouseY - cursorY) * 0.1;
-                cursor.style.left = cursorX + 'px';
-                cursor.style.top = cursorY + 'px';
-                requestAnimationFrame(animateCursor);
-            }
-            animateCursor();
-
-        // Cursor hover effects
-            const interactiveElements = document.querySelectorAll('a, button, .btn, .project-card, .skill-card, .tech-skill');
-            interactiveElements.forEach(el => {
-                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-            });
-        }
-
-        // Initialize Particles.js with error handling
-        function initParticles() {
-            if (typeof particlesJS === 'undefined') {
-                console.warn('Particles.js not loaded, skipping particle initialization');
-                return;
-            }
-
-            particlesJS('particles-js', {
-                particles: {
-                    number: { value: 60, density: { enable: true, value_area: 800 } },
-                    color: { value: "#00d4ff" },
-                    shape: { type: "circle" },
-                    opacity: { value: 0.1, random: true },
-                    size: { value: 2, random: true },
-                    line_linked: {
-                        enable: true,
-                        distance: 150,
-                        color: "#00d4ff",
-                        opacity: 0.05,
-                        width: 1
-                    },
-                    move: {
-                        enable: true,
-                        speed: 0.8,
-                        direction: "none",
-                        random: false,
-                        straight: false,
-                        out_mode: "out",
-                        bounce: false
-                    }
-                },
-                interactivity: {
-                    detect_on: "canvas",
-                    events: {
-                        onhover: { enable: true, mode: "repulse" },
-                        onclick: { enable: true, mode: "push" },
-                        resize: true
-                    },
-                    modes: {
-                        repulse: { distance: 80, duration: 0.4 },
-                        push: { particles_nb: 4 }
-                    }
-                },
-                retina_detect: true
-            });
-        }
-
-        // Three.js Scene Setup with error handling
-        function initThreeJS() {
-            if (typeof THREE === 'undefined') {
-                console.warn('Three.js not loaded, skipping 3D initialization');
-                return;
-            }
-
-            const container = document.getElementById('three-container');
-            if (!container) return;
-
-            try {
-                // Scene setup
-                const scene = new THREE.Scene();
-                const camera = new THREE.PerspectiveCamera(75, container.offsetWidth / container.offsetHeight, 0.1, 1000);
-                const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-                renderer.setSize(container.offsetWidth, container.offsetHeight);
-                renderer.setClearColor(0x000000, 0);
-                container.appendChild(renderer.domElement);
-
-                // Create central cube
-                const geometry = new THREE.BoxGeometry(1, 1, 1);
-                const material = new THREE.MeshBasicMaterial({ 
-                    color: 0x00d4ff,
-                    wireframe: true,
-                    transparent: true,
-                    opacity: 0.7
-                });
-                const cube = new THREE.Mesh(geometry, material);
-                scene.add(cube);
-
-                // Create particle system
-                const particleCount = 500;
-                const particleGeometry = new THREE.BufferGeometry();
-                const positions = new Float32Array(particleCount * 3);
-                
-                for (let i = 0; i < particleCount; i++) {
-                    positions[i * 3] = (Math.random() - 0.5) * 8;
-                    positions[i * 3 + 1] = (Math.random() - 0.5) * 8;
-                    positions[i * 3 + 2] = (Math.random() - 0.5) * 8;
-                }
-                
-                particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-                
-                const particleMaterial = new THREE.PointsMaterial({
-                    color: 0x00d4ff,
-                    size: 0.015,
-                    transparent: true,
-                    opacity: 0.4
-                });
-                
-                const particles = new THREE.Points(particleGeometry, particleMaterial);
-                scene.add(particles);
-
-                camera.position.z = 5;
-                
-                function animate() {
-                    requestAnimationFrame(animate);
-                    
-                    if (cube) {
-                        cube.rotation.x += 0.008;
-                        cube.rotation.y += 0.008;
-                    }
-                    
-                    if (particles) {
-                        particles.rotation.x += 0.0008;
-                        particles.rotation.y += 0.0015;
-                    }
-                    
-                    renderer.render(scene, camera);
-                }
-                animate();
-
-                // Handle resize
-                window.addEventListener('resize', () => {
-                    if (container.offsetWidth > 0) {
-                        camera.aspect = container.offsetWidth / container.offsetHeight;
-                        camera.updateProjectionMatrix();
-                        renderer.setSize(container.offsetWidth, container.offsetHeight);
-                    }
-                });
-
-            } catch (error) {
-                console.warn('Failed to initialize Three.js:', error);
-            }
-        }
-
-        // Header scroll effect
-        function initScrollEffects() {
-            window.addEventListener('scroll', () => {
-                const header = document.querySelector('.header');
-                if (header) {
-                    if (window.scrollY > 100) {
-                        header.classList.add('scrolled');
-                    } else {
-                        header.classList.remove('scrolled');
-                    }
-                }
-            });
-        }
-
-        // Skill bars animation
-        function initSkillBars() {
-            const skillBars = document.querySelectorAll('.skill-progress');
-            if (skillBars.length === 0) return;
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const width = entry.target.getAttribute('data-width');
-                        if (width) {
-                            setTimeout(() => {
-                                entry.target.style.width = width + '%';
-                            }, 200);
-                        }
-                    }
-                });
-            }, { threshold: 0.3 });
-
-            skillBars.forEach(bar => observer.observe(bar));
-        }
-
-        // Smooth scrolling for nav links
-        function initSmoothScroll() {
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                });
-            });
-        }
-
-        // Theme toggle functionality
-        function initThemeToggle() {
-            const themeToggle = document.getElementById('themeToggle');
-            if (themeToggle) {
-                themeToggle.addEventListener('click', () => {
-                    console.log('Theme toggle clicked - feature coming soon!');
-                });
-            }
-        }
-
-        // Intersection Observer for animations
-        function initAnimationObserver() {
-            if (!window.IntersectionObserver) {
-                console.warn('IntersectionObserver not supported, skipping animations');
-                return;
-            }
-
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-in');
-                    }
-                });
-            }, observerOptions);
-
-            // Observe sections for animation
-            const elementsToAnimate = document.querySelectorAll('.section-header, .project-card, .skill-card');
-            elementsToAnimate.forEach(el => {
-                if (el) observer.observe(el);
-            });
-        }
-
-        // Initialize everything when DOM is ready
-        function initializePortfolio() {
-            // Make sure toggleDetails is available globally first
-            if (typeof window.toggleDetails !== 'function') {
-                window.toggleDetails = function(detailsId, button) {
-                    const details = document.getElementById(detailsId);
-                    if (!details) return;
-                    
-                    const isExpanded = details.classList.contains('expanded');
-                    
-                    if (isExpanded) {
-                        details.classList.remove('expanded');
-                        button.innerHTML = '📖 Read More';
-                    } else {
-                        details.classList.add('expanded');
-                        button.innerHTML = '📖 Read Less';
-                    }
-                };
-            }
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
             
-            safeExecute(initCursor, 'Failed to initialize cursor');
-            safeExecute(initParticles, 'Failed to initialize particles');
-            safeExecute(initThreeJS, 'Failed to initialize Three.js');
-            safeExecute(initScrollEffects, 'Failed to initialize scroll effects');
-            safeExecute(initSkillBars, 'Failed to initialize skill bars');
-            safeExecute(initSmoothScroll, 'Failed to initialize smooth scroll');
-            safeExecute(initThemeToggle, 'Failed to initialize theme toggle');
-            safeExecute(initAnimationObserver, 'Failed to initialize animation observer');
+            // Draw Constellation
+            particles.forEach((p, index) => {
+                p.update();
+                p.draw();
+                for(let j=index; j<particles.length; j++) {
+                    const p2 = particles[j];
+                    const d = Math.sqrt((p.x-p2.x)**2 + (p.y-p2.y)**2);
+                    if(d < 150) {
+                        ctx.strokeStyle = `rgba(0, 243, 255, ${0.1 * (1 - d/150)})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            });
+            requestAnimationFrame(animate);
         }
-
-        // Wait for DOM and external libraries to load
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializePortfolio);
-        } else {
-            // DOM is already ready
-            setTimeout(initializePortfolio, 100);
-        }
-
-        // Handle external library loading errors
-        window.addEventListener('error', function(e) {
-            if (e.filename && (e.filename.includes('three.min.js') || e.filename.includes('particles.min.js'))) {
-                console.warn('External library failed to load:', e.filename);
-            }
-        });
+        animate();
     </script>
 </body>
 </html>
