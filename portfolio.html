@@ -1086,6 +1086,24 @@
             overflow: hidden;
             transition: all 0.3s;
         }
+        .run-button {
+    padding: 0 15px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-tertiary);
+    display: flex;
+    align-items: center;
+    border-left: 1px solid var(--border);
+    transition: background 0.2s;
+}
+
+.run-button:hover {
+    background: var(--bg-hover);
+}
+
+.run-button:active {
+    background: var(--bg-active);
+}
 
         .video-card:hover {
             border-color: #ff0000;
@@ -1177,6 +1195,71 @@
             padding: 20px;
             font-size: 0.9rem;
         }
+        .palette-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 10px;
+}
+
+.palette-container {
+    width: 600px;
+    background: var(--bg-secondary);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.palette-input-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border);
+}
+
+.palette-input-wrapper span {
+    color: var(--text-muted);
+    margin-right: 10px;
+}
+
+#palette-input {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    width: 100%;
+    font-size: 1rem;
+    outline: none;
+    font-family: inherit;
+}
+
+.palette-item {
+    padding: 8px 15px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    border-left: 2px solid transparent;
+}
+
+.palette-item:hover, .palette-item.selected {
+    background: var(--bg-active);
+    border-left-color: var(--accent-blue);
+}
+
+.palette-item-name {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.palette-item-path {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
         /* Bottom Panel Styling */
 .bottom-panel {
     position: absolute;
@@ -1259,6 +1342,16 @@
     </style>
 </head>
 <body>
+    <div id="command-palette-overlay" class="palette-overlay" style="display: none;">
+    <div class="palette-container">
+        <div class="palette-input-wrapper">
+            <span>></span>
+            <input type="text" id="palette-input" placeholder="Search files by name..." autocomplete="off">
+        </div>
+        <div class="palette-results" id="palette-results">
+            </div>
+    </div>
+</div>
     <div class="vscode-container">
         <!-- Title Bar -->
         <div class="title-bar">
@@ -1272,6 +1365,15 @@
             </div>
             <div style="width: 70px;"></div>
         </div>
+        <div id="command-palette" style="display: none; position: fixed; top: 10px; left: 50%; transform: translateX(-50%); width: 600px; background: #252526; border: 1px solid #007acc; box-shadow: 0 4px 20px rgba(0,0,0,0.5); z-index: 9999; border-radius: 6px;">
+    <div style="padding: 10px;">
+        <span style="color: #007acc;">></span>
+        <input type="text" id="palette-input" placeholder="Type a command or file name..." 
+               style="background: transparent; border: none; color: white; width: 95%; outline: none; font-family: 'Fira Code', monospace;">
+    </div>
+    <div id="palette-results" style="border-top: 1px solid #3c3c3c; max-height: 300px; overflow-y: auto;">
+        </div>
+</div>
 
         <!-- Activity Bar -->
         <div class="activity-bar">
@@ -1376,37 +1478,51 @@
         <div class="editor-area">
             <!-- Editor Tabs -->
             <div class="editor-tabs">
-                <div class="editor-tab active" data-tab="about">
-                    <span style="color: #3178c6;">TS</span>
-                    about.tsx
-                    <span class="close-tab">×</span>
-                </div>
-                <div class="editor-tab" data-tab="skills">
-                    <span style="color: #3178c6;">TS</span>
-                    skills.tsx
-                    <span class="close-tab">×</span>
-                </div>
-                <div class="editor-tab" data-tab="experience">
-                    <span style="color: #3178c6;">TS</span>
-                    experience.tsx
-                    <span class="close-tab">×</span>
-                </div>
-                <div class="editor-tab" data-tab="projects">
-                    <span style="color: #3178c6;">TS</span>
-                    projects.tsx
-                    <span class="close-tab">×</span>
-                </div>
-                <div class="editor-tab" data-tab="videos">
-                    <span style="color: #3178c6;">TS</span>
-                    videos.tsx
-                    <span class="close-tab">×</span>
-                </div>
-                <div class="editor-tab" data-tab="contact">
-                    <span style="color: #3178c6;">TS</span>
-                    contact.tsx
-                    <span class="close-tab">×</span>
-                </div>
-            </div>
+    <div class="editor-tab active" data-tab="about">
+        <span style="color: #3178c6;">TS</span>
+        about.tsx
+        <span class="close-tab">×</span>
+    </div>
+
+    <div class="editor-tab" data-tab="skills">
+        <span style="color: #3178c6;">TS</span>
+        skills.tsx
+        <span class="close-tab">×</span>
+    </div>
+
+    <div class="editor-tab" data-tab="experience">
+        <span style="color: #3178c6;">TS</span>
+        experience.tsx
+        <span class="close-tab">×</span>
+    </div>
+
+    <div class="editor-tab" data-tab="projects">
+        <span style="color: #3178c6;">TS</span>
+        projects.tsx
+        <span class="close-tab">×</span>
+    </div>
+
+    <div class="editor-tab" data-tab="videos">
+        <span style="color: #3178c6;">TS</span>
+        videos.tsx
+        <span class="close-tab">×</span>
+    </div>
+
+    <div class="editor-tab" data-tab="contact">
+        <span style="color: #3178c6;">TS</span>
+        contact.tsx
+        <span class="close-tab">×</span>
+    </div>
+
+    <div style="flex: 1; border-bottom: 1px solid var(--border); background: var(--bg-tertiary);"></div>
+
+    <div class="run-button" onclick="runCode()" title="Run Project (Ctrl+R)">
+        <span style="font-size: 0.8rem; margin-right: 5px; color: var(--text-muted);">Run</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent-green)">
+            <path d="M8 5v14l11-7z"/>
+        </svg>
+    </div>
+</div>
 
             <!-- Editor Content -->
             <div class="editor-content">
@@ -2007,5 +2123,412 @@ const termCommands = {
     }, 3500);
 }
     </script>
+    <script>
+        // --- COMMAND PALETTE LOGIC ---
+const paletteOverlay = document.getElementById('command-palette-overlay');
+const paletteInput = document.getElementById('palette-input');
+const paletteResults = document.getElementById('palette-results');
+
+// List of available "Files" to search
+const searchableFiles = [
+    { name: 'about.tsx', path: 'src/pages', tab: 'about' },
+    { name: 'skills.tsx', path: 'src/components', tab: 'skills' },
+    { name: 'experience.tsx', path: 'src/pages', tab: 'experience' },
+    { name: 'projects.tsx', path: 'src/pages', tab: 'projects' },
+    { name: 'videos.tsx', path: 'src/media', tab: 'videos' },
+    { name: 'contact.tsx', path: 'src/pages', tab: 'contact' },
+    { name: 'resume.pdf', path: 'downloads', action: 'download' } // Special action
+];
+
+let selectedIndex = 0;
+
+// Open/Close Palette
+function togglePalette() {
+    const isHidden = paletteOverlay.style.display === 'none';
+    paletteOverlay.style.display = isHidden ? 'flex' : 'none';
+    if (isHidden) {
+        paletteInput.value = '';
+        paletteInput.focus();
+        renderPaletteResults('');
+    }
+}
+
+// Keyboard Shortcuts (Ctrl+P or Cmd+P)
+document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+        e.preventDefault(); // Prevent printing page
+        togglePalette();
+    }
+    // Close on Escape
+    if (e.key === 'Escape' && paletteOverlay.style.display === 'flex') {
+        togglePalette();
+    }
+});
+
+// Close when clicking outside
+paletteOverlay.addEventListener('click', (e) => {
+    if (e.target === paletteOverlay) togglePalette();
+});
+
+// Render Results
+function renderPaletteResults(filter) {
+    paletteResults.innerHTML = '';
+    const lowerFilter = filter.toLowerCase();
+    
+    const matches = searchableFiles.filter(f => 
+        f.name.toLowerCase().includes(lowerFilter)
+    );
+
+    matches.forEach((file, index) => {
+        const item = document.createElement('div');
+        item.className = `palette-item ${index === selectedIndex ? 'selected' : ''}`;
+        item.innerHTML = `
+            <span class="palette-item-name">${file.name}</span>
+            <span class="palette-item-path">${file.path}</span>
+        `;
+        
+        item.addEventListener('click', () => selectFile(file));
+        item.addEventListener('mouseenter', () => {
+            selectedIndex = index;
+            renderPaletteResults(filter); // Re-render to update selection style
+        });
+        
+        paletteResults.appendChild(item);
+    });
+}
+
+// Handle Input and Navigation
+paletteInput.addEventListener('input', (e) => {
+    selectedIndex = 0;
+    renderPaletteResults(e.target.value);
+});
+
+paletteInput.addEventListener('keydown', (e) => {
+    const items = document.querySelectorAll('.palette-item');
+    
+    if (e.key === 'ArrowDown') {
+        selectedIndex = (selectedIndex + 1) % items.length;
+        renderPaletteResults(paletteInput.value);
+    } else if (e.key === 'ArrowUp') {
+        selectedIndex = (selectedIndex - 1 + items.length) % items.length;
+        renderPaletteResults(paletteInput.value);
+    } else if (e.key === 'Enter') {
+        // Find the currently matched file based on index
+        const matches = searchableFiles.filter(f => 
+            f.name.toLowerCase().includes(paletteInput.value.toLowerCase())
+        );
+        if (matches[selectedIndex]) {
+            selectFile(matches[selectedIndex]);
+        }
+    }
+});
+
+function selectFile(file) {
+    if (file.action === 'download') {
+        downloadCV(); // Call your existing download function
+    } else {
+        switchTab(file.tab);
+    }
+    togglePalette();
+}
+    </script>
+    <script>function runCode() {
+    // 1. Open the integrated terminal panel if it's currently closed
+    const panel = document.getElementById('integrated-terminal');
+    if (panel && !panel.classList.contains('open')) {
+        toggleTerminal(); 
+    }
+
+    // 2. Add the simulated build logs to the output
+    const termOutput = document.getElementById('term-output');
+    const termBody = document.getElementById('term-body');
+    
+    // Create a timestamp
+    const time = new Date().toLocaleTimeString();
+
+    // Append the "command"
+    termOutput.innerHTML += `
+        <div class="terminal-line" style="margin-top: 10px;">
+            <span class="terminal-success">➜</span> 
+            <span class="terminal-path">~/portfolio</span> 
+            <span class="text-white">npm run start</span>
+        </div>
+    `;
+
+    // Append simulated compilation steps with small delays could be done here, 
+    // but immediate feedback is often better for a "Run" button.
+    termOutput.innerHTML += `
+        <div class="terminal-line text-muted">[${time}] Compiling src/pages...</div>
+        <div class="terminal-line text-muted">[${time}] TypeScript v5.3.3 compiled successfully.</div>
+        <div class="terminal-line text-muted">[${time}] Optimizing production build...</div>
+        <div class="terminal-line">
+            <span class="terminal-success">✔ Build successful.</span> 
+            <span class="text-muted">Serving at http://localhost:3000</span>
+        </div>
+        <div class="terminal-line text-muted">Ready for user interaction...</div>
+    `;
+    
+    // 3. Auto-scroll to the bottom of the terminal
+    if (termBody) {
+        termBody.scrollTop = termBody.scrollHeight;
+    }
+}</script>
+
+<script>
+ /* ═══════════════════════════════════════════════════════════════
+    SIDEBAR & SEARCH LOGIC
+   ═══════════════════════════════════════════════════════════════ */
+
+// 1. Select Elements
+const searchIcon = document.querySelector('[data-section="search"]');
+const explorerIcon = document.querySelector('[data-section="explorer"]');
+const sidebarHeader = document.querySelector('.sidebar-header');
+const sidebarContent = document.querySelector('.file-tree');
+
+// 2. Store the original Tree HTML (The Explorer View)
+// We save this immediately so we can restore it later
+let originalContent = sidebarContent.innerHTML; 
+
+// 3. Define the function to re-attach listeners
+// We need to call this every time the HTML changes
+function attachFileListeners() {
+    const fileItems = document.querySelectorAll('.file-item[data-tab]');
+    
+    fileItems.forEach(item => {
+        // Remove old listeners to prevent duplicates (optional but safe)
+        item.replaceWith(item.cloneNode(true));
+    });
+
+    // Re-select fresh elements after clone
+    const freshFileItems = document.querySelectorAll('.file-item[data-tab]');
+    
+    freshFileItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            // Visual Active State
+            document.querySelectorAll('.file-item').forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+            
+            // Open the Tab
+            switchTab(item.dataset.tab);
+        });
+    });
+}
+
+// 4. Search Icon Click Event
+searchIcon.addEventListener('click', () => {
+    // Update Header
+    sidebarHeader.textContent = "SEARCH";
+    
+    // Inject Search UI
+    sidebarContent.innerHTML = `
+        <div style="padding: 10px;">
+            <input type="text" id="global-search" placeholder="Search files..." 
+                   style="width: 100%; background: #3c3c3c; border: 1px solid #007acc; color: white; padding: 5px; outline: none; font-family: inherit;">
+        </div>
+        <div id="search-results">${originalContent}</div>
+    `;
+
+    // IMPORTANT: Re-attach listeners to the files inside the search results!
+    attachFileListeners();
+
+    // Add Filter Logic
+    const searchInput = document.getElementById('global-search');
+    searchInput.focus(); // Auto-focus input
+    
+    searchInput.addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase();
+        const items = document.querySelectorAll('#search-results .file-item');
+        const folders = document.querySelectorAll('#search-results .folder-item');
+
+        // Hide folders during search to clean up view
+        folders.forEach(f => f.style.display = term ? 'none' : 'flex');
+        
+        items.forEach(item => {
+            const text = item.textContent.toLowerCase();
+            item.style.display = text.includes(term) ? 'flex' : 'none';
+        });
+    });
+});
+
+// 5. Explorer Icon Click Event (Restore)
+explorerIcon.addEventListener('click', () => {
+    sidebarHeader.textContent = "EXPLORER";
+    sidebarContent.innerHTML = originalContent;
+    
+    // IMPORTANT: Re-attach listeners because we just wiped the DOM
+    attachFileListeners(); 
+});
+
+// 6. Initial Load: Attach listeners for the first time
+attachFileListeners();
+</script>
+<script>
+    // Git Icon Logic
+const gitIcon = document.querySelector('[data-section="git"]');
+
+gitIcon.addEventListener('click', () => {
+    sidebarHeader.textContent = "SOURCE CONTROL";
+    
+    // The Content: A list of "Commits"
+    sidebarContent.innerHTML = `
+        <div style="padding: 10px; font-size: 0.8rem; color: #cccccc;">
+            <div style="padding-bottom: 10px; border-bottom: 1px solid #3c3c3c; margin-bottom: 10px;">
+                <span>Repositories</span>
+                <span style="float: right; background: #007acc; padding: 0 5px; border-radius: 10px;">59</span>
+            </div>
+            
+            <div class="git-history">
+                <div style="color: #6a9955; margin-bottom: 10px; font-weight: bold;">COMMITS (Timeline)</div>
+                
+                <div class="commit-item" style="margin-bottom: 15px; cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 5px;">
+                        <span style="color: #d7ba7d;">●</span>
+                        <span style="color: #4ec9b0;">feat: Joined Siemens Healthineers</span>
+                    </div>
+                    <div style="padding-left: 15px; color: #858585; font-size: 0.75rem;">
+                        <span>d41d8cd</span> • <span>Jan 2024</span>
+                    </div>
+                </div>
+
+                <div class="commit-item" style="margin-bottom: 15px; cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 5px;">
+                        <span style="color: #d7ba7d;">●</span>
+                        <span style="color: #4ec9b0;">fix: Infrastructure overhaul at PUMA</span>
+                    </div>
+                    <div style="padding-left: 15px; color: #858585; font-size: 0.75rem;">
+                        <span>a1b2c3d</span> • <span>Sep 2022</span>
+                    </div>
+                </div>
+
+                <div class="commit-item" style="margin-bottom: 15px; cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 5px;">
+                        <span style="color: #d7ba7d;">●</span>
+                        <span style="color: #4ec9b0;">init: Co-founded Asaan Recovery</span>
+                    </div>
+                    <div style="padding-left: 15px; color: #858585; font-size: 0.75rem;">
+                        <span>98f7e6d</span> • <span>Jun 2021</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+});
+</script>
+<script>
+    const palette = document.getElementById('command-palette');
+const paletteInput = document.getElementById('palette-input');
+const paletteResults = document.getElementById('palette-results');
+
+const commands = [
+    { name: 'Go to About', action: () => switchTab('about') },
+    { name: 'Go to Projects', action: () => switchTab('projects') },
+    { name: 'Go to Experience', action: () => switchTab('experience') },
+    { name: 'Download Resume', action: () => downloadCV() },
+    { name: 'Toggle Terminal', action: () => toggleTerminal() },
+    { name: 'Contact Me', action: () => switchTab('contact') }
+];
+
+// Open Palette on Ctrl+P or Cmd+P
+document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'p') {
+        e.preventDefault();
+        palette.style.display = 'block';
+        paletteInput.focus();
+        renderPaletteItems(commands); // Show all commands initially
+    }
+    // Close on Escape
+    if (e.key === 'Escape') {
+        palette.style.display = 'none';
+    }
+});
+
+// Filter Logic
+paletteInput.addEventListener('input', (e) => {
+    const term = e.target.value.toLowerCase();
+    const filtered = commands.filter(cmd => cmd.name.toLowerCase().includes(term));
+    renderPaletteItems(filtered);
+});
+
+function renderPaletteItems(items) {
+    paletteResults.innerHTML = items.map(item => `
+        <div class="palette-item" onclick="triggerCommand('${item.name}')" 
+             style="padding: 8px 15px; cursor: pointer; color: #cccccc; display: flex; justify-content: space-between;">
+            <span>${item.name}</span>
+        </div>
+    `).join('');
+    
+    // Add hover effect via JS since inline styles are tricky for hover
+    document.querySelectorAll('.palette-item').forEach(el => {
+        el.addEventListener('mouseover', () => { el.style.backgroundColor = '#007acc'; el.style.color = 'white'; });
+        el.addEventListener('mouseout', () => { el.style.backgroundColor = 'transparent'; el.style.color = '#cccccc'; });
+    });
+}
+
+// Handle Click
+window.triggerCommand = (name) => {
+    const command = commands.find(c => c.name === name);
+    if (command) {
+        command.action();
+        palette.style.display = 'none'; // Close palette
+    }
+};
+
+</script>
+<script>
+    /* ═══════════════════════════════════════════════════════════════
+    THEME SWITCHER LOGIC
+   ═══════════════════════════════════════════════════════════════ */
+
+const settingsIcon = document.querySelector('[data-section="settings"]');
+
+// Safety check: ensure the icon exists before adding the listener
+if (settingsIcon) {
+    let isDark = true;
+
+    settingsIcon.addEventListener('click', () => {
+        console.log("Theme toggle clicked"); // Debugging check
+        const root = document.documentElement;
+        
+        if (isDark) {
+            // -----------------------------
+            // SWITCH TO LIGHT THEME
+            // -----------------------------
+            
+            // 1. Backgrounds
+            root.style.setProperty('--bg-primary', '#ffffff');       // Main Editor
+            root.style.setProperty('--bg-secondary', '#f3f3f3');     // Sidebar
+            root.style.setProperty('--bg-tertiary', '#e8e8e8');      // Tabs/Headers
+            root.style.setProperty('--bg-sidebar', '#2c2c2c');       // Activity Bar (Keep dark for contrast or make light)
+            root.style.setProperty('--bg-editor', '#ffffff');        // Editor specific
+            root.style.setProperty('--bg-terminal', '#f8f8f8');      // Terminal specific
+            
+            // 2. Borders
+            root.style.setProperty('--border', '#e5e5e5');
+            
+            // 3. Text Colors
+            root.style.setProperty('--text-primary', '#333333');     // Main text
+            root.style.setProperty('--text-secondary', '#666666');   // Subtitles
+            root.style.setProperty('--text-muted', '#888888');       // Comments/Muted
+            
+            // 4. Update specific syntax colors for visibility on white
+            root.style.setProperty('--syntax-string', '#a31515');    // Red string
+            root.style.setProperty('--syntax-function', '#795e26');  // Gold function
+            root.style.setProperty('--syntax-keyword', '#0000ff');   // Blue keyword
+            root.style.setProperty('--syntax-comment', '#008000');   // Green comment
+            
+            isDark = false;
+            
+        } else {
+            // -----------------------------
+            // SWITCH BACK TO DARK (Reload)
+            // -----------------------------
+            // Reloading is the cleanest way to reset all variables perfectly
+            location.reload(); 
+        }
+    });
+} else {
+    console.error("Settings icon not found! Make sure script is at the bottom of the body.");
+}
+</script>
 </body>
 </html>
