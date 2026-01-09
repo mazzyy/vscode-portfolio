@@ -1072,7 +1072,7 @@
             line-height: 1.7;
             margin-bottom: 20px;
         }
-
+.file-item.pdf::before { background: #ff5555; }
         .video-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -1177,6 +1177,64 @@
             padding: 20px;
             font-size: 0.9rem;
         }
+        /* Bottom Panel Styling */
+.bottom-panel {
+    position: absolute;
+    bottom: 24px; /* Height of status bar */
+    left: 48px;   /* Width of activity bar */
+    right: 0;
+    height: 0;    /* Hidden by default */
+    background: var(--bg-terminal);
+    border-top: 1px solid var(--border);
+    transition: height 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: hidden;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+}
+
+.bottom-panel.open {
+    height: 250px; /* Height when open */
+}
+
+/* Tab styling adjustments for the panel */
+.bottom-panel .terminal-tabs {
+    padding: 0 10px;
+    height: 35px;
+    min-height: 35px;
+}
+
+.bottom-panel .terminal-tab {
+    border-bottom: 1px solid transparent;
+    color: var(--text-muted);
+}
+
+.bottom-panel .terminal-tab.active {
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--accent-blue);
+}
+
+.panel-close {
+    cursor: pointer;
+    padding: 5px 10px;
+    color: var(--text-muted);
+}
+
+.panel-close:hover {
+    color: var(--text-primary);
+}
+
+/* Input styling */
+#term-input {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    outline: none;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+    flex: 1;
+    margin-left: 8px;
+}
 
         /* Responsive */
         @media (max-width: 1024px) {
@@ -1295,6 +1353,9 @@
                     </div>
                     <div class="file-item md">
                         README.md
+                    </div>
+                    <div class="file-item pdf" onclick="downloadCV()">
+                        resume.pdf
                     </div>
                 </div>
             </div>
@@ -1694,6 +1755,57 @@
         <!-- Status Bar -->
         <div class="status-bar">
             <div class="status-left">
+                <div class="status-left">
+    <div class="status-item" onclick="toggleTerminal()" style="background: rgba(255,255,255,0.2);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 17l6-6-6-6M12 19h8"/>
+        </svg>
+        <span style="margin-left: 5px;">Terminal</span>
+    </div>
+
+    <div class="status-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="18" cy="18" r="3"/>
+            <circle cx="6" cy="6" r="3"/>
+            <path d="M6 21V9a9 9 0 009 9"/>
+        </svg>
+        <span style="margin-left: 5px;">main</span>
+    </div>
+
+    <div class="status-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+        </svg>
+        <span style="margin-left: 5px;">TypeScript React</span>
+    </div>
+</div>
+                <div class="bottom-panel" id="integrated-terminal">
+                    
+    <div class="terminal-tabs">
+        <div class="terminal-tab active">TERMINAL</div>
+        <div class="terminal-tab">OUTPUT</div>
+        <div class="terminal-tab">DEBUG CONSOLE</div>
+        <div class="terminal-tab">PROBLEMS</div>
+        <div style="flex: 1"></div>
+        <div class="panel-close" onclick="toggleTerminal()">×</div>
+    </div>
+    <div class="terminal-body" id="term-body">
+        <div id="term-output">
+            <div class="terminal-line">
+                <span class="terminal-success">➜</span> <span class="terminal-path">~/portfolio</span> <span class="text-muted">Welcome to the integrated terminal.</span>
+            </div>
+            <div class="terminal-line">
+                <span class="terminal-success">➜</span> <span class="terminal-path">~/portfolio</span> <span class="text-muted">Type 'help' for a list of commands.</span>
+            </div>
+        </div>
+        <div class="terminal-line">
+            <span class="terminal-prompt">➜</span>
+            <span class="terminal-path">~/portfolio</span>
+            <input type="text" id="term-input" autocomplete="off" spellcheck="false">
+        </div>
+    </div>
+</div>
                 <div class="status-item">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="18" cy="18" r="3"/>
@@ -1791,6 +1903,109 @@
         console.log('%c🚀 Welcome to my portfolio!', 'font-size: 20px; color: #00d4ff; text-shadow: 0 0 10px #00d4ff;');
         console.log('%c Built with pure HTML, CSS & JS', 'font-size: 12px; color: #858585;');
         console.log('%c📧 musawar.soomro25@gmail.com', 'font-size: 14px; color: #4ec9b0;');
+        
+    </script>
+    <script>
+        // Toggle Terminal Function
+function toggleTerminal() {
+    const panel = document.getElementById('integrated-terminal');
+    const input = document.getElementById('term-input');
+    
+    panel.classList.toggle('open');
+    
+    if (panel.classList.contains('open')) {
+        input.focus();
+    }
+}
+
+// Integrated Terminal Logic
+const termInput = document.getElementById('term-input');
+const termOutput = document.getElementById('term-output');
+
+const termCommands = {
+    help: "Available commands: <span class='keyword'>open [section]</span>, <span class='keyword'>clear</span>, <span class='keyword'>whoami</span>, <span class='keyword'>socials</span>, <span class='keyword'>download cv</span>",
+    whoami: "Abdul Musawar Soomro - Cloud & AI Engineer",
+    socials: "LinkedIn: /in/musawar | GitHub: @mazzyy",
+    "download cv": "Downloading resume.pdf... (Simulation)",
+    clear: "CLEAR"
+};
+
+    termInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+        const command = this.value.trim().toLowerCase();
+        
+        // Add user command to history
+        termOutput.innerHTML += `<div class="terminal-line"><span class="terminal-prompt">➜</span> <span class="terminal-path">~/portfolio</span> ${this.value}</div>`;
+
+        // Logic
+        if (command === 'download cv') {
+            downloadCV(); // <--- CALLS THE NEW FUNCTION
+        } 
+        else if (command === 'clear') {
+            termOutput.innerHTML = '';
+        }
+        else if (termCommands[command]) {
+            termOutput.innerHTML += `<div class="terminal-line">${termCommands[command]}</div>`;
+        }
+        else if (command.startsWith('open ')) {
+             // ... keep your existing open logic here ...
+             const section = command.split(' ')[1];
+             if (['about', 'skills', 'experience', 'projects', 'videos', 'contact'].includes(section)) {
+                switchTab(section);
+                termOutput.innerHTML += `<div class="terminal-line"><span class="terminal-success">Opening ${section}...</span></div>`;
+            } else {
+                termOutput.innerHTML += `<div class="terminal-line"><span class="terminal-error">Section not found.</span></div>`;
+            }
+        }
+        else {
+             termOutput.innerHTML += `<div class="terminal-line"><span class="terminal-error">zsh: command not found: ${command}</span></div>`;
+        }
+
+        this.value = '';
+        const termBody = document.getElementById('term-body');
+        termBody.scrollTop = termBody.scrollHeight;
+    }
+});
+    </script>
+    <script>
+        function downloadCV() {
+    const termOutput = document.getElementById('term-output');
+    const termBody = document.getElementById('term-body');
+
+    // 1. Simulation Steps
+    const steps = [
+        { text: "Resolving host...", delay: 200 },
+        { text: "Connecting to secure server...", delay: 600 },
+        { text: "Fetching data stream...", delay: 1000 },
+        { text: "Downloading: [#####               ] 25%", delay: 1500 },
+        { text: "Downloading: [##########          ] 50%", delay: 2000 },
+        { text: "Downloading: [###############     ] 75%", delay: 2500 },
+        { text: "<span class='terminal-success'>Downloading: [####################] 100%</span>", delay: 3000 },
+        { text: "<span class='terminal-success'>Successfully saved to local disk.</span>", delay: 3500 }
+    ];
+
+    // 2. Execute Steps
+    steps.forEach(step => {
+        setTimeout(() => {
+            const div = document.createElement('div');
+            div.className = 'terminal-line';
+            div.innerHTML = `<span class="text-muted">${step.text}</span>`;
+            termOutput.appendChild(div);
+            termBody.scrollTop = termBody.scrollHeight;
+        }, step.delay);
+    });
+
+    // 3. Trigger Real Download (after animation finishes)
+    setTimeout(() => {
+        const link = document.createElement('a');
+        // 🔴 IMPORTANT: Make sure you have a file named 'resume.pdf' in your folder!
+        link.href = 'resume.pdf'; 
+        link.download = 'Abdul_Musawar_Soomro_CV.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }, 3500);
+}
     </script>
 </body>
 </html>
