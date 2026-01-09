@@ -2,9 +2,9 @@
    PORTFOLIO JAVASCRIPT
    ═══════════════════════════════════════════════════════════════ */
 
-// ═══════════════════════════════════════════════════════════════
+ 
 // TAB NAVIGATION
-// ═══════════════════════════════════════════════════════════════
+ 
 
 // Section map for tab to content mapping
 const sectionMap = {
@@ -51,9 +51,9 @@ function initTabs() {
     console.log('Tabs initialized');
 }
 
-// ═══════════════════════════════════════════════════════════════
+ 
 // ACTIVITY BAR
-// ═══════════════════════════════════════════════════════════════
+ 
 
 const activityIcons = document.querySelectorAll('.activity-icon[data-section]');
 activityIcons.forEach(icon => {
@@ -63,9 +63,9 @@ activityIcons.forEach(icon => {
     });
 });
 
-// ═══════════════════════════════════════════════════════════════
+ 
 // TERMINAL FUNCTIONS
-// ═══════════════════════════════════════════════════════════════
+ 
 
 function toggleTerminal() {
     const panel = document.getElementById('integrated-terminal');
@@ -134,9 +134,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// ═══════════════════════════════════════════════════════════════
+ 
 // DOWNLOAD CV FUNCTION
-// ═══════════════════════════════════════════════════════════════
+ 
 
 function downloadCV() {
     const termOutput = document.getElementById('term-output');
@@ -178,9 +178,9 @@ function downloadCV() {
     }, 3500);
 }
 
-// ═══════════════════════════════════════════════════════════════
+ 
 // RUN CODE BUTTON
-// ═══════════════════════════════════════════════════════════════
+ 
 
 function runCode() {
     // Open terminal if closed
@@ -220,9 +220,9 @@ function runCode() {
     }
 }
 
-// ═══════════════════════════════════════════════════════════════
+ 
 // COMMAND PALETTE
-// ═══════════════════════════════════════════════════════════════
+ 
 
 const paletteOverlay = document.getElementById('command-palette-overlay');
 const paletteInput = document.getElementById('palette-input');
@@ -346,9 +346,9 @@ if (paletteInput) {
     });
 }
 
-// ═══════════════════════════════════════════════════════════════
+ 
 // SIDEBAR & SEARCH LOGIC
-// ═══════════════════════════════════════════════════════════════
+ 
 
 const searchIcon = document.querySelector('[data-section="search"]');
 const explorerIcon = document.querySelector('[data-section="explorer"]');
@@ -492,9 +492,9 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Portfolio initialized');
 });
 
-// ═══════════════════════════════════════════════════════════════
+ 
 // GIT ICON LOGIC
-// ═══════════════════════════════════════════════════════════════
+ 
 
 const gitIcon = document.querySelector('[data-section="git"]');
 
@@ -557,9 +557,9 @@ if (gitIcon) {
     });
 }
 
-// ═══════════════════════════════════════════════════════════════
+ 
 // THEME SWITCHER
-// ═══════════════════════════════════════════════════════════════
+ 
 
 const settingsIcon = document.querySelector('[data-section="settings"]');
 
@@ -634,17 +634,17 @@ if (settingsIcon) {
     });
 }
 
-// ═══════════════════════════════════════════════════════════════
+ 
 // CONSOLE EASTER EGG
-// ═══════════════════════════════════════════════════════════════
+ 
 
 console.log('%c🚀 Welcome to my portfolio!', 'font-size: 20px; color: #00d4ff; text-shadow: 0 0 10px #00d4ff;');
 console.log('%c Built with pure HTML, CSS & JS', 'font-size: 12px; color: #858585;');
 console.log('%c🔧 musawar.soomro25@gmail.com', 'font-size: 14px; color: #4ec9b0;');
 
-// ═══════════════════════════════════════════════════════════════
+ 
 // TRIGGER COMMAND (for palette)
-// ═══════════════════════════════════════════════════════════════
+ 
 
 window.triggerCommand = (name) => {
     const command = commands.find(c => c.name === name);
