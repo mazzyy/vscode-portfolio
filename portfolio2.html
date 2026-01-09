@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>musawar.dev | Cloud & AI Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* ═══════════════════════════════════════════════════════════════
+               MODERN CYBER PALETTE
+            ═══════════════════════════════════════════════════════════════ */
+            --bg-body: #000000;
+            --bg-activity: #050505;
+            --bg-sidebar: #080808;
+            --bg-tabs: #000000; /* Pitch black to contrast with content */
+            --bg-editor: #0a0b10; /* Slightly lighter "content" plane */
+            --bg-panel: rgba(20, 23, 30, 0.5);
+            
+            /* Borders */
+            --border-subtle: 1px solid rgba(255, 255, 255, 0.08);
+            --border-active: 1px solid rgba(0, 243, 255, 0.3);
+            
+            /* Accents */
+            --accent-primary: #00f3ff; /* Cyber Cyan */
+            --accent-secondary: #bc13fe; /* Neon Purple */
+            --accent-tertiary: #2d7af1; /* Electric Blue */
+            --text-glow: 0 0 10px rgba(0, 243, 255, 0.2);
+            
+            /* Text */
+            --text-main: #e2e8f0;
+            --text-muted: #64748b;
+            --text-dark: #475569;
+            
+            /* Syntax Highlighting */
+            --syn-comment: #556677;
+            --syn-keyword: #bc13fe;
+            --syn-string: #00f3ff;
+            --syn-func: #2d7af1;
+            --syn-tag: #ff0055;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-body);
+            color: var(--text-main);
+            height: 100vh;
+            overflow: hidden;
+            font-size: 13px;
+        }
+
+        /* Scrollbars */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-sidebar); }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        /* ═══════════════════════════════════════════════════════════════
+           LAYOUT
+        ═══════════════════════════════════════════════════════════════ */
+        .vscode-container {
+            display: grid;
+            grid-template-columns: 48px 260px 1fr; /* Wider sidebar for tree */
+            grid-template-rows: 35px 1fr 22px;
+            height: 100vh;
+        }
+
+        /* 1. TITLE BAR */
+        .title-bar {
+            grid-column: 1 / -1;
+            background: var(--bg-activity);
+            border-bottom: var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            user-select: none;
+        }
+
+        .title-controls {
+            position: absolute;
+            left: 12px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .win-btn { width: 12px; height: 12px; border-radius: 50%; }
+        .win-close { background: #ff5f57; }
+        .win-min { background: #febc2e; }
+        .win-max { background: #28c840; }
+
+        .title-text {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* 2. ACTIVITY BAR (Left Icons) */
+        .activity-bar {
+            background: var(--bg-activity);
+            border-right: var(--border-subtle);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 10px;
+        }
+
+        .act-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            cursor: pointer;
+            position: relative;
+            transition: 0.2s;
+        }
+
+        .act-icon:hover { color: var(--text-main); }
+        .act-icon.active { color: var(--text-main); }
+        
+        .act-icon.active::before {
+            content: '';
+            position: absolute;
+            left: 0; height: 24px; width: 2px;
+            background: var(--accent-primary);
+            box-shadow: 0 0 8px var(--accent-primary);
+        }
+
+        .act-icon svg { width: 24px; height: 24px; }
+
+        /* 3. SIDEBAR (File Tree) */
+        .sidebar {
+            background: var(--bg-sidebar);
+            border-right: var(--border-subtle);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 10px 20px;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .sidebar-section {
+            border-bottom: var(--border-subtle);
+            padding-bottom: 5px;
+        }
+
+        .section-title {
+            padding: 8px 15px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: var(--text-main);
+        }
+        
+        .section-title:hover { background: rgba(255,255,255,0.03); }
+
+        /* File Tree Formatting */
+        .file-tree { padding-left: 0; }
+        
+        .tree-item {
+            padding: 4px 10px 4px 25px; /* Indent */
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            border-left: 2px solid transparent;
+            font-size: 0.85rem;
+            transition: 0.15s;
+        }
+
+        .tree-item:hover {
+            background: rgba(255,255,255,0.04);
+            color: var(--text-main);
+        }
+
+        .tree-item.active {
+            background: rgba(0, 243, 255, 0.05);
+            color: var(--accent-primary);
+            border-left-color: var(--accent-primary);
+        }
+
+        /* Folder indentation */
+        .folder-root { padding-left: 15px; font-weight: 600; color: var(--text-main); }
+        .indent-1 { padding-left: 35px; } /* Files inside src */
+        .indent-2 { padding-left: 50px; } /* Deeper */
+
+        .icon-ts { color: var(--accent-tertiary); }
+        .icon-json { color: #f1c40f; }
+        .icon-md { color: #a074c4; }
+        .icon-yml { color: #ff5f57; }
+        .icon-folder { color: var(--text-muted); }
+
+        /* 4. EDITOR AREA */
+        .editor-area {
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-editor);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Tabs - High Contrast Fix */
+        .editor-tabs {
+            display: flex;
+            background: var(--bg-tabs); /* Darker than editor */
+            overflow-x: auto;
+            height: 35px;
+        }
+
+        .tab {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 15px;
+            min-width: 120px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            background: var(--bg-tabs);
+            cursor: pointer;
+            border-right: 1px solid rgba(255,255,255,0.05);
+            border-top: 1px solid transparent;
+            transition: background 0.2s;
+        }
+
+        .tab:hover {
+            background: #111;
+            color: var(--text-main);
+        }
+
+        /* Active Tab merges with Content */
+        .tab.active {
+            background: var(--bg-editor); /* Matches content background */
+            color: var(--text-main);
+            border-top: 1px solid var(--accent-primary); /* Pop color */
+            box-shadow: 0 4px 0 var(--bg-editor); /* Cover bottom border if any */
+        }
+
+        /* Content Area */
+        .editor-content {
+            flex: 1;
+            padding: 0;
+            overflow-y: auto;
+            background: var(--bg-editor);
+            /* Subtle Cyber Grid */
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .content-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px;
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .content-container.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 5. STATUS BAR */
+        .status-bar {
+            grid-column: 1 / -1;
+            background: var(--accent-tertiary); /* Blue Accent for pop */
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .status-left, .status-right { display: flex; gap: 15px; }
+        .status-item { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+        .status-item:hover { opacity: 0.8; }
+
+        /* ═══════════════════════════════════════════════════════════════
+           CONTENT STYLES (Cyber-Minimal)
+        ═══════════════════════════════════════════════════════════════ */
+        
+        .hero-section {
+            background: rgba(15, 17, 22, 0.6);
+            border: var(--border-subtle);
+            padding: 40px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Neon Line Top */
+        .hero-section::before {
+            content: '';
+            position: absolute; top: 0; left: 0; width: 100%; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+        }
+
+        .hero-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-primary);
+            margin-bottom: 20px;
+        }
+
+        .tag-cloud { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+        
+        .tech-tag {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            transition: 0.2s;
+        }
+        
+        .tech-tag:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            box-shadow: var(--text-glow);
+        }
+
+        /* Stats Row */
+        .stats-row {
+            display: flex;
+            gap: 40px;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .stat { text-align: center; }
+        .stat-val { font-size: 1.5rem; font-weight: 700; color: white; display: block; }
+        .stat-lbl { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Grid Layouts */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+
+        /* Modern Card */
+        .cyber-card {
+            background: rgba(13, 17, 23, 0.8);
+            border: var(--border-subtle);
+            padding: 20px;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+        
+        .cyber-card:hover {
+            border-color: var(--accent-secondary);
+            transform: translateY(-2px);
+        }
+
+        .card-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .card-head h3 { font-size: 1rem; color: var(--text-main); }
+        .card-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 15px; }
+
+        /* Timeline */
+        .timeline-item {
+            border-left: 2px solid #333;
+            padding-left: 20px;
+            padding-bottom: 30px;
+            position: relative;
+        }
+        
+        .timeline-item::before {
+            content: ''; position: absolute; left: -6px; top: 0;
+            width: 10px; height: 10px; background: var(--bg-editor);
+            border: 2px solid var(--accent-tertiary); border-radius: 50%;
+        }
+
+        .time-date { color: var(--accent-primary); font-size: 0.8rem; margin-bottom: 4px; }
+        .time-role { font-size: 1.1rem; font-weight: 600; color: white; }
+        .time-comp { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px; }
+
+        /* Terminal Component */
+        .terminal {
+            background: #000;
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 20px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .prompt { color: var(--accent-secondary); }
+        .cmd { color: var(--accent-primary); }
+        .json-key { color: var(--accent-tertiary); }
+        .json-val { color: var(--syn-string); }
+
+        /* Mobile */
+        @media(max-width: 768px) {
+            .vscode-container { grid-template-columns: 1fr; }
+            .activity-bar, .sidebar { display: none; }
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="vscode-container">
+        <div class="title-bar">
+            <div class="title-controls">
+                <div class="win-btn win-close"></div>
+                <div class="win-btn win-min"></div>
+                <div class="win-btn win-max"></div>
+            </div>
+            <div class="title-text">musawar.portfolio — Visual Studio Code</div>
+        </div>
+
+        <div class="activity-bar">
+            <div class="act-icon active" title="Explorer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+            </div>
+            <div class="act-icon" title="Search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            </div>
+            <div class="act-icon" title="Source Control">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 009 9"/></svg>
+            </div>
+            <div style="flex: 1;"></div>
+            <div class="act-icon" title="Settings">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="sidebar-header">EXPLORER</div>
+            
+            <div class="sidebar-section">
+                <div class="section-title"><span>▼</span> MUSAWAR.PORTFOLIO</div>
+                <div class="file-tree">
+                    <div class="tree-item folder-root"><span class="icon-folder">📁</span> src</div>
+                    
+                    <div class="tree-item indent-1 active" data-tab="about">
+                        <span class="icon-ts">TS</span> about.tsx
+                    </div>
+                    <div class="tree-item indent-1" data-tab="skills">
+                        <span class="icon-ts">TS</span> skills.tsx
+                    </div>
+                    <div class="tree-item indent-1" data-tab="experience">
+                        <span class="icon-ts">TS</span> experience.tsx
+                    </div>
+                    <div class="tree-item indent-1" data-tab="projects">
+                        <span class="icon-ts">TS</span> projects.tsx
+                    </div>
+                    <div class="tree-item indent-1" data-tab="videos">
+                        <span class="icon-ts">TS</span> videos.tsx
+                    </div>
+                    <div class="tree-item indent-1" data-tab="contact">
+                        <span class="icon-ts">TS</span> contact.tsx
+                    </div>
+
+                    <div class="tree-item folder-root"><span class="icon-folder">📁</span> components</div>
+                    
+                    <div class="tree-item" style="padding-left:15px">
+                        <span class="icon-json">{}</span> package.json
+                    </div>
+                    <div class="tree-item" style="padding-left:15px">
+                        <span class="icon-yml">⚙️</span> docker-compose.yml
+                    </div>
+                    <div class="tree-item" style="padding-left:15px">
+                        <span class="icon-md">📝</span> README.md
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="section-title"><span>▼</span> OUTLINE</div>
+                <div class="file-tree">
+                    <div class="tree-item">ProfileComponent</div>
+                    <div class="tree-item">SkillsGrid</div>
+                    <div class="tree-item">ExperienceTimeline</div>
+                    <div class="tree-item">ProjectsGrid</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="editor-area">
+            <div class="editor-tabs">
+                <div class="tab active" data-tab="about">
+                    <span class="icon-ts">TS</span> about.tsx
+                </div>
+                <div class="tab" data-tab="skills">
+                    <span class="icon-ts">TS</span> skills.tsx
+                </div>
+                <div class="tab" data-tab="experience">
+                    <span class="icon-ts">TS</span> experience.tsx
+                </div>
+                <div class="tab" data-tab="projects">
+                    <span class="icon-ts">TS</span> projects.tsx
+                </div>
+                <div class="tab" data-tab="videos">
+                    <span class="icon-ts">TS</span> videos.tsx
+                </div>
+                <div class="tab" data-tab="contact">
+                    <span class="icon-ts">TS</span> contact.tsx
+                </div>
+            </div>
+
+            <div class="editor-content">
+                
+                <div class="content-container active" id="about-section">
+                    <div class="hero-section">
+                        <h1 class="hero-title">Abdul Musawar Soomro</h1>
+                        <h2 class="hero-subtitle">
+                            <span class="keyword">const</span> role = <span class="syn-string">"Kubernetes Developer @ Siemens Healthineers"</span>;
+                        </h2>
+                        <p style="color:var(--text-muted); line-height: 1.8;">
+                            Cloud Infrastructure Architect and AI/ML Engineer based in Erlangen, Germany. 
+                            Specializing in scalable systems, intelligent automation, and cutting-edge cloud solutions. 
+                            Building the future of healthcare technology.
+                        </p>
+                        
+                        <div class="stats-row">
+                            <div class="stat">
+                                <span class="stat-val">5+</span>
+                                <span class="stat-lbl">Years Exp</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-val">59</span>
+                                <span class="stat-lbl">Repos</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-val">10+</span>
+                                <span class="stat-lbl">Projects</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-container" id="skills-section">
+                    <h2 class="hero-title" style="font-size: 1.5rem; margin-bottom: 20px;">// Technical Stack</h2>
+                    <div class="grid-3">
+                        <div class="cyber-card">
+                            <div class="card-head">
+                                <span>🐍</span> <h3>Languages</h3>
+                            </div>
+                            <div class="tag-cloud">
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">JavaScript</span>
+                                <span class="tech-tag">TypeScript</span>
+                                <span class="tech-tag">SQL</span>
+                            </div>
+                        </div>
+                        <div class="cyber-card">
+                            <div class="card-head">
+                                <span>⚛️</span> <h3>Frontend</h3>
+                            </div>
+                            <div class="tag-cloud">
+                                <span class="tech-tag">React.js</span>
+                                <span class="tech-tag">Vue.js</span>
+                                <span class="tech-tag">Next.js</span>
+                                <span class="tech-tag">Tailwind</span>
+                            </div>
+                        </div>
+                        <div class="cyber-card">
+                            <div class="card-head">
+                                <span>☁️</span> <h3>Cloud & DevOps</h3>
+                            </div>
+                            <div class="tag-cloud">
+                                <span class="tech-tag">AWS</span>
+                                <span class="tech-tag">Azure</span>
+                                <span class="tech-tag">Kubernetes</span>
+                                <span class="tech-tag">Docker</span>
+                                <span class="tech-tag">Terraform</span>
+                            </div>
+                        </div>
+                        <div class="cyber-card">
+                            <div class="card-head">
+                                <span>🤖</span> <h3>AI & ML</h3>
+                            </div>
+                            <div class="tag-cloud">
+                                <span class="tech-tag">TensorFlow</span>
+                                <span class="tech-tag">PyTorch</span>
+                                <span class="tech-tag">OpenAI</span>
+                                <span class="tech-tag">LangChain</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-container" id="experience-section">
+                    <h2 class="hero-title" style="font-size: 1.5rem; margin-bottom: 20px;">// Work History</h2>
+                    <div class="cyber-card">
+                        <div class="timeline-item">
+                            <div class="time-date">Jan 2024 - Present</div>
+                            <div class="time-role">Kubernetes Developer</div>
+                            <div class="time-comp">Siemens Healthineers · Erlangen, Germany</div>
+                            <p class="card-desc">Automating container image analysis and Dockerization. Architecting K8s infrastructure with automated deployments. Implementing CI/CD pipelines and security standards.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-date">Sep 2022 - Mar 2023</div>
+                            <div class="time-role">Cloud Infrastructure Engineer</div>
+                            <div class="time-comp">PUMA · Herzogenaurach, Germany</div>
+                            <p class="card-desc">Designed Azure-based cloud solutions with containerization focus. Implemented infrastructure using Terraform and shell scripting.</p>
+                        </div>
+                        <div class="timeline-item" style="border:none; padding-bottom:0;">
+                            <div class="time-date">Jun 2021 - Aug 2022</div>
+                            <div class="time-role">Co-Founder & Lead Developer</div>
+                            <div class="time-comp">Asaan Recovery · Karachi, Pakistan</div>
+                            <p class="card-desc">Built CRM system enhancing work management. Developed role-based access system and integrated SMS services.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-container" id="projects-section">
+                    <h2 class="hero-title" style="font-size: 1.5rem; margin-bottom: 20px;">// Featured Projects</h2>
+                    <div class="grid-3">
+                        <div class="cyber-card">
+                            <div class="card-head"><span>🗺️</span> <h3>MarketMap</h3></div>
+                            <p class="card-desc">AI-powered market mapping with agent-based collaboration. Dynamically fetches data using NLP.</p>
+                            <div class="tag-cloud"><span class="tech-tag">AI Agents</span><span class="tech-tag">LLM</span></div>
+                        </div>
+                        <div class="cyber-card">
+                            <div class="card-head"><span>🏗️</span> <h3>AI Web Builder</h3></div>
+                            <p class="card-desc">Create professional websites using natural language. Gemini AI generates HTML/CSS.</p>
+                            <div class="tag-cloud"><span class="tech-tag">Gemini</span><span class="tech-tag">React</span></div>
+                        </div>
+                        <div class="cyber-card">
+                            <div class="card-head"><span>🎭</span> <h3>FaceSwitch</h3></div>
+                            <p class="card-desc">AI-powered face swapping with real-time processing and CV pipelines.</p>
+                            <div class="tag-cloud"><span class="tech-tag">CV</span><span class="tech-tag">Deep Learning</span></div>
+                        </div>
+                        <div class="cyber-card">
+                            <div class="card-head"><span>🎯</span> <h3>Talent Finder</h3></div>
+                            <p class="card-desc">Intelligent recruitment assistant. AI-powered matching algorithms.</p>
+                            <div class="tag-cloud"><span class="tech-tag">Python</span><span class="tech-tag">ML</span></div>
+                        </div>
+                        <div class="cyber-card">
+                            <div class="card-head"><span>📊</span> <h3>CRM System</h3></div>
+                            <p class="card-desc">Full-featured Customer Relationship Management dashboard.</p>
+                            <div class="tag-cloud"><span class="tech-tag">Node</span><span class="tech-tag">Mongo</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-container" id="videos-section">
+                    <h2 class="hero-title" style="font-size: 1.5rem; margin-bottom: 20px;">// Demos</h2>
+                    <div class="grid-2">
+                        <div class="cyber-card">
+                            <iframe style="width:100%; height:200px; border:none; border-radius:4px;" src="https://www.youtube.com/embed/CL3smZv6ojM"></iframe>
+                            <div style="margin-top:10px; font-weight:600;">MarketMap Demo</div>
+                        </div>
+                        <div class="cyber-card">
+                            <iframe style="width:100%; height:200px; border:none; border-radius:4px;" src="https://www.youtube.com/embed/ZxK9OYwRzKQ"></iframe>
+                            <div style="margin-top:10px; font-weight:600;">AI Web Builder Demo</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-container" id="contact-section">
+                    <h2 class="hero-title" style="font-size: 1.5rem; margin-bottom: 20px;">// Get in Touch</h2>
+                    <div style="max-width: 600px;">
+                        <div class="terminal">
+                            <div style="margin-bottom: 10px;">
+                                <span class="prompt">➜</span> <span class="cmd">~/contact</span> git:(<span style="color:red">main</span>) cat details.json
+                            </div>
+                            <div>{</div>
+                            <div style="padding-left: 20px;">
+                                <span class="json-key">"email"</span>: <span class="json-val">"musawar.soomro25@gmail.com"</span>,
+                            </div>
+                            <div style="padding-left: 20px;">
+                                <span class="json-key">"linkedin"</span>: <span class="json-val">"linkedin.com/in/musawar"</span>,
+                            </div>
+                            <div style="padding-left: 20px;">
+                                <span class="json-key">"github"</span>: <span class="json-val">"github.com/mazzyy"</span>,
+                            </div>
+                             <div style="padding-left: 20px;">
+                                <span class="json-key">"youtube"</span>: <span class="json-val">"@Ideeaflux"</span>
+                            </div>
+                            <div>}</div>
+                            <div style="margin-top: 10px;">
+                                <span class="prompt">➜</span> <span class="cmd">~/contact</span> <span style="animation: blink 1s infinite">_</span>
+                            </div>
+                        </div>
+                        
+                        <div class="tag-cloud" style="margin-top: 30px;">
+                             <a href="mailto:musawar.soomro25@gmail.com" class="tech-tag" style="text-decoration:none;">Email Me</a>
+                             <a href="https://linkedin.com/in/musawar" class="tech-tag" style="text-decoration:none;">LinkedIn</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <div class="status-left">
+                <div class="status-item">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 009 9"/></svg>
+                    main
+                </div>
+                <div class="status-item">0 Errors</div>
+            </div>
+            <div class="status-right">
+                <div class="status-item">Ln 42, Col 8</div>
+                <div class="status-item">UTF-8</div>
+                <div class="status-item">TypeScript React</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation Logic
+        const tabs = document.querySelectorAll('.tab');
+        const treeItems = document.querySelectorAll('.tree-item[data-tab]');
+        const containers = document.querySelectorAll('.content-container');
+
+        function activateTab(target) {
+            // Remove active class from all
+            tabs.forEach(t => t.classList.remove('active'));
+            treeItems.forEach(t => t.classList.remove('active'));
+            containers.forEach(c => c.classList.remove('active'));
+
+            // Add active class to target elements
+            const tab = document.querySelector(`.tab[data-tab="${target}"]`);
+            const tree = document.querySelector(`.tree-item[data-tab="${target}"]`);
+            const container = document.getElementById(`${target}-section`);
+
+            if(tab) tab.classList.add('active');
+            if(tree) tree.classList.add('active');
+            if(container) container.classList.add('active');
+        }
+
+        tabs.forEach(t => t.addEventListener('click', () => activateTab(t.dataset.tab)));
+        treeItems.forEach(t => t.addEventListener('click', () => activateTab(t.dataset.tab)));
+    </script>
+</body>
+</html>
