@@ -2475,18 +2475,16 @@ window.triggerCommand = (name) => {
 
 </script>
 <script>
-    /* ═══════════════════════════════════════════════════════════════
-    THEME SWITCHER LOGIC
+/* ═══════════════════════════════════════════════════════════════
+    THEME SWITCHER LOGIC (Fixed Terminal Visibility)
    ═══════════════════════════════════════════════════════════════ */
 
 const settingsIcon = document.querySelector('[data-section="settings"]');
 
-// Safety check: ensure the icon exists before adding the listener
 if (settingsIcon) {
     let isDark = true;
 
     settingsIcon.addEventListener('click', () => {
-        console.log("Theme toggle clicked"); // Debugging check
         const root = document.documentElement;
         
         if (isDark) {
@@ -2495,39 +2493,55 @@ if (settingsIcon) {
             // -----------------------------
             
             // 1. Backgrounds
-            root.style.setProperty('--bg-primary', '#ffffff');       // Main Editor
-            root.style.setProperty('--bg-secondary', '#f3f3f3');     // Sidebar
-            root.style.setProperty('--bg-tertiary', '#e8e8e8');      // Tabs/Headers
-            root.style.setProperty('--bg-sidebar', '#2c2c2c');       // Activity Bar (Keep dark for contrast or make light)
-            root.style.setProperty('--bg-editor', '#ffffff');        // Editor specific
-            root.style.setProperty('--bg-terminal', '#f8f8f8');      // Terminal specific
+            root.style.setProperty('--bg-primary', '#ffffff');
+            root.style.setProperty('--bg-secondary', '#f3f3f3');
+            root.style.setProperty('--bg-tertiary', '#e8e8e8');
+            root.style.setProperty('--bg-editor', '#ffffff');
+            root.style.setProperty('--bg-terminal', '#f3f3f3'); 
+            root.style.setProperty('--bg-sidebar', '#eeeeee'); 
+
+            // 2. Interactive States
+            root.style.setProperty('--bg-active', '#e4e6f1'); 
+            root.style.setProperty('--bg-hover', '#e8e8e8');  
             
-            // 2. Borders
-            root.style.setProperty('--border', '#e5e5e5');
+            // 3. Text & Icon Colors
+            root.style.setProperty('--text-primary', '#2c2c2c');
+            root.style.setProperty('--text-secondary', '#424242');
+            root.style.setProperty('--text-muted', '#6e6e6e');
+            root.style.setProperty('--text-white', '#000000');
             
-            // 3. Text Colors
-            root.style.setProperty('--text-primary', '#333333');     // Main text
-            root.style.setProperty('--text-secondary', '#666666');   // Subtitles
-            root.style.setProperty('--text-muted', '#888888');       // Comments/Muted
+            // 4. Borders
+            root.style.setProperty('--border', '#d4d4d4');
+
+            // 5. Syntax Highlighting
+            root.style.setProperty('--syntax-keyword', '#0000ff');
+            root.style.setProperty('--syntax-string', '#a31515');
+            root.style.setProperty('--syntax-function', '#795e26');
+            root.style.setProperty('--syntax-comment', '#008000');
+            root.style.setProperty('--syntax-variable', '#001080');
+            root.style.setProperty('--syntax-operator', '#2c2c2c');
             
-            // 4. Update specific syntax colors for visibility on white
-            root.style.setProperty('--syntax-string', '#a31515');    // Red string
-            root.style.setProperty('--syntax-function', '#795e26');  // Gold function
-            root.style.setProperty('--syntax-keyword', '#0000ff');   // Blue keyword
-            root.style.setProperty('--syntax-comment', '#008000');   // Green comment
-            
+            // 6. Accents
+            root.style.setProperty('--accent-blue', '#005fb8');
+
+            // 7. TERMINAL & NEON COLORS (The Fix)
+            // We change "Neon" colors to "Dark" colors for readability
+            root.style.setProperty('--neon-green', '#008000');   // Dark Green
+            root.style.setProperty('--neon-blue', '#0000ff');    // Blue
+            root.style.setProperty('--neon-purple', '#800080');  // Purple
+            root.style.setProperty('--neon-pink', '#c70054');    // Dark Pink
+            root.style.setProperty('--accent-cyan', '#005c99');  // Dark Teal (for paths)
+            root.style.setProperty('--accent-red', '#d11515');   // Red (for errors)
+
             isDark = false;
             
         } else {
             // -----------------------------
-            // SWITCH BACK TO DARK (Reload)
+            // SWITCH BACK TO DARK
             // -----------------------------
-            // Reloading is the cleanest way to reset all variables perfectly
             location.reload(); 
         }
     });
-} else {
-    console.error("Settings icon not found! Make sure script is at the bottom of the body.");
 }
 </script>
 </body>
