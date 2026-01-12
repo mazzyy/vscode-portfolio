@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     <!-- Command Palette Overlay -->
@@ -29,10 +31,52 @@
                 <div class="control-btn minimize"></div>
                 <div class="control-btn maximize"></div>
             </div>
+            <!-- Mobile menu button -->
+            <div class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12h18M3 6h18M3 18h18"/>
+                </svg>
+            </div>
             <div class="title-bar-title">
-                <span>musawar.portfolio</span> — Visual Studio Code
+                <span>musawar.portfolio</span> â€” Visual Studio Code
             </div>
             <div style="width: 70px;"></div>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div class="mobile-nav-overlay" id="mobile-nav-overlay" onclick="toggleMobileMenu()"></div>
+        <div class="mobile-nav" id="mobile-nav">
+            <div class="mobile-nav-header">
+                <span>EXPLORER</span>
+                <div class="mobile-nav-close" onclick="toggleMobileMenu()">&times;</div>
+            </div>
+            <div class="mobile-nav-items">
+                <div class="mobile-nav-item active" data-mobile-tab="about" onclick="mobileNavTo('about')">
+                    <span class="nav-icon ts"></span>
+                    <span>about.tsx</span>
+                </div>
+                <div class="mobile-nav-item" data-mobile-tab="projects" onclick="mobileNavTo('projects')">
+                    <span class="nav-icon ts"></span>
+                    <span>projects.tsx</span>
+                </div>
+                <div class="mobile-nav-item" data-mobile-tab="videos" onclick="mobileNavTo('videos')">
+                    <span class="nav-icon ts"></span>
+                    <span>videos.tsx</span>
+                </div>
+                <div class="mobile-nav-item" data-mobile-tab="contact" onclick="mobileNavTo('contact')">
+                    <span class="nav-icon ts"></span>
+                    <span>contact.tsx</span>
+                </div>
+                <div class="mobile-nav-divider"></div>
+                <div class="mobile-nav-item" onclick="downloadCV(); toggleMobileMenu();">
+                    <span class="nav-icon pdf"></span>
+                    <span>resume.pdf</span>
+                </div>
+                <div class="mobile-nav-item" onclick="toggleTerminal(); toggleMobileMenu();">
+                    <span class="nav-icon term"></span>
+                    <span>Terminal</span>
+                </div>
+            </div>
         </div>
 
         <!-- Activity Bar -->
@@ -84,10 +128,10 @@
                 </div>
                 <div class="file-tree">
                     <div class="folder-item">
-                        <span>📁</span> src
+                        <i class="fas fa-folder folder-icon"></i> src
                     </div>
                     <div class="folder-item nested-1">
-                        <span>📁</span> pages
+                        <i class="fas fa-folder-open folder-icon"></i> pages
                     </div>
                     <div class="file-item ts nested-2 active" data-tab="about">
                         about.tsx
@@ -102,7 +146,7 @@
                         contact.tsx
                     </div>
                     <div class="folder-item nested-1">
-                        <span>📁</span> components
+                        <i class="fas fa-folder-open folder-icon"></i> components
                     </div>
                     <div class="file-item ts nested-2 non-clickable">
                         Skills.tsx
@@ -150,22 +194,22 @@
                 <div class="editor-tab active" data-tab="about">
                     <span style="color: #3178c6;">TS</span>
                     about.tsx
-                    <span class="close-tab">×</span>
+                    <span class="close-tab">Ã—</span>
                 </div>
                 <div class="editor-tab" data-tab="projects">
                     <span style="color: #3178c6;">TS</span>
                     projects.tsx
-                    <span class="close-tab">×</span>
+                    <span class="close-tab">Ã—</span>
                 </div>
                 <div class="editor-tab" data-tab="videos">
                     <span style="color: #3178c6;">TS</span>
                     videos.tsx
-                    <span class="close-tab">×</span>
+                    <span class="close-tab">Ã—</span>
                 </div>
                 <div class="editor-tab" data-tab="contact">
                     <span style="color: #3178c6;">TS</span>
                     contact.tsx
-                    <span class="close-tab">×</span>
+                    <span class="close-tab">Ã—</span>
                 </div>
                 <div style="flex: 1; border-bottom: 1px solid var(--border); background: var(--bg-tertiary);"></div>
                 <div class="run-button" onclick="runCode()" title="Run Project (Ctrl+R)">
@@ -182,7 +226,7 @@
                 <div class="content-section active" id="about-section">
                     <div class="profile-section cyber-grid">
                         <div class="profile-header">
-                            <div class="profile-avatar">👨‍💻</div>
+                            <div class="profile-avatar"><i class="fas fa-user-astronaut"></i></div>
                             <div class="profile-info">
                                 <h1 class="profile-name">Abdul Musawar Soomro</h1>
                                 <div class="profile-title">
@@ -199,16 +243,16 @@
                                         <div class="stat-label">Years Exp</div>
                                     </div>
                                     <div class="stat-box">
-                                        <div class="stat-value">101</div>
+                                        <div class="stat-value">59</div>
                                         <div class="stat-label">Repos</div>
                                     </div>
                                     <div class="stat-box">
-                                        <div class="stat-value">70+</div>
+                                        <div class="stat-value">10+</div>
                                         <div class="stat-label">Projects</div>
                                     </div>
                                     <div class="stat-box">
                                         <div class="stat-value">4</div>
-                                        <div class="stat-label">Project Videos</div>
+                                        <div class="stat-label">Videos</div>
                                     </div>
                                 </div>
                             </div>
@@ -220,7 +264,7 @@
                             <div class="skills-grid">
                                 <div class="skill-card">
                                     <div class="skill-card-header">
-                                        <div class="skill-icon">🐍</div>
+                                        <div class="skill-icon"><i class="fas fa-code"></i></div>
                                         <h3>Languages</h3>
                                     </div>
                                     <div class="skill-tags">
@@ -231,7 +275,7 @@
                                 </div>
                                 <div class="skill-card">
                                     <div class="skill-card-header">
-                                        <div class="skill-icon">⚛️</div>
+                                        <div class="skill-icon"><i class="fab fa-react"></i></div>
                                         <h3>Frontend</h3>
                                     </div>
                                     <div class="skill-tags">
@@ -242,7 +286,7 @@
                                 </div>
                                 <div class="skill-card">
                                     <div class="skill-card-header">
-                                        <div class="skill-icon">🔧</div>
+                                        <div class="skill-icon"><i class="fas fa-server"></i></div>
                                         <h3>Backend</h3>
                                     </div>
                                     <div class="skill-tags">
@@ -255,7 +299,7 @@
                                 </div>
                                 <div class="skill-card">
                                     <div class="skill-card-header">
-                                        <div class="skill-icon">☁️</div>
+                                        <div class="skill-icon"><i class="fas fa-cloud"></i></div>
                                         <h3>Cloud & DevOps</h3>
                                     </div>
                                     <div class="skill-tags">
@@ -267,7 +311,7 @@
                                 </div>
                                 <div class="skill-card">
                                     <div class="skill-card-header">
-                                        <div class="skill-icon">🗄️</div>
+                                        <div class="skill-icon"><i class="fas fa-database"></i></div>
                                         <h3>Databases</h3>
                                     </div>
                                     <div class="skill-tags">
@@ -280,7 +324,7 @@
                                 </div>
                                 <div class="skill-card">
                                     <div class="skill-card-header">
-                                        <div class="skill-icon">🚀</div>
+                                        <div class="skill-icon"><i class="fas fa-rocket"></i></div>
                                         <h3>CI/CD & Tools</h3>
                                     </div>
                                     <div class="skill-tags">
@@ -301,7 +345,7 @@
                             <div class="timeline-item">
                                 <div class="timeline-date">Jan 2024 - Present</div>
                                 <div class="timeline-title">Kubernetes Developer</div>
-                                <div class="timeline-company">Siemens Healthineers · Erlangen, Germany</div>
+                                <div class="timeline-company">Siemens Healthineers Â· Erlangen, Germany</div>
                                 <div class="timeline-desc">
                                     Automating container image analysis and Dockerization processes. Architected Kubernetes infrastructure and automated deployment processes. Implementing continuous system monitoring and maintenance protocols. Integrating CI/CD pipelines with Kubernetes deployments for seamless workflows. Upholding security standards for all containers and Kubernetes operations.
                                 </div>
@@ -310,7 +354,7 @@
                             <div class="timeline-item">
                                 <div class="timeline-date">Sep 2022 - Mar 2023</div>
                                 <div class="timeline-title">Cloud Infrastructure Engineer</div>
-                                <div class="timeline-company">PUMA · Herzogenaurach, Germany</div>
+                                <div class="timeline-company">PUMA Â· Herzogenaurach, Germany</div>
                                 <div class="timeline-desc">
                                     Designed, deployed, and managed Azure-based cloud solutions with a focus on containerization. Implemented infrastructure using Terraform and shell scripting, resulting in reduction in deployment time. Collaborated with cross-functional teams to optimize solutions. Developed comprehensive documentation for cloud infrastructure and processes.
                                 </div>
@@ -319,7 +363,7 @@
                             <div class="timeline-item">
                                 <div class="timeline-date">Jun 2021 - Aug 2022</div>
                                 <div class="timeline-title">Co-Founder</div>
-                                <div class="timeline-company">Asaan Recovery · Karachi, Pakistan</div>
+                                <div class="timeline-company">Asaan Recovery Â· Karachi, Pakistan</div>
                                 <div class="timeline-desc">
                                     Created CRM enhancing work management with innovative efficiency and transparency. Developed role-based access system for enhanced security. Integrated SMS services for direct user communication. Optimized account and payroll management. Implemented strict data security ensuring compliance with industry standards.
                                 </div>
@@ -328,7 +372,7 @@
                             <div class="timeline-item">
                                 <div class="timeline-date">Jun 2020 - Jun 2021</div>
                                 <div class="timeline-title">Full-Stack Web Developer</div>
-                                <div class="timeline-company">One Stop Solution · Karachi, Pakistan</div>
+                                <div class="timeline-company">One Stop Solution Â· Karachi, Pakistan</div>
                                 <div class="timeline-desc">
                                     Conducted research, designed, implemented, and managed software programs. Developed projects including CRM utilizing both backend and frontend. Integrated RESTful services into software programs. Collaborated with team members for root cause analysis and code reviews. Created technical documentation for reference and reporting.
                                 </div>
@@ -337,7 +381,7 @@
                             <div class="timeline-item">
                                 <div class="timeline-date">Oct 2019 - Mar 2020</div>
                                 <div class="timeline-title">Full-Stack Web Developer</div>
-                                <div class="timeline-company">DXIGNLAB PVT LTD · Karachi, Pakistan</div>
+                                <div class="timeline-company">DXIGNLAB PVT LTD Â· Karachi, Pakistan</div>
                                 <div class="timeline-desc">
                                     Assisted in web architecture design and implementation. Supported meeting user and technical needs. Helped build web application features. Contributed to optimizing the tech stack for speed and scalability.
                                 </div>
@@ -351,7 +395,7 @@
                             <div class="timeline-item">
                                 <div class="timeline-date">Oct 2021 - Present</div>
                                 <div class="timeline-title">Master of Science in Data Science</div>
-                                <div class="timeline-company">Friedrich-Alexander-Universität Erlangen-Nürnberg</div>
+                                <div class="timeline-company">Friedrich-Alexander-UniversitÃ¤t Erlangen-NÃ¼rnberg</div>
                                 <div class="timeline-desc">
                                     Specialization: Artificial Intelligence / Machine Learning
                                 </div>
@@ -360,7 +404,7 @@
                             <div class="timeline-item">
                                 <div class="timeline-date">Jun 2016 - May 2020</div>
                                 <div class="timeline-title">Bachelor of Science in Computer Science</div>
-                                <div class="timeline-company">Mohammad Ali Jinnah University · Karachi, Pakistan</div>
+                                <div class="timeline-company">Mohammad Ali Jinnah University Â· Karachi, Pakistan</div>
                                 <div class="timeline-desc"></div>
                             </div>
                         </div>
@@ -373,7 +417,7 @@
                         <h2 class="section-title">Featured Projects</h2>
                         <div class="projects-grid">
                             <div class="project-card">
-                                <div class="project-preview">🗺️</div>
+                                <div class="project-preview"><i class="fas fa-map-marked-alt"></i></div>
                                 <div class="project-info">
                                     <h3>MarketMap</h3>
                                     <p>AI-powered market mapping with agent-based collaboration. Dynamically fetches and verifies talent/company data using natural language.</p>
@@ -382,11 +426,11 @@
                                         <span>LLM</span>
                                         <span>NLP</span>
                                     </div>
-                                    <a href="https://github.com/mazzyy" target="_blank" class="project-link">View Code →</a>
+                                    <a href="https://github.com/mazzyy" target="_blank" class="project-link">View Code â†’</a>
                                 </div>
                             </div>
                             <div class="project-card">
-                                <div class="project-preview">🎭</div>
+                                <div class="project-preview"><i class="fas fa-theater-masks"></i></div>
                                 <div class="project-info">
                                     <h3>FaceSwitch</h3>
                                     <p>Deep learning-based FaceSwap model that detects and aligns facial features, replacing faces while maintaining natural expressions, skin tones, and lighting.</p>
@@ -395,11 +439,11 @@
                                         <span>Computer Vision</span>
                                         <span>Face Detection</span>
                                     </div>
-                                    <a href="https://github.com/mazzyy" target="_blank" class="project-link">View Code →</a>
+                                    <a href="https://github.com/mazzyy" target="_blank" class="project-link">View Code â†’</a>
                                 </div>
                             </div>
                             <div class="project-card">
-                                <div class="project-preview">🏗️</div>
+                                <div class="project-preview"><i class="fas fa-tools"></i></div>
                                 <div class="project-info">
                                     <h3>AI Web App Builder</h3>
                                     <p>Create professional websites using natural language prompts. Gemini AI generates responsive HTML, CSS & JavaScript with real-time previews and VS Code-like editor.</p>
@@ -408,11 +452,11 @@
                                         <span>Code Gen</span>
                                         <span>React</span>
                                     </div>
-                                    <a href="https://github.com/mazzyy/AI-Web-App-Builder" target="_blank" class="project-link">View Code →</a>
+                                    <a href="https://github.com/mazzyy/AI-Web-App-Builder" target="_blank" class="project-link">View Code â†’</a>
                                 </div>
                             </div>
                             <div class="project-card">
-                                <div class="project-preview">🎯</div>
+                                <div class="project-preview"><i class="fas fa-bullseye"></i></div>
                                 <div class="project-info">
                                     <h3>Talent Finder</h3>
                                     <p>Intelligent recruitment assistant. AI-powered matching with filters for experience, location, industry, and skills.</p>
@@ -421,11 +465,11 @@
                                         <span>Python</span>
                                         <span>ML</span>
                                     </div>
-                                    <a href="https://github.com/mazzyy" target="_blank" class="project-link">View Code →</a>
+                                    <a href="https://github.com/mazzyy" target="_blank" class="project-link">View Code â†’</a>
                                 </div>
                             </div>
                             <div class="project-card">
-                                <div class="project-preview">📊</div>
+                                <div class="project-preview"><i class="fas fa-chart-bar"></i></div>
                                 <div class="project-info">
                                     <h3>CRM System</h3>
                                     <p>Full-featured Customer Relationship Management with modern admin dashboard, role-based access, and analytics.</p>
@@ -434,11 +478,11 @@
                                         <span>Node.js</span>
                                         <span>MongoDB</span>
                                     </div>
-                                    <a href="https://github.com/mazzyy/AuditIQ_CRM" target="_blank" class="project-link">View Code →</a>
+                                    <a href="https://github.com/mazzyy/AuditIQ_CRM" target="_blank" class="project-link">View Code â†’</a>
                                 </div>
                             </div>
                             <div class="project-card">
-                                <div class="project-preview">🤖</div>
+                                <div class="project-preview"><i class="fas fa-robot"></i></div>
                                 <div class="project-info">
                                     <h3>DevOps Genie</h3>
                                     <p>AI-powered DevOps assistant that automates infrastructure tasks and provides intelligent recommendations.</p>
@@ -447,7 +491,7 @@
                                         <span>AI</span>
                                         <span>DevOps</span>
                                     </div>
-                                    <a href="https://github.com/mazzyy/DevopsGenie" target="_blank" class="project-link">View Code →</a>
+                                    <a href="https://github.com/mazzyy/DevopsGenie" target="_blank" class="project-link">View Code â†’</a>
                                 </div>
                             </div>
                         </div>
@@ -465,7 +509,7 @@
                                 <iframe src="https://www.youtube.com/embed/CL3smZv6ojM" title="MarketMap" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
                             <div class="video-featured-info">
-                                <h3>🗺️ MarketMap — AI Market Mapping</h3>
+                                <h3><i class="fas fa-map-marked-alt"></i> MarketMap — AI Market Mapping</h3>
                                 <p>A robust, modular architecture designed for automated and intelligent market mapping. Leverages agent-based collaboration to dynamically fetch, verify, and structure talent or company data based on natural language prompts.</p>
                                 <div class="project-tech">
                                     <span>Chat Agent</span>
@@ -473,7 +517,7 @@
                                     <span>AI Verification</span>
                                     <span>LLM</span>
                                 </div>
-                                <a href="https://github.com/mazzyy" target="_blank" class="project-link">View Source Code →</a>
+                                <a href="https://github.com/mazzyy" target="_blank" class="project-link">View Source Code â†’</a>
                             </div>
                         </div>
 
@@ -484,7 +528,7 @@
                                     <iframe src="https://www.youtube.com/embed/frebcabqAfo" title="FaceSwitch" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                 </div>
                                 <div class="video-card-info">
-                                    <h4>🎭 FaceSwitch</h4>
+                                    <h4><i class="fas fa-theater-masks"></i> FaceSwitch</h4>
                                     <p>Deep learning-based FaceSwap application with facial landmark detection, face alignment, and blending for realistic results. Features web-based and desktop UI.</p>
                                     <div class="video-tags">
                                         <span>Deep Learning</span>
@@ -497,7 +541,7 @@
                                     <iframe src="https://www.youtube.com/embed/ZxK9OYwRzKQ" title="AI Web App Builder" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                 </div>
                                 <div class="video-card-info">
-                                    <h4>🏗️ AI Web App Builder</h4>
+                                    <h4><i class="fas fa-tools"></i> AI Web App Builder</h4>
                                     <p>Create professional websites using natural language prompts. Google's Gemini AI generates responsive HTML, CSS & JavaScript with VS Code-like editing environment.</p>
                                     <div class="video-tags">
                                         <span>Gemini AI</span>
@@ -510,7 +554,7 @@
                                     <iframe src="https://www.youtube.com/embed/YaozBMgRDRI" title="Talent Finder" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                 </div>
                                 <div class="video-card-info">
-                                    <h4>🎯 Talent Finder</h4>
+                                    <h4><i class="fas fa-bullseye"></i> Talent Finder</h4>
                                     <p>Intelligent recruitment assistant with AI-powered candidate matching. Filter by experience, location, industry, and skills for perfect matches.</p>
                                     <div class="video-tags">
                                         <span>AI Matching</span>
@@ -564,7 +608,7 @@
                                 </div>
                                 <div class="contact-terminal-body">
                                     <div class="terminal-line">
-                                        <span class="terminal-prompt">➜</span>
+                                        <span class="terminal-prompt">âžœ</span>
                                         <span class="terminal-path"> ~/contact</span>
                                         <span class="terminal-command"> cat info.json</span>
                                     </div>
@@ -576,7 +620,7 @@
                                     <div class="terminal-line terminal-output">&nbsp;&nbsp;<span class="string">"status"</span>: <span class="string">"Open to opportunities"</span></div>
                                     <div class="terminal-line terminal-output">}</div>
                                     <div class="terminal-line" style="margin-top: 15px;">
-                                        <span class="terminal-prompt">➜</span>
+                                        <span class="terminal-prompt">âžœ</span>
                                         <span class="terminal-path"> ~/contact</span>
                                         <span class="terminal-cursor"></span>
                                     </div>
@@ -596,19 +640,19 @@
                 <div class="terminal-tab">DEBUG CONSOLE</div>
                 <div class="terminal-tab">PROBLEMS</div>
                 <div style="flex: 1"></div>
-                <div class="panel-close" onclick="toggleTerminal()">×</div>
+                <div class="panel-close" onclick="toggleTerminal()">Ã—</div>
             </div>
             <div class="terminal-body" id="term-body">
                 <div id="term-output">
                     <div class="terminal-line">
-                        <span class="terminal-success">➜</span> <span class="terminal-path">~/portfolio</span> <span class="text-muted">Welcome to the integrated terminal.</span>
+                        <span class="terminal-success">âžœ</span> <span class="terminal-path">~/portfolio</span> <span class="text-muted">Welcome to the integrated terminal.</span>
                     </div>
                     <div class="terminal-line">
-                        <span class="terminal-success">➜</span> <span class="terminal-path">~/portfolio</span> <span class="text-muted">Type 'help' for a list of commands.</span>
+                        <span class="terminal-success">âžœ</span> <span class="terminal-path">~/portfolio</span> <span class="text-muted">Type 'help' for a list of commands.</span>
                     </div>
                 </div>
                 <div class="terminal-line">
-                    <span class="terminal-prompt">➜</span>
+                    <span class="terminal-prompt">âžœ</span>
                     <span class="terminal-path">~/portfolio</span>
                     <input type="text" id="term-input" autocomplete="off" spellcheck="false">
                 </div>
@@ -644,7 +688,7 @@
                 <div class="status-item">Ln 42, Col 8</div>
                 <div class="status-item">UTF-8</div>
                 <div class="status-item">
-                    <span style="color: #4ec9b0;">●</span> Prettier
+                    <span style="color: #4ec9b0;">â—</span> Prettier
                 </div>
                 <div class="status-item">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
