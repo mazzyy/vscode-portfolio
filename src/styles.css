@@ -616,6 +616,7 @@ body {
     cursor: pointer;
     padding: 5px 10px;
     color: var(--text-muted);
+    -webkit-tap-highlight-color: transparent;
 }
 
 .panel-close:hover {
@@ -639,7 +640,6 @@ body {
 
 .content-section {
     display: none;
-    height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
@@ -650,6 +650,11 @@ body {
     flex-direction: column;
     flex: 1;
     min-height: 0;
+    height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
 }
 
 .profile-section {
@@ -3229,11 +3234,10 @@ body {
     
     /* Projects Mobile - Stack vertically */
     .projects-container {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr;
+        display: flex;
+        flex-direction: column;
         overflow: visible;
         height: auto;
-        min-height: 100%;
     }
     
     .projects-list {
@@ -3242,6 +3246,13 @@ body {
         border-bottom: 1px solid var(--border);
         padding: 12px;
         overflow-y: auto;
+        flex-shrink: 0;
+    }
+
+    .projects-detail {
+        overflow-y: visible;
+        overflow-x: hidden;
+        flex: none;
     }
 
     .projects-list .section-title {
@@ -3512,8 +3523,21 @@ body {
     .contact-link svg { width: 20px; height: 20px; }
     .contact-terminal-body { padding: 12px; font-size: 0.8rem; }
     
-    .bottom-panel { left: 0; }
+    .bottom-panel {
+        left: 0;
+        bottom: 28px;
+    }
     .bottom-panel.open { height: 180px; }
+
+    .panel-close {
+        padding: 10px 16px;
+        font-size: 1.4rem;
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
     
     .palette-container { width: 95%; margin: 0 10px; }
 }
