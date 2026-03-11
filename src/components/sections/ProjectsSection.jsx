@@ -9,7 +9,7 @@ function ProjectsSection() {
       shortDesc: 'AI-powered Study in Germany platform — RAG matching, application tracking, and AI tools.',
       tech: ['React', 'TypeScript', 'FastAPI', 'Azure OpenAI', 'ChromaDB', 'PostgreSQL'],
       link: 'https://uniadvisorai.com',
-      fullDesc: `The only AI-powered platform that combines personalized German university matching with comprehensive application tracking — for free. Built with RAG-based AI matching (Azure OpenAI GPT-4 + ChromaDB), end-to-end application tracking, AI document generation, and scholarship matching for international students.`,
+      fullDesc: `The only AI-powered platform that combines personalized German university matching with comprehensive application tracking — for free. Built with RAG-based AI matching (Azure OpenAI GPT-5 + ChromaDB), end-to-end application tracking, AI document generation, and scholarship matching for international students.`,
       features: [
         'Smart Program Discovery',
         'AI-Powered Recommendations & Chat',
@@ -51,9 +51,9 @@ function ProjectsSection() {
           category: 'AI & Intelligence',
           color: '#00d4ff',
           items: [
-            { name: 'RAG Recommendations', desc: 'GPT-4 + ChromaDB semantic matching with Two-Step Evaluation', icon: 'fa-brain' },
+            { name: 'RAG Recommendations', desc: 'gpt-55+ ChromaDB semantic matching with Two-Step Evaluation', icon: 'fa-brain' },
             { name: 'Chat Nova', desc: 'Conversational AI advisor grounded in program database & user profile', icon: 'fa-comments' },
-            { name: 'Document Intelligence', desc: 'OCR + GPT-4 parsing for transcripts, CVs, and certificates', icon: 'fa-file-alt' },
+            { name: 'Document Intelligence', desc: 'OCR + GPT-5 parsing for transcripts, CVs, and certificates', icon: 'fa-file-alt' },
             { name: 'AI SOP Generator', desc: 'Generate tailored Statements of Purpose with PDF/DOCX export', icon: 'fa-pen-fancy' },
             { name: 'AI CV Generator', desc: 'German-style CV builder with AI scoring and feedback', icon: 'fa-id-card' },
           ]
@@ -65,7 +65,7 @@ function ProjectsSection() {
             { name: '7-Phase Tracker', desc: 'Eligibility → Language → Documents → Application → Admission → Finance → Visa', icon: 'fa-tasks' },
             { name: 'Country-Specific Workflows', desc: '7 countries with verification steps, embassy links, GPA scales', icon: 'fa-flag' },
             { name: 'Document Vault', desc: 'Secure storage with credential manager for university portals', icon: 'fa-vault' },
-            { name: 'Scholarship Matching', desc: 'AI eligibility scoring via GPT-4 against user profile', icon: 'fa-award' },
+            { name: 'Scholarship Matching', desc: 'AI eligibility scoring via GPT-5 against user profile', icon: 'fa-award' },
           ]
         },
         {
@@ -109,7 +109,7 @@ function ProjectsSection() {
           { name: 'JWT Auth', icon: 'fa-key', color: '#D63AFF' },
         ]},
         { layer: 'AI / ML', items: [
-          { name: 'Azure OpenAI GPT-4', icon: 'fa-robot', color: '#FF6F00' },
+          { name: 'Azure OpenAI GPT-5', icon: 'fa-robot', color: '#FF6F00' },
           { name: 'ChromaDB', icon: 'fa-cubes', color: '#FF6B6B' },
           { name: 'ONNX Runtime', icon: 'fa-microchip', color: '#049DBF' },
           { name: 'all-MiniLM-L6-v2', icon: 'fa-vector-square', color: '#7C3AED' },
@@ -127,7 +127,7 @@ function ProjectsSection() {
           { step: 'Embedding', icon: 'fa-microchip', desc: 'ONNX Runtime: all-MiniLM-L6-v2' },
           { step: 'Retrieval', icon: 'fa-search', desc: 'ChromaDB semantic search + SQL filters' },
           { step: 'Augmentation', icon: 'fa-layer-group', desc: 'Profile + Programs + System Prompt' },
-          { step: 'Generation', icon: 'fa-robot', desc: 'Azure OpenAI GPT-4 Two-Step Eval' },
+          { step: 'Generation', icon: 'fa-robot', desc: 'Azure OpenAI gpt-5 Two-Step Eval' },
           { step: 'Streaming', icon: 'fa-stream', desc: 'SSE response with match scores' },
         ]
       },
@@ -224,7 +224,7 @@ function ProjectsSection() {
           color: '#f59e0b',
           items: [
             { name: 'AI Job Matching', desc: 'Resume parsing + text-embedding-3-small + pgvector for hybrid scoring (0-100%)', icon: 'fa-brain' },
-            { name: 'Easy Apply Automation', desc: 'Tiered LLM routing: GPT-4o-mini (simple) → GPT-4o (complex) at ~$0.0006/app', icon: 'fa-magic' },
+            { name: 'Easy Apply Automation', desc: 'Tiered LLM routing: gpt-5o-mini (simple) → gpt-5o (complex) at ~$0.0006/app', icon: 'fa-magic' },
             { name: 'AI Message Personalization', desc: 'Profile/post-aware icebreakers with tone selection at ~$0.001/message', icon: 'fa-comment-dots' },
             { name: 'Email Enrichment', desc: 'GDPR-compliant third-party email finder for multi-channel LinkedIn + Email workflows', icon: 'fa-at' },
           ]
@@ -399,7 +399,7 @@ function ProjectsSection() {
         { layer: 'AI / LLM', items: [
           { name: 'Qwen3 30B-A3B', icon: 'fa-brain', color: '#7ed321' },
           { name: 'vLLM (PagedAttention)', icon: 'fa-server', color: '#27ae60' },
-          { name: 'Azure OpenAI GPT-4o', icon: 'fa-cloud', color: '#bd10e0' },
+          { name: 'Azure OpenAI gpt-5o', icon: 'fa-cloud', color: '#bd10e0' },
           { name: 'Ollama (Router)', icon: 'fa-robot', color: '#f5a623' },
           { name: 'BGE-M3 Embeddings', icon: 'fa-vector-square', color: '#2980b9' },
         ]},
