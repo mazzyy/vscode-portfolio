@@ -404,6 +404,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    min-height: 0;
 }
 
 .editor-tabs {
@@ -472,6 +473,7 @@ body {
     flex: 1;
     display: flex;
     overflow: hidden;
+    min-height: 0;
 }
 
 .keyword { color: var(--syntax-keyword); }
@@ -640,11 +642,14 @@ body {
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
 }
 
 .content-section.active {
     display: flex;
     flex-direction: column;
+    flex: 1;
+    min-height: 0;
 }
 
 .profile-section {
@@ -2992,6 +2997,9 @@ body {
     .projects-container {
         grid-template-columns: 1fr;
         grid-template-rows: auto 1fr;
+        overflow: visible;
+        height: auto;
+        min-height: 100%;
     }
     
     .projects-list {
@@ -2999,6 +3007,7 @@ body {
         border-right: none;
         border-bottom: 1px solid var(--border);
         padding: 12px;
+        overflow-y: auto;
     }
 
     .projects-list .section-title {
