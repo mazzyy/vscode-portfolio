@@ -60,8 +60,8 @@ body {
     background: var(--bg-primary);
     color: var(--text-primary);
     line-height: 1.6;
-    overflow-x: hidden;
-    min-height: 100vh;
+    overflow: hidden;
+    height: 100vh;
 }
 
 /* Scrollbar */
@@ -109,6 +109,7 @@ body {
     grid-template-rows: 35px 1fr 24px;
     height: 100vh;
     overflow: hidden;
+    position: relative;
 }
 
 /* Title Bar */
@@ -643,14 +644,13 @@ body {
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
 }
 
 .content-section.active {
-    display: flex;
-    flex-direction: column;
+    display: block;
     flex: 1;
-    min-height: 0;
-    height: 0;
+    height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;

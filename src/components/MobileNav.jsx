@@ -56,7 +56,7 @@ function MobileNav({ isOpen, activeTab, onClose, onSwitchTab, onDownloadCV, onTo
             <span>resume.pdf</span>
           </div>
           
-          <div className="mobile-nav-item" onClick={() => { onToggleTerminal(); onClose(); }}>
+          <div className="mobile-nav-item" onClick={onToggleTerminal}>
             <span className="nav-icon term"></span>
             <span>Terminal</span>
           </div>
