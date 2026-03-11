@@ -632,6 +632,22 @@ function ProjectsSection() {
   ];
 
   const [selectedProject, setSelectedProject] = useState(projects[0]);
+  const [lightbox, setLightbox] = useState({ open: false, images: [], index: 0 });
+
+  const openLightbox = (images, index) => {
+    setLightbox({ open: true, images, index });
+  };
+
+  const closeLightbox = () => {
+    setLightbox({ open: false, images: [], index: 0 });
+  };
+
+  const navigateLightbox = (dir) => {
+    setLightbox(prev => ({
+      ...prev,
+      index: (prev.index + dir + prev.images.length) % prev.images.length
+    }));
+  };
 
   return (
     <div className="projects-container">
@@ -716,7 +732,13 @@ function ProjectsSection() {
                   <h4><span className="section-marker">//</span> Screenshots</h4>
                   <div className="detail-images showcase-images">
                     {selectedProject.images.map((img, index) => (
-                      <img key={index} src={img} alt={`${selectedProject.title} screenshot ${index + 1}`} />
+                      <img
+                        key={index}
+                        src={img}
+                        alt={`${selectedProject.title} screenshot ${index + 1}`}
+                        className="clickable-image"
+                        onClick={() => openLightbox(selectedProject.images, index)}
+                      />
                     ))}
                   </div>
                 </div>
@@ -1094,7 +1116,13 @@ function ProjectsSection() {
 
             <div className="detail-images">
               {selectedProject.images.map((img, index) => (
-                <img key={index} src={img} alt={`${selectedProject.title} screenshot`} />
+                <img
+                  key={index}
+                  src={img}
+                  alt={`${selectedProject.title} screenshot`}
+                  className="clickable-image"
+                  onClick={() => openLightbox(selectedProject.images, index)}
+                />
               ))}
             </div>
 
@@ -1150,6 +1178,34 @@ function ProjectsSection() {
           </div>
         )}
       </div>
+
+      {/* Image Lightbox */}
+      {lightbox.open && (
+        <div className="lightbox-overlay" onClick={closeLightbox}>
+          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+            <button className="lightbox-close" onClick={closeLightbox}>×</button>
+            {lightbox.images.length > 1 && (
+              <button className="lightbox-nav lightbox-prev" onClick={() => navigateLightbox(-1)}>
+                <i className="fas fa-chevron-left"></i>
+              </button>
+            )}
+            <img
+              src={lightbox.images[lightbox.index]}
+              alt={`Screenshot ${lightbox.index + 1}`}
+            />
+            {lightbox.images.length > 1 && (
+              <button className="lightbox-nav lightbox-next" onClick={() => navigateLightbox(1)}>
+                <i className="fas fa-chevron-right"></i>
+              </button>
+            )}
+            {lightbox.images.length > 1 && (
+              <div className="lightbox-counter">
+                {lightbox.index + 1} / {lightbox.images.length}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
