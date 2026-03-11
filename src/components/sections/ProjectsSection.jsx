@@ -632,14 +632,14 @@ function ProjectsSection() {
   ];
 
   const [selectedProject, setSelectedProject] = useState(projects[0]);
-  const [lightbox, setLightbox] = useState({ open: false, images: [], index: 0 });
+  const [lightbox, setLightbox] = useState({ open: false, images: [], index: 0, title: '' });
 
-  const openLightbox = (images, index) => {
-    setLightbox({ open: true, images, index });
+  const openLightbox = (images, index, title) => {
+    setLightbox({ open: true, images, index, title });
   };
 
   const closeLightbox = () => {
-    setLightbox({ open: false, images: [], index: 0 });
+    setLightbox({ open: false, images: [], index: 0, title: '' });
   };
 
   const navigateLightbox = (dir) => {
@@ -650,6 +650,7 @@ function ProjectsSection() {
   };
 
   return (
+    <>
     <div className="projects-container">
       {/* Left Side - Project List */}
       <div className="projects-list">
@@ -737,7 +738,7 @@ function ProjectsSection() {
                         src={img}
                         alt={`${selectedProject.title} screenshot ${index + 1}`}
                         className="clickable-image"
-                        onClick={() => openLightbox(selectedProject.images, index)}
+                        onClick={() => openLightbox(selectedProject.images, index, selectedProject.title)}
                       />
                     ))}
                   </div>
@@ -1121,7 +1122,7 @@ function ProjectsSection() {
                   src={img}
                   alt={`${selectedProject.title} screenshot`}
                   className="clickable-image"
-                  onClick={() => openLightbox(selectedProject.images, index)}
+                  onClick={() => openLightbox(selectedProject.images, index, selectedProject.title)}
                 />
               ))}
             </div>
@@ -1178,35 +1179,62 @@ function ProjectsSection() {
           </div>
         )}
       </div>
+    </div>
 
-      {/* Image Lightbox */}
+      {/* Image Lightbox Modal */}
       {lightbox.open && (
         <div className="lightbox-overlay" onClick={closeLightbox}>
-          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
-            <button className="lightbox-close" onClick={closeLightbox}>×</button>
+          <div className="lightbox-modal" onClick={(e) => e.stopPropagation()}>
+            {/* Header */}
+            <div className="lightbox-header">
+              <div className="lightbox-title">
+                <i className={`fas ${selectedProject?.icon || 'fa-image'}`}></i>
+                <span>{lightbox.title}</span>
+                <span className="lightbox-counter">{lightbox.index + 1} / {lightbox.images.length}</span>
+              </div>
+              <button className="lightbox-close" onClick={closeLightbox}>×</button>
+            </div>
+
+            {/* Image Area */}
+            <div className="lightbox-body">
+              {lightbox.images.length > 1 && (
+                <button className="lightbox-nav lightbox-prev" onClick={() => navigateLightbox(-1)}>
+                  <i className="fas fa-chevron-left"></i>
+                </button>
+              )}
+
+              <div className="lightbox-image-wrapper">
+                <img
+                  src={lightbox.images[lightbox.index]}
+                  alt={`${lightbox.title} — screenshot ${lightbox.index + 1}`}
+                />
+              </div>
+
+              {lightbox.images.length > 1 && (
+                <button className="lightbox-nav lightbox-next" onClick={() => navigateLightbox(1)}>
+                  <i className="fas fa-chevron-right"></i>
+                </button>
+              )}
+            </div>
+
+            {/* Thumbnail Strip */}
             {lightbox.images.length > 1 && (
-              <button className="lightbox-nav lightbox-prev" onClick={() => navigateLightbox(-1)}>
-                <i className="fas fa-chevron-left"></i>
-              </button>
-            )}
-            <img
-              src={lightbox.images[lightbox.index]}
-              alt={`Screenshot ${lightbox.index + 1}`}
-            />
-            {lightbox.images.length > 1 && (
-              <button className="lightbox-nav lightbox-next" onClick={() => navigateLightbox(1)}>
-                <i className="fas fa-chevron-right"></i>
-              </button>
-            )}
-            {lightbox.images.length > 1 && (
-              <div className="lightbox-counter">
-                {lightbox.index + 1} / {lightbox.images.length}
+              <div className="lightbox-thumbs">
+                {lightbox.images.map((img, i) => (
+                  <img
+                    key={i}
+                    src={img}
+                    alt={`Thumb ${i + 1}`}
+                    className={i === lightbox.index ? 'active' : ''}
+                    onClick={() => setLightbox(prev => ({ ...prev, index: i }))}
+                  />
+                ))}
               </div>
             )}
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
 
