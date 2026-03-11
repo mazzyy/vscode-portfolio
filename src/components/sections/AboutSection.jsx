@@ -36,6 +36,12 @@ function AboutSection() {
 
   const experience = [
     {
+      date: 'Nov 2025 - Present',
+      title: 'Master Thesis',
+      company: 'E-T-A Engineering Technology · Altdorf, Bavaria, Germany',
+      desc: 'Conducting master thesis research in a full-time hybrid role, focusing on AI and engineering technology solutions.'
+    },
+    {
       date: 'Jan 2024 - Present',
       title: 'Kubernetes Developer',
       company: 'Siemens Healthineers · Erlangen, Germany',
@@ -69,10 +75,10 @@ function AboutSection() {
 
   const education = [
     {
-      date: 'Oct 2021 - Present',
+      date: 'Oct 2021 - Sep 2026',
       title: 'Master of Science in Data Science',
       company: 'Friedrich-Alexander-Universität Erlangen-Nürnberg',
-      desc: 'Specialization: Artificial Intelligence / Machine Learning'
+      desc: 'Specialization: Artificial Intelligence / Machine Learning. Master Thesis at E-T-A Engineering Technology.'
     },
     {
       date: 'Jun 2016 - May 2020',
