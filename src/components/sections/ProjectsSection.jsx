@@ -1,16 +1,65 @@
 import React, { useState } from 'react';
 
 function ProjectsSection() {
-  const [selectedProject, setSelectedProject] = useState(null);
-
   const projects = [
+    {
+      id: 'uniadvisorai',
+      icon: 'fa-graduation-cap',
+      title: 'UniAdvisorAI',
+      shortDesc: 'AI-powered university advising platform for students.',
+      tech: ['AI', 'React', 'Node.js'],
+      link: 'https://uniadvisorai.com',
+      fullDesc: `UniAdvisorAI is an intelligent university advising platform that helps students navigate academic decisions with AI-powered recommendations. It provides personalized guidance on course selection, degree planning, and career pathways.`,
+      features: [
+        'AI-powered academic advising',
+        'Personalized course recommendations',
+        'Degree planning & tracking',
+        'Career pathway guidance',
+        'University comparison tools'
+      ],
+      images: [
+        'uniadvisorai_1.png',
+        'uniadvisorai_2.png',
+        'uniadvisorai_3.png',
+        'uniadvisorai_4.png',
+      ],
+      status: 'Active Development',
+      year: '2025'
+    },
+    {
+      id: 'linkedin-automation',
+      icon: 'fa-linkedin',
+      title: 'LinkedIn Automation SaaS',
+      shortDesc: 'Dual-sided LinkedIn automation platform for applicants and recruiters.',
+      tech: ['FastAPI', 'React', 'Playwright', 'Celery', 'PostgreSQL'],
+      link: '',
+      fullDesc: `A dual-sided LinkedIn automation platform combining applicant auto-apply with recruiter outreach workflow building. Features a hybrid Chrome extension + cloud Playwright architecture for anti-detection, AI-powered question answering via tiered LLM routing, and a React Flow visual workflow builder backed by XState state machines and Celery task queues.`,
+      features: [
+        'Anti-detection hybrid architecture (extension auth + cloud execution)',
+        'AI-powered Easy Apply with tiered LLM routing',
+        'Visual workflow builder with React Flow + XState',
+        'Per-user RAG knowledge base with pgvector',
+        'Multi-tenant SaaS with Row Level Security',
+        'Human-in-the-loop approval workflows'
+      ],
+      images: [
+       
+        '2.png',
+        '3.png',
+        '4.png',
+        '5.png',
+        
+      ],
+      status: 'Active Development',
+      year: '2025'
+    },
     {
       id: 'marketmap',
       icon: 'fa-map-marked-alt',
       title: 'MarketMap',
       shortDesc: 'AI-powered market mapping with agent-based collaboration.',
       tech: ['AI Agents', 'LLM', 'NLP'],
-      link: 'https://github.com/mazzyy',
+      link: '',
       fullDesc: `MarketMap is a robust, modular architecture designed for automated and intelligent market mapping. It leverages agent-based collaboration to dynamically fetch, verify, and structure talent or company data based on natural language prompts.`,
       features: [
         'Natural language query processing',
@@ -20,8 +69,9 @@ function ProjectsSection() {
         'Integration with LinkedIn, Crunchbase APIs'
       ],
       images: [
-        'https://via.placeholder.com/500x280/1e1e1e/00d4ff?text=MarketMap+Screenshot+1',
-        'https://via.placeholder.com/500x280/1e1e1e/b14eff?text=MarketMap+Screenshot+2',
+       'M-1.png',
+       'M-2.png',
+
       ],
       status: 'Active Development',
       year: '2024'
@@ -32,7 +82,7 @@ function ProjectsSection() {
       title: 'FaceSwitch',
       shortDesc: 'Deep learning-based FaceSwap with facial landmark detection.',
       tech: ['Deep Learning', 'Computer Vision', 'OpenCV'],
-      link: 'https://github.com/mazzyy',
+      link: '',
       fullDesc: `FaceSwitch is a deep learning-based face swapping application that detects and aligns facial features, replacing faces while maintaining natural expressions, skin tones, and lighting conditions.`,
       features: [
         '68-point facial landmark detection',
@@ -42,8 +92,8 @@ function ProjectsSection() {
         'Web and desktop UI'
       ],
       images: [
-        'https://via.placeholder.com/500x280/1e1e1e/ff006e?text=FaceSwitch+Demo+1',
-        'https://via.placeholder.com/500x280/1e1e1e/00ff9d?text=FaceSwitch+Demo+2',
+        'faceswap-1.png',
+        'faceswap-2.png',
       ],
       status: 'Completed',
       year: '2023'
@@ -64,8 +114,8 @@ function ProjectsSection() {
         'Export to HTML/CSS/JS'
       ],
       images: [
-        'https://via.placeholder.com/500x280/1e1e1e/4fc1ff?text=Web+Builder+UI',
-        'https://via.placeholder.com/500x280/1e1e1e/dcdcaa?text=Generated+Website',
+        'web-1.png',
+        'web-3.png',
       ],
       status: 'Active Development',
       year: '2024'
@@ -76,7 +126,7 @@ function ProjectsSection() {
       title: 'Talent Finder',
       shortDesc: 'Intelligent recruitment assistant with AI-powered matching.',
       tech: ['AI Matching', 'Python', 'ML'],
-      link: 'https://github.com/mazzyy',
+      link: '',
       fullDesc: `Talent Finder is an intelligent recruitment assistant that uses AI-powered candidate matching to streamline the hiring process. Filter candidates by experience, location, industry, and skills.`,
       features: [
         'AI-powered candidate scoring',
@@ -86,8 +136,10 @@ function ProjectsSection() {
         'Analytics dashboard'
       ],
       images: [
-        'https://via.placeholder.com/500x280/1e1e1e/b14eff?text=Talent+Finder+Dashboard',
-        'https://via.placeholder.com/500x280/1e1e1e/00d4ff?text=Candidate+Matching',
+        'F5.png',
+        'F4.png',
+        'F3.png'
+
       ],
       status: 'Completed',
       year: '2023'
@@ -107,10 +159,7 @@ function ProjectsSection() {
         'Sales pipeline management',
         'Reporting & analytics'
       ],
-      images: [
-        'https://via.placeholder.com/500x280/1e1e1e/4ec9b0?text=CRM+Dashboard',
-        'https://via.placeholder.com/500x280/1e1e1e/ce9178?text=Analytics+View',
-      ],
+      images: [],
       status: 'Production',
       year: '2022'
     },
@@ -129,14 +178,13 @@ function ProjectsSection() {
         'Infrastructure recommendations',
         'Security best practices'
       ],
-      images: [
-        'https://via.placeholder.com/500x280/1e1e1e/569cd6?text=DevOps+Genie+Interface',
-        'https://via.placeholder.com/500x280/1e1e1e/6a9955?text=Generated+Pipeline',
-      ],
+      images: [],
       status: 'Active Development',
       year: '2024'
     }
   ];
+
+  const [selectedProject, setSelectedProject] = useState(projects[0]);
 
   return (
     <div className="projects-container">
@@ -220,15 +268,20 @@ function ProjectsSection() {
               </div>
             </div>
 
-            <a 
-              href={selectedProject.link} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="github-link"
-            >
-              <i className="fab fa-github"></i>
-              View on GitHub
-            </a>
+            {selectedProject.link && (
+              <a 
+                href={selectedProject.link} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="github-link"
+              >
+                {selectedProject.link.includes('github.com') ? (
+                  <><i className="fab fa-github"></i> View on GitHub</>
+                ) : (
+                  <><i className="fas fa-external-link-alt"></i> Visit Website</>
+                )}
+              </a>
+            )}
           </div>
         ) : (
           <div className="detail-empty">

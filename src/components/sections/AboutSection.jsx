@@ -95,13 +95,13 @@ function AboutSection() {
             <span className="keyword">const</span> role = <span className="string">"Kubernetes Developer @ Siemens Healthineers"</span>;
           </div>
           <p className="profile-bio">
-            Software Engineer with 5+ years of experience in building scalable web applications and cloud infrastructure. 
+            Software Engineer with 6+ years of experience in building scalable web applications and cloud infrastructure. 
             Proven track record of successfully implementing CI/CD, automating infrastructure, and delivering engaging user experiences.
             Passionate about leveraging cutting-edge technologies to create innovative solutions and solve complex problems.
           </p>
           <div className="profile-stats">
             <div className="stat-box">
-              <div className="stat-value">5+</div>
+              <div className="stat-value">6+</div>
               <div className="stat-label">Years Exp</div>
             </div>
             <div className="stat-box">
