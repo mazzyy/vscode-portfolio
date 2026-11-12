@@ -551,7 +551,12 @@ export const projects = [
         'PayPal integration monitoring',
         'Revenue-protecting alerts',
       ],
-      images: [],
+      images: [
+        'projects/flatline/transactions.png',
+        'projects/flatline/overview.png',
+        'projects/flatline/agents.png',
+        'projects/flatline/workflow.png',
+      ],
       status: 'Prototype',
       year: '2026',
     },
@@ -570,7 +575,12 @@ export const projects = [
         'Simulated line-data prototype',
         'Production-engineer focused UX',
       ],
-      images: [],
+      images: [
+        'projects/takt/today.png',
+        'projects/takt/investigate.png',
+        'projects/takt/architecture.png',
+        'projects/takt/capacity.png',
+      ],
       status: 'Prototype',
       year: '2026',
     },
@@ -613,6 +623,34 @@ export const projects = [
       year: '2026',
     },
     {
+      id: 'spelunk',
+      icon: 'fa-hard-drive',
+      title: 'Spelunk',
+      shortDesc: 'A free macOS storage cleaner — see what is really filling your Mac (incl. hidden "System Data") and clear it safely.',
+      tech: ['Python', 'macOS', 'Desktop App', 'Disk Analysis'],
+      link: 'https://github.com/mazzyy/spelunk',
+      downloads: [
+        { label: 'Download for Mac (Apple Silicon)', icon: 'fa-apple', url: 'https://github.com/mazzyy/spelunk/releases/latest/download/Spelunk-macOS-arm64.dmg' },
+      ],
+      fullDesc: `Spelunk is a free, open-source macOS storage cleaner. It breaks your disk down into macOS, home folder, apps, Homebrew, hidden space and free space — including the mysterious "System Data" — then lets you decide, item by item, what to delete or move to an external drive. It surfaces unused apps and duplicate files, with clear safety labels so you never remove something you shouldn't.`,
+      features: [
+        'Treemap of your entire drive with safety labels',
+        'Surfaces hidden "System Data" space',
+        'Finds unused apps & leftover files',
+        'Duplicate file detection',
+        'Move large files to an external drive',
+        'Free & open source — Apple Silicon, macOS 12+',
+      ],
+      images: [
+        'projects/spelunk/screenshot.png',
+        'projects/spelunk/explore.png',
+        'projects/spelunk/unused-apps.png',
+        'projects/spelunk/duplicates.png',
+      ],
+      status: 'Active Development',
+      year: '2026',
+    },
+    {
       id: 'clearpane',
       icon: 'fa-window-restore',
       title: 'ClearPane',
@@ -627,7 +665,16 @@ export const projects = [
         'Distraction-free reading',
         'Lightweight native wrappers',
       ],
-      images: [],
+      downloads: [
+        { label: 'Android APK', icon: 'fa-android', url: 'https://github.com/mazzyy/clearpane/releases/latest/download/Clearpane-android.apk' },
+        { label: 'macOS (.dmg)', icon: 'fa-apple', url: 'https://github.com/mazzyy/clearpane/releases/latest/download/Clearpane-mac.dmg' },
+      ],
+      images: [
+        'projects/clearpane/app.jpg',
+        'projects/clearpane/favourites.jpg',
+        'projects/clearpane/history.jpg',
+        'projects/clearpane/about.jpg',
+      ],
       status: 'Active Development',
       year: '2026',
     },
@@ -646,6 +693,7 @@ export const projects = [
         'Structured JSON/CSV output',
         'Integration with LinkedIn, Crunchbase APIs'
       ],
+      video: 'https://www.youtube.com/embed/CL3smZv6ojM',
       images: [
        'M-1.png',
        'M-2.png',
@@ -669,6 +717,7 @@ export const projects = [
         'Lighting adjustment',
         'Web and desktop UI'
       ],
+      video: 'https://www.youtube.com/embed/frebcabqAfo',
       images: [
         'faceswap-1.png',
         'faceswap-2.png',
@@ -691,6 +740,7 @@ export const projects = [
         'Responsive code generation',
         'Export to HTML/CSS/JS'
       ],
+      video: 'https://www.youtube.com/embed/ZxK9OYwRzKQ',
       images: [
         'web-1.png',
         'web-3.png',
@@ -713,6 +763,7 @@ export const projects = [
         'Skills matching algorithm',
         'Analytics dashboard'
       ],
+      video: 'https://www.youtube.com/embed/YaozBMgRDRI',
       images: [
         'F5.png',
         'F4.png',

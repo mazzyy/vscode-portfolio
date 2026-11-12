@@ -1,8 +1,26 @@
 import React from 'react';
 import { profile, socials } from '../../data/profile';
 import { useTypewriter, useMagnetic } from './hooks';
+import InteractiveTerminal from './InteractiveTerminal';
 
-function Hero({ onNavigate, onEnterVSCode, onDownloadCV }) {
+const heroIntro = [
+  { t: 'cmd', v: 'whoami' },
+  { t: 'out', v: 'abdul-musawar-soomro' },
+  { t: 'cmd', v: 'cat profile.json' },
+  { t: 'json', v: `{
+  "role": "Kubernetes Developer",
+  "company": "Siemens Healthineers",
+  "location": "Erlangen, DE",
+  "focus": ["Cloud", "AI Agents", "DevOps"],
+  "experience": "6+ years",
+  "status": "shipping 🚀"
+}` },
+  { t: 'cmd', v: './deploy.sh --prod' },
+  { t: 'ok', v: '✔ build passed   ✔ tests green   ✔ deployed' },
+  { t: 'sys', v: "↑ this shell is live — type 'help' and hit enter." },
+];
+
+function Hero({ onNavigate, onEnterVSCode, onDownloadCV, onMatrix }) {
   const role = useTypewriter(profile.roles, { typeSpeed: 65, deleteSpeed: 32, pause: 1500 });
   const magProjects = useMagnetic(0.25);
   const magCV = useMagnetic(0.25);
@@ -55,31 +73,21 @@ function Hero({ onNavigate, onEnterVSCode, onDownloadCV }) {
         </div>
 
         <div className="mp-hero-right reveal">
-          <div className="mp-term-card">
+          <div className="mp-term-card mp-term-card-live">
             <div className="mp-term-head">
               <span className="mp-dot red" />
               <span className="mp-dot yellow" />
               <span className="mp-dot green" />
-              <span className="mp-term-title">musawar@portfolio: ~/dev</span>
+              <span className="mp-term-title">musawar@portfolio: ~/dev — zsh</span>
             </div>
-            <div className="mp-term-body">
-              <div className="mp-term-line"><span className="mp-prompt">➜</span> <span className="mp-path">~</span> whoami</div>
-              <div className="mp-term-out">abdul-musawar-soomro</div>
-
-              <div className="mp-term-line"><span className="mp-prompt">➜</span> <span className="mp-path">~</span> cat profile.json</div>
-              <pre className="mp-term-json">{`{
-  "role": "Kubernetes Developer",
-  "company": "Siemens Healthineers",
-  "location": "Erlangen, DE",
-  "focus": ["Cloud", "AI Agents", "DevOps"],
-  "experience": "6+ years",
-  "status": "shipping 🚀"
-}`}</pre>
-
-              <div className="mp-term-line"><span className="mp-prompt">➜</span> <span className="mp-path">~</span> ./deploy.sh --prod</div>
-              <div className="mp-term-out mp-term-ok">✔ build passed &nbsp;✔ tests green &nbsp;✔ deployed</div>
-              <div className="mp-term-line"><span className="mp-prompt">➜</span> <span className="mp-path">~</span> <span className="mp-caret inline" /></div>
-            </div>
+            <InteractiveTerminal
+              variant="hero"
+              initialLines={heroIntro}
+              onEnterVSCode={onEnterVSCode}
+              onDownloadCV={onDownloadCV}
+              onMatrix={onMatrix}
+              onGotoTab={() => onNavigate('playground')}
+            />
           </div>
         </div>
       </div>

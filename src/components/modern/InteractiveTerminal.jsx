@@ -19,10 +19,12 @@ const BANNER = String.raw`
  |_|  |_|\__,_|___/\__,_| \_/\_/ \__,_|_|
 `;
 
-function InteractiveTerminal({ onEnterVSCode, onMatrix, onGotoTab, onDownloadCV }) {
-  const [lines, setLines] = useState([
-    { t: 'sys', v: "Welcome to musawar.sh — an interactive shell. Type 'help' to begin." },
-  ]);
+const DEFAULT_INTRO = [
+  { t: 'sys', v: "Welcome to musawar.sh — an interactive shell. Type 'help' to begin." },
+];
+
+function InteractiveTerminal({ onEnterVSCode, onMatrix, onGotoTab, onDownloadCV, initialLines, variant = 'default' }) {
+  const [lines, setLines] = useState(initialLines || DEFAULT_INTRO);
   const [input, setInput] = useState('');
   const [history, setHistory] = useState([]);
   const [hIdx, setHIdx] = useState(-1);
@@ -157,7 +159,7 @@ function InteractiveTerminal({ onEnterVSCode, onMatrix, onGotoTab, onDownloadCV 
   };
 
   return (
-    <div className="mp-pg-term" onClick={() => inputRef.current && inputRef.current.focus()}>
+    <div className={`mp-pg-term mp-pg-term-${variant}`} onClick={() => inputRef.current && inputRef.current.focus()}>
       <div className="mp-pg-term-body" ref={bodyRef}>
         {lines.map((l, i) => {
           if (l.t === 'cmd') return <div key={i} className="mp-pgt-line"><span className="mp-prompt">➜</span> <span className="mp-path">~</span> <span className="mp-pgt-cmd">{l.v}</span></div>;
@@ -165,6 +167,7 @@ function InteractiveTerminal({ onEnterVSCode, onMatrix, onGotoTab, onDownloadCV 
           if (l.t === 'ok') return <div key={i} className="mp-pgt-ok">{l.v}</div>;
           if (l.t === 'sys') return <div key={i} className="mp-pgt-sys">{l.v}</div>;
           if (l.t === 'ascii') return <pre key={i} className="mp-pgt-ascii">{l.v}</pre>;
+          if (l.t === 'json') return <pre key={i} className="mp-term-json mp-pgt-json">{l.v}</pre>;
           if (l.t === 'grid') return <div key={i} className="mp-pgt-grid">{l.v.map((g) => <span key={g}>{g}</span>)}</div>;
           if (l.t === 'link') return <div key={i} className="mp-pgt-out"><a href={l.href} target="_blank" rel="noopener noreferrer">{l.v}</a></div>;
           if (l.t === 'neofetch') return (

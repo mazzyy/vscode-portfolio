@@ -5,13 +5,14 @@ import { useTilt } from './hooks';
 
 const FILTERS = [
   { key: 'all', label: 'All' },
+  { key: 'app', label: 'Apps ⬇' },
   { key: 'ai', label: 'AI / ML' },
   { key: 'cloud', label: 'Cloud / DevOps' },
   { key: 'web', label: 'Web Apps' },
   { key: 'tools', label: 'Tools' },
 ];
 
-const AI = ['ai', 'rag', 'openai', 'gemini', 'llm', 'ml', 'agent', 'pydantic', 'litellm', 'copilot', 'matching', 'deep learning', 'computer vision', 'onnx', 'chromadb', 'analytics'];
+const AI = ['ai', 'rag', 'openai', 'gemini', 'llm', 'ml', 'agent', 'pydantic', 'litellm', 'copilot', 'matching', 'deep learning', 'computer vision', 'onnx', 'chromadb', 'analytics', 'nlp'];
 const CLOUD = ['kubernetes', 'docker', 'azure', 'aws', 'terraform', 'github actions', 'devops', 'aks', 'observability', 'infrastructure', 'ci/cd'];
 const WEB = ['react', 'vue', 'node', 'typescript', 'fastapi', 'django', 'flask', 'express', 'webview', 'android', 'macos'];
 
@@ -19,6 +20,7 @@ function catsFor(p) {
   const blob = [...(p.tech || []), p.title, p.shortDesc].join(' ').toLowerCase();
   const has = (arr) => arr.some((k) => blob.includes(k));
   const cats = [];
+  if (p.downloads && p.downloads.length) cats.push('app');
   if (has(AI)) cats.push('ai');
   if (has(CLOUD)) cats.push('cloud');
   if (has(WEB)) cats.push('web');
@@ -29,6 +31,7 @@ function catsFor(p) {
 function ProjectCard({ project, onOpen, index }) {
   const tilt = useTilt(8);
   const isGithub = project.link && project.link.includes('github.com');
+  const hasMedia = (project.images && project.images.length) || project.video;
   return (
     <article
       ref={tilt.ref}
@@ -42,6 +45,7 @@ function ProjectCard({ project, onOpen, index }) {
       <div className="mp-pcard-top">
         <div className="mp-pcard-ico"><i className={`fas ${project.icon}`} /></div>
         <div className="mp-pcard-meta">
+          {project.downloads && project.downloads.length > 0 && <span className="mp-chip-dl"><i className="fas fa-download" /> App</span>}
           {project.isShowcase && <span className="mp-chip-featured">★ Featured</span>}
           <span className="mp-pcard-year">{project.year}</span>
         </div>
@@ -60,6 +64,7 @@ function ProjectCard({ project, onOpen, index }) {
           <span className="mp-status-dot" />{project.status}
         </span>
         <span className="mp-pcard-link">
+          {hasMedia && <i className="fas fa-images mp-pcard-media" title="Has screenshots/video" />}
           {isGithub ? <i className="fab fa-github" /> : project.link ? <i className="fas fa-arrow-up-right-from-square" /> : <i className="fas fa-circle-info" />}
           Details
         </span>
@@ -99,10 +104,34 @@ function ProjectModal({ project, onClose }) {
           </div>
         </div>
 
+        {/* Download buttons — prominent for app projects */}
+        {project.downloads && project.downloads.length > 0 && (
+          <div className="mp-modal-downloads">
+            {project.downloads.map((d) => (
+              <a key={d.url} href={d.url} className="mp-dl-btn" target="_blank" rel="noopener noreferrer">
+                <i className={`fab ${d.icon}`} /> {d.label}
+              </a>
+            ))}
+          </div>
+        )}
+
+        {/* Video demo */}
+        {project.video && (
+          <div className="mp-modal-video">
+            <iframe
+              src={project.video}
+              title={`${project.title} demo`}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        )}
+
+        {/* Screenshot gallery */}
         {images.length > 0 && (
           <div className="mp-modal-gallery">
             <div className="mp-modal-main-img">
-              <img src={images[img]} alt={`${project.title} screenshot ${img + 1}`} />
+              <img src={images[img]} alt={`${project.title} screenshot ${img + 1}`} loading="lazy" />
             </div>
             {images.length > 1 && (
               <div className="mp-modal-thumbs">
@@ -113,6 +142,7 @@ function ProjectModal({ project, onClose }) {
                     alt={`thumb ${i + 1}`}
                     className={i === img ? 'active' : ''}
                     onClick={() => setImg(i)}
+                    loading="lazy"
                   />
                 ))}
               </div>
@@ -133,7 +163,27 @@ function ProjectModal({ project, onClose }) {
           </div>
         )}
 
-        {project.features && project.features.length > 0 && (
+        {/* Grouped feature categories (showcase projects) */}
+        {project.featureCategories ? (
+          <div className="mp-modal-featcats">
+            {project.featureCategories.map((cat) => (
+              <div key={cat.category} className="mp-featcat">
+                <h4 style={{ color: cat.color || 'var(--mp-accent)' }}>{cat.category}</h4>
+                <div className="mp-featcat-items">
+                  {cat.items.map((it) => (
+                    <div key={it.name} className="mp-featcat-item">
+                      <i className={`fas ${it.icon}`} style={{ color: cat.color || 'var(--mp-accent)' }} />
+                      <div>
+                        <b>{it.name}</b>
+                        <span>{it.desc}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : project.features && project.features.length > 0 && (
           <div className="mp-modal-feats">
             <h4>Key Features</h4>
             <ul>
@@ -144,12 +194,31 @@ function ProjectModal({ project, onClose }) {
           </div>
         )}
 
-        <div className="mp-modal-tech">
-          {project.tech.map((t) => <span key={t}>{t}</span>)}
-        </div>
+        {/* Tech stack (grouped by layer when available) */}
+        {project.techStack ? (
+          <div className="mp-modal-stacklayers">
+            <h4>Tech Stack</h4>
+            {project.techStack.map((layer) => (
+              <div key={layer.layer} className="mp-stacklayer">
+                <span className="mp-stacklayer-name">{layer.layer}</span>
+                <div className="mp-stacklayer-items">
+                  {layer.items.map((it) => (
+                    <span key={it.name} className="mp-stacklayer-chip" style={{ '--chip': it.color }}>
+                      {it.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="mp-modal-tech">
+            {project.tech.map((t) => <span key={t}>{t}</span>)}
+          </div>
+        )}
 
         {project.link && (
-          <a href={project.link} target="_blank" rel="noopener noreferrer" className="mp-btn mp-btn-primary mp-modal-cta">
+          <a href={project.link} target="_blank" rel="noopener noreferrer" className="mp-btn mp-btn-outline mp-modal-cta">
             {isGithub ? <><i className="fab fa-github" /> View on GitHub</> : <><i className="fas fa-arrow-up-right-from-square" /> Visit Live Site</>}
           </a>
         )}

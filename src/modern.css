@@ -563,3 +563,95 @@ body.mode-modern ::selection { background: rgba(0,255,195,0.28); color: #fff; }
   .mp-hero-cta { flex-direction: column; align-items: stretch; }
   .mp-hero-cta .mp-btn { justify-content: center; }
 }
+
+/* ════════════════════════════════════════════════════════════════
+   V2 ADDITIONS — live hero terminal, left terminal dock,
+   downloadable apps, video embeds, grouped features / tech stack
+   ════════════════════════════════════════════════════════════════ */
+
+/* hero card now hosts the live interactive terminal */
+.mp-term-card-live .mp-pg-term-hero { height: 322px; padding: 14px 18px 12px; font-size: 0.8rem; }
+.mp-pg-term-hero .mp-pgt-json { margin: 2px 0 10px; font-size: 0.78rem; }
+.mp-pg-term-hero .mp-pg-term-input { border-top-color: var(--mp-border); }
+
+/* ---- left-edge terminal launcher ---- */
+.mp-dock-btn {
+  position: fixed; left: 0; top: 50%; transform: translateY(-50%); z-index: 45;
+  display: flex; flex-direction: column; align-items: center; gap: 9px;
+  background: var(--mp-panel); border: 1px solid var(--mp-border-glow); border-left: none;
+  border-radius: 0 12px 12px 0; padding: 15px 9px; cursor: pointer; color: var(--mp-accent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  box-shadow: 4px 0 20px rgba(0,0,0,0.4); transition: padding 0.25s, box-shadow 0.25s, color 0.25s;
+}
+.mp-dock-btn:hover, .mp-dock-btn.active { padding-left: 15px; box-shadow: 6px 0 26px color-mix(in srgb, var(--mp-accent) 35%, transparent); }
+.mp-dock-btn i { font-size: 1rem; }
+.mp-dock-label { writing-mode: vertical-rl; text-orientation: mixed; font-family: var(--mp-mono); font-size: 0.7rem; letter-spacing: 0.12em; color: var(--mp-text-dim); text-transform: lowercase; }
+
+.mp-dock-overlay { position: fixed; inset: 0; z-index: 1100; background: rgba(4,7,11,0.6); backdrop-filter: blur(3px); opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+.mp-dock-overlay.show { opacity: 1; pointer-events: auto; }
+.mp-dock-drawer {
+  position: fixed; top: 0; left: 0; bottom: 0; width: min(580px, 94vw); z-index: 1101;
+  background: var(--mp-panel-solid); border-right: 1px solid var(--mp-border-glow);
+  transform: translateX(-102%); transition: transform 0.32s cubic-bezier(0.22,1,0.36,1);
+  display: flex; flex-direction: column; box-shadow: 10px 0 60px rgba(0,0,0,0.6);
+}
+.mp-dock-drawer.open { transform: none; }
+.mp-dock-head { position: relative; }
+.mp-dock-head .mp-dot.red { cursor: pointer; }
+.mp-dock-close { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--mp-text-dim); font-size: 1.5rem; line-height: 1; cursor: pointer; transition: 0.2s; }
+.mp-dock-close:hover { color: var(--mp-accent); }
+.mp-pg-term-drawer { flex: 1; min-height: 0; height: auto; padding: 16px 18px; }
+
+/* ---- downloadable-app chip + media hint on cards ---- */
+.mp-chip-dl {
+  font-family: var(--mp-mono); font-size: 0.64rem; font-weight: 600; color: #04131a;
+  background: linear-gradient(120deg, var(--mp-accent), var(--mp-accent-2));
+  border-radius: 100px; padding: 2px 9px; display: inline-flex; align-items: center; gap: 5px;
+  box-shadow: 0 0 12px color-mix(in srgb, var(--mp-accent) 40%, transparent);
+}
+.mp-pcard-media { opacity: 0.65; margin-right: 3px; }
+
+/* ---- modal: download buttons ---- */
+.mp-modal-downloads { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+.mp-dl-btn {
+  display: inline-flex; align-items: center; gap: 9px; text-decoration: none;
+  font-family: var(--mp-mono); font-size: 0.85rem; font-weight: 600; color: #04131a;
+  background: linear-gradient(120deg, var(--mp-accent), var(--mp-accent-2));
+  border-radius: 10px; padding: 11px 18px;
+  box-shadow: 0 0 var(--mp-glow-strength) color-mix(in srgb, var(--mp-accent) 45%, transparent);
+  transition: transform 0.18s, box-shadow 0.25s;
+}
+.mp-dl-btn:hover { transform: translateY(-2px); box-shadow: 0 0 calc(var(--mp-glow-strength) + 12px) var(--mp-accent); }
+
+/* ---- modal: video embed ---- */
+.mp-modal-video { position: relative; padding-top: 56.25%; margin-bottom: 20px; border-radius: 12px; overflow: hidden; border: 1px solid var(--mp-border); background: #05080d; }
+.mp-modal-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+/* ---- modal: grouped feature categories ---- */
+.mp-modal-featcats { display: flex; flex-direction: column; gap: 18px; margin-bottom: 22px; }
+.mp-featcat > h4 { font-family: var(--mp-mono); font-size: 0.85rem; margin-bottom: 11px; }
+.mp-featcat-items { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.mp-featcat-item { display: flex; gap: 10px; align-items: flex-start; }
+.mp-featcat-item i { margin-top: 3px; font-size: 0.85rem; flex-shrink: 0; }
+.mp-featcat-item b { display: block; color: var(--mp-text-bright); font-size: 0.85rem; }
+.mp-featcat-item span { display: block; color: var(--mp-text-dim); font-size: 0.78rem; line-height: 1.45; }
+
+/* ---- modal: tech stack by layer ---- */
+.mp-modal-stacklayers { margin-bottom: 22px; }
+.mp-modal-stacklayers > h4 { font-family: var(--mp-mono); font-size: 0.9rem; color: var(--mp-text-bright); margin-bottom: 12px; }
+.mp-stacklayer { display: flex; gap: 12px; align-items: baseline; margin-bottom: 11px; flex-wrap: wrap; }
+.mp-stacklayer-name { font-family: var(--mp-mono); font-size: 0.73rem; color: var(--mp-text-dim); min-width: 74px; }
+.mp-stacklayer-items { display: flex; flex-wrap: wrap; gap: 6px; }
+.mp-stacklayer-chip {
+  font-family: var(--mp-mono); font-size: 0.72rem; padding: 3px 10px; border-radius: 6px;
+  color: var(--chip, var(--mp-accent-2));
+  background: color-mix(in srgb, var(--chip, #00d4ff) 13%, transparent);
+  border: 1px solid color-mix(in srgb, var(--chip, #00d4ff) 32%, transparent);
+}
+
+@media (max-width: 720px) {
+  .mp-featcat-items { grid-template-columns: 1fr; }
+  .mp-dock-label { display: none; }
+  .mp-dock-btn { padding: 13px 10px; }
+  .mp-term-card-live .mp-pg-term-hero { height: 280px; }
+}

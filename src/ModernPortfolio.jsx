@@ -8,6 +8,7 @@ import ExperienceModern from './components/modern/ExperienceModern';
 import Playground from './components/modern/Playground';
 import ContactModern from './components/modern/ContactModern';
 import CommandPalette from './components/modern/CommandPalette';
+import TerminalDock from './components/modern/TerminalDock';
 import MatrixRain from './components/modern/MatrixRain';
 import { loadSavedTheme } from './components/modern/ThemeLab';
 
@@ -129,7 +130,7 @@ function ModernPortfolio({ onEnterVSCode }) {
       />
 
       <main className="mp-main">
-        <Hero onNavigate={navigate} onEnterVSCode={onEnterVSCode} onDownloadCV={downloadCV} />
+        <Hero onNavigate={navigate} onEnterVSCode={onEnterVSCode} onDownloadCV={downloadCV} onMatrix={() => setMatrix(true)} />
         <AboutModern />
         <ProjectsModern />
         <ExperienceModern />
@@ -144,6 +145,13 @@ function ModernPortfolio({ onEnterVSCode }) {
       >
         <i className="fas fa-chevron-up" />
       </button>
+
+      <TerminalDock
+        onEnterVSCode={onEnterVSCode}
+        onMatrix={() => setMatrix(true)}
+        onDownloadCV={downloadCV}
+        onNavigate={navigate}
+      />
 
       {paletteOpen && (
         <CommandPalette
