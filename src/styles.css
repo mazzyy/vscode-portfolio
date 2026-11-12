@@ -3645,3 +3645,34 @@ body {
         box-shadow: none;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   EXIT-TO-MODERN BUTTON (title bar)
+   ═══════════════════════════════════════════════════════════════ */
+.exit-modern-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-right: 12px;
+    padding: 4px 11px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #04131a;
+    background: linear-gradient(120deg, #00ffc3, #00d4ff);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    -webkit-app-region: no-drag;
+    box-shadow: 0 0 14px rgba(0, 255, 195, 0.35);
+    transition: transform 0.18s ease, box-shadow 0.25s ease;
+}
+.exit-modern-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 22px rgba(0, 255, 195, 0.6);
+}
+.exit-modern-btn i { font-size: 0.78rem; }
+@media (max-width: 768px) {
+    .exit-modern-btn span { display: none; }
+    .exit-modern-btn { margin-right: 6px; padding: 5px 8px; }
+}

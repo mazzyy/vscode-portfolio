@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-function MobileNav({ isOpen, activeTab, onClose, onSwitchTab, onDownloadCV, onToggleTerminal }) {
+function MobileNav({ isOpen, activeTab, onClose, onSwitchTab, onDownloadCV, onToggleTerminal, onExitToModern }) {
   const navItems = [
     { id: 'about', label: 'about.tsx', type: 'ts' },
     { id: 'projects', label: 'projects.tsx', type: 'ts' },
@@ -60,6 +60,16 @@ function MobileNav({ isOpen, activeTab, onClose, onSwitchTab, onDownloadCV, onTo
             <span className="nav-icon term"></span>
             <span>Terminal</span>
           </div>
+
+          {onExitToModern && (
+            <>
+              <div className="mobile-nav-divider"></div>
+              <div className="mobile-nav-item" onClick={onExitToModern}>
+                <span className="nav-icon" style={{ color: '#00ffc3' }}>✦</span>
+                <span>Switch to Modern view</span>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </>

@@ -2,7 +2,7 @@
 
 A VS Code-themed interactive portfolio website built with React. Mimics the look and feel of Visual Studio Code — complete with a file explorer, editor tabs, integrated terminal, command palette, and 4 switchable color themes.
 
-**Live:** [musawar.dev](https://musawar.dev)
+**Live:** [musawar.tech](https://musawar.tech)
 
 ## Screenshots
 
