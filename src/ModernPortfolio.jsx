@@ -9,6 +9,7 @@ import Playground from './components/modern/Playground';
 import ContactModern from './components/modern/ContactModern';
 import CommandPalette from './components/modern/CommandPalette';
 import TerminalDock from './components/modern/TerminalDock';
+import CharacterPet from './components/modern/CharacterPet';
 import MatrixRain from './components/modern/MatrixRain';
 import { loadSavedTheme } from './components/modern/ThemeLab';
 
@@ -152,6 +153,8 @@ function ModernPortfolio({ onEnterVSCode }) {
         onDownloadCV={downloadCV}
         onNavigate={navigate}
       />
+
+      <CharacterPet />
 
       {paletteOpen && (
         <CommandPalette
