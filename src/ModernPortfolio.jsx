@@ -10,6 +10,7 @@ import CommandPalette from './components/modern/CommandPalette';
 import TerminalDock from './components/modern/TerminalDock';
 import CharacterPet from './components/modern/CharacterPet';
 import MatrixRain from './components/modern/MatrixRain';
+import IntroSequence from './components/modern/IntroSequence';
 import { loadSavedTheme } from './components/modern/ThemeLab';
 
 const SECTIONS = ['home', 'about', 'projects', 'experience', 'contact'];
@@ -20,8 +21,16 @@ function ModernPortfolio({ onEnterVSCode }) {
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [matrix, setMatrix] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [intro, setIntro] = useState(() => {
+    try { return !sessionStorage.getItem('mp-intro-seen'); } catch (e) { return true; }
+  });
   const cursorRef = useRef(null);
   const konamiRef = useRef([]);
+
+  const endIntro = useCallback(() => {
+    try { sessionStorage.setItem('mp-intro-seen', '1'); } catch (e) { /* ignore */ }
+    setIntro(false);
+  }, []);
 
   const navigate = useCallback((id) => {
     const el = document.getElementById(id);
@@ -116,6 +125,7 @@ function ModernPortfolio({ onEnterVSCode }) {
 
   return (
     <div className="modern-root">
+      {intro && <IntroSequence onDone={endIntro} />}
       <div className="mp-progress" style={{ width: `${progress}%` }} />
       <div ref={cursorRef} className="mp-cursor-glow" aria-hidden="true" />
       <ParticleField />

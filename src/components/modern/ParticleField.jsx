@@ -21,7 +21,7 @@ function ParticleField() {
     let raf;
     const mouse = { x: -9999, y: -9999 };
 
-    const COLORS = ['#00ffc3', '#00d4ff', '#b14eff'];
+    const COLORS = ['#8b5cf6', '#ec4899', '#6366f1'];
 
     const resize = () => {
       width = canvas.clientWidth;
