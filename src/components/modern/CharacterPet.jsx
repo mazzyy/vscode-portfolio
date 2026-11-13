@@ -3,14 +3,14 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 /*
   Bottom-right portrait companion.
 
-  1. On arrival he plays the "falling into the spotlight" landing clip.
-  2. Then his eyes follow the cursor (frames split from looking.gif).
-  3. Emotion clips fire on interaction: click him to cycle through his
-     moods, run a joke / unknown command in a terminal, or leave the
-     page idle. Clips play once (loop=1 WebP) then he resumes following.
+  Intro: lands (spotlight descent) → waves hi → then follows the cursor.
+  His eyes track the cursor using frames split from looking.gif.
+  Emotion clips play once (loop=1 WebP) on interaction, then he resumes
+  following, sometimes with a little speech bubble above him.
 
-  Other parts of the app trigger a reaction by dispatching:
-     window.dispatchEvent(new CustomEvent('pet-react',{detail:{emotion:'laugh'}}))
+  Trigger a reaction from anywhere in the app:
+    window.dispatchEvent(new CustomEvent('pet-react',
+      { detail: { emotion: 'laugh', say: 'optional line' } }))
 
   Angle convention (atan2): 0 = right, 90 = down, ±180 = left, -90 = up.
 */
@@ -25,22 +25,30 @@ const GAZE = [
   { s: 'character/look-07.webp', a: 135 },   // down-left
   { s: 'character/look-08.webp', a: 90 },    // down
 ];
-const DEFAULT_IDX = 5; // rests gazing up-left toward the page
+const DEFAULT_IDX = 5;
 
-// Play-once clips: { src, dur(ms) }. dur = measured loop length (+ buffer in code).
 const CLIPS = {
-  land:     { s: 'character/land.webp',     d: 2750 },
+  land:     { s: 'character/land.webp',     d: 3500 },
+  wave:     { s: 'character/wave.webp',     d: 1440 },
   laugh:    { s: 'character/laugh.webp',    d: 1920 },
   confused: { s: 'character/confused.webp', d: 1680 },
-  shock:    { s: 'character/shock.webp',    d: 1280 },
+  anger:    { s: 'character/anger.webp',    d: 1530 },
+  facepalm: { s: 'character/facepalm.webp', d: 1530 },
   smile:    { s: 'character/smile.webp',    d: 1440 },
 };
-const CLICK_CYCLE = ['laugh', 'confused', 'shock', 'smile'];
-const IDLE_MS = 15000;
+const ANNOY = ['confused', 'anger', 'facepalm']; // escalation when pestered
+const IDLE_MS = 16000;
 
-function angularDist(a, b) {
-  return Math.abs(((a - b + 540) % 360) - 180);
-}
+const SPEECH = {
+  wave:     ["👋 Hi, I'm Musawar!", '👋 Hey — welcome in!', 'Hi there! Look around 👀'],
+  laugh:    ['haha!', 'nice one 😄', 'ha! good one', 'lol'],
+  confused: ['huh?', 'wait, what?', "that's... a command?", '🤔 hmm'],
+  anger:    ['hey, quit it 😤', 'stop poking me!', 'seriously?'],
+  facepalm: ['🤦 I give up', '...really?', 'ugh, fine.'],
+  smile:    ['nice ✨', 'ooh 😊', 'good pick!', ':)'],
+};
+
+function angularDist(a, b) { return Math.abs(((a - b + 540) % 360) - 180); }
 function pickFrame(angle) {
   let best = DEFAULT_IDX, bestD = Infinity;
   for (let i = 0; i < GAZE.length; i++) {
@@ -54,68 +62,75 @@ function CharacterPet() {
   const [enabled, setEnabled] = useState(false);
   const [idx, setIdx] = useState(DEFAULT_IDX);
   const [following, setFollowing] = useState(false);
-  const [clip, setClip] = useState(null); // { s, key } while a clip plays
+  const [clip, setClip] = useState(null);   // { s, key } while a clip plays
+  const [speech, setSpeech] = useState(null);
 
   const wrapRef = useRef(null);
   const rafRef = useRef(0);
   const clipTimer = useRef(0);
   const idleTimer = useRef(0);
   const lastAngle = useRef(-140);
-  const clickIdx = useRef(0);
+  const clickStreak = useRef(0);
+  const clickReset = useRef(0);
   const followingRef = useRef(false);
 
   useEffect(() => { followingRef.current = following; }, [following]);
 
-  // Only run with a real pointer and enough room.
   useEffect(() => {
     const coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
     setEnabled(!coarse && window.innerWidth > 640);
   }, []);
 
-  // Preload gaze frames + landing now; emotion clips shortly after.
   useEffect(() => {
     if (!enabled) return;
-    [...GAZE.map((g) => g.s), CLIPS.land.s].forEach((s) => { const im = new Image(); im.src = s; });
+    [...GAZE.map((g) => g.s), CLIPS.land.s, CLIPS.wave.s].forEach((s) => { const im = new Image(); im.src = s; });
     const t = setTimeout(() => {
-      ['laugh', 'confused', 'shock', 'smile'].forEach((k) => { const im = new Image(); im.src = CLIPS[k].s; });
-    }, 2500);
+      ['laugh', 'confused', 'anger', 'facepalm', 'smile'].forEach((k) => { const im = new Image(); im.src = CLIPS[k].s; });
+    }, 3200);
     return () => clearTimeout(t);
   }, [enabled]);
 
   const toFollow = useCallback(() => {
     setClip(null);
+    setSpeech(null);
     setFollowing(true);
     setIdx(pickFrame(lastAngle.current));
   }, []);
 
-  const playClip = useCallback((name) => {
+  const playClip = useCallback((name, opts = {}) => {
     const c = CLIPS[name];
     if (!c) return;
     clearTimeout(clipTimer.current);
     setFollowing(false);
-    setClip({ s: c.s, key: Date.now() }); // changing key remounts <img> → restarts the animation
-    clipTimer.current = setTimeout(toFollow, c.d + 140);
+    setClip({ s: c.s, key: Date.now() });
+    const pool = SPEECH[name];
+    const line = opts.say || (pool ? pool[Math.floor(Math.random() * pool.length)] : null);
+    setSpeech(line);
+    clipTimer.current = setTimeout(opts.onDone || toFollow, c.d + 140);
   }, [toFollow]);
 
-  // Landing sequence on mount.
+  // Intro: land → wave → follow.
   useEffect(() => {
     if (!enabled) return;
-    playClip('land');
-    return () => { clearTimeout(clipTimer.current); clearTimeout(idleTimer.current); };
-  }, [enabled, playClip]);
+    playClip('land', { onDone: () => playClip('wave', { onDone: toFollow }) });
+    return () => { clearTimeout(clipTimer.current); clearTimeout(idleTimer.current); clearTimeout(clickReset.current); };
+  }, [enabled, playClip, toFollow]);
 
-  // External reaction events (terminals, etc.).
+  // External reactions (terminals, project views, theme, etc.).
   useEffect(() => {
     if (!enabled) return;
-    const h = (e) => { const em = e.detail && e.detail.emotion; if (em) playClip(em); };
+    const h = (e) => {
+      const d = e.detail || {};
+      if (d.emotion) playClip(d.emotion, { say: d.say });
+    };
     window.addEventListener('pet-react', h);
     return () => window.removeEventListener('pet-react', h);
   }, [enabled, playClip]);
 
-  // Cursor following + idle detection.
+  // Cursor follow + idle smile.
   const onMove = useCallback((e) => {
     clearTimeout(idleTimer.current);
-    idleTimer.current = setTimeout(() => { if (followingRef.current) playClip('smile'); }, IDLE_MS);
+    idleTimer.current = setTimeout(() => { if (followingRef.current) playClip('smile', { say: 'still here 👀' }); }, IDLE_MS);
 
     if (rafRef.current) return;
     rafRef.current = requestAnimationFrame(() => {
@@ -140,8 +155,10 @@ function CharacterPet() {
   }, [enabled, onMove]);
 
   const onClick = useCallback(() => {
-    const em = CLICK_CYCLE[clickIdx.current % CLICK_CYCLE.length];
-    clickIdx.current += 1;
+    clearTimeout(clickReset.current);
+    const em = ANNOY[Math.min(clickStreak.current, ANNOY.length - 1)];
+    clickStreak.current += 1;
+    clickReset.current = setTimeout(() => { clickStreak.current = 0; }, 2500);
     playClip(em);
   }, [playClip]);
 
@@ -151,6 +168,7 @@ function CharacterPet() {
 
   return (
     <div className={`mp-pet ${following ? 'is-follow' : ''}`} ref={wrapRef}>
+      {speech && <div className="mp-pet-bubble" key={`b-${clip ? clip.key : 'x'}`}>{speech}</div>}
       <div className="mp-pet-glow" />
       <img
         key={clip ? clip.key : 'follow'}

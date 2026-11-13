@@ -658,7 +658,7 @@ body.mode-modern ::selection { background: rgba(0,255,195,0.28); color: #fff; }
 
 /* ---- cursor-following character (bottom-right) ---- */
 .mp-pet {
-  position: fixed; right: 18px; bottom: 6px; z-index: 43;
+  position: fixed; right: 18px; bottom: 6px; z-index: 1200;
   width: 122px; height: 122px; pointer-events: none;
   animation: mpPetFade 0.5s ease both;
 }
@@ -692,4 +692,30 @@ body.mode-modern ::selection { background: rgba(0,255,195,0.28); color: #fff; }
 @media (max-width: 640px) {
   .mp-pet { display: none; }
   .mp-top { bottom: 26px; }
+}
+
+/* ---- character speech bubble ---- */
+.mp-pet-bubble {
+  position: absolute; bottom: calc(100% - 2px); right: 4px; z-index: 4;
+  max-width: 230px; white-space: normal; text-align: center;
+  background: var(--mp-panel-solid);
+  border: 1px solid var(--mp-border-glow);
+  color: var(--mp-text-bright);
+  font-family: var(--mp-mono); font-size: 0.72rem; line-height: 1.35;
+  padding: 8px 12px; border-radius: 12px;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.5), 0 0 16px color-mix(in srgb, var(--mp-accent) 20%, transparent);
+  pointer-events: none;
+  animation: mpBubbleIn 0.28s cubic-bezier(0.22,1,0.36,1) both;
+}
+.mp-pet-bubble::before {
+  content: ''; position: absolute; top: 100%; right: 46px;
+  border: 8px solid transparent; border-top-color: var(--mp-border-glow);
+}
+.mp-pet-bubble::after {
+  content: ''; position: absolute; top: calc(100% - 1px); right: 47px;
+  border: 7px solid transparent; border-top-color: var(--mp-panel-solid);
+}
+@keyframes mpBubbleIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.9); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }

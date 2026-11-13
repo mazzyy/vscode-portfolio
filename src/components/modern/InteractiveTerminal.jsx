@@ -19,9 +19,12 @@ const BANNER = String.raw`
  |_|  |_|\__,_|___/\__,_| \_/\_/ \__,_|_|
 `;
 
-function petReact(emotion) {
-  try { window.dispatchEvent(new CustomEvent('pet-react', { detail: { emotion } })); } catch (e) { /* ignore */ }
+function petReact(emotion, say) {
+  try { window.dispatchEvent(new CustomEvent('pet-react', { detail: { emotion, say } })); } catch (e) { /* ignore */ }
 }
+
+const KNOWN_CMDS = new Set(['', 'help', 'whoami', 'about', 'skills', 'projects', 'ls', 'cat', 'social', 'contact', 'resume', 'cv', 'neofetch', 'date', 'echo', 'joke', 'game', 'snake', 'matrix', 'theme', 'vscode', 'sudo', 'banner', 'clear', 'exit']);
+const ANNOY = ['confused', 'anger', 'facepalm']; // escalation on repeated bad commands
 
 const DEFAULT_INTRO = [
   { t: 'sys', v: "Welcome to musawar.sh — an interactive shell. Type 'help' to begin." },
@@ -34,6 +37,7 @@ function InteractiveTerminal({ onEnterVSCode, onMatrix, onGotoTab, onDownloadCV,
   const [hIdx, setHIdx] = useState(-1);
   const bodyRef = useRef(null);
   const inputRef = useRef(null);
+  const wrongRef = useRef(0);
 
   const push = useCallback((arr) => setLines((prev) => [...prev, ...arr]), []);
 
@@ -46,8 +50,10 @@ function InteractiveTerminal({ onEnterVSCode, onMatrix, onGotoTab, onDownloadCV,
     const out = [{ t: 'cmd', v: cmd }];
     const [name, ...rest] = cmd.split(/\s+/);
     const arg = rest.join(' ');
+    const lc = (name || '').toLowerCase();
+    if (KNOWN_CMDS.has(lc)) wrongRef.current = 0;
 
-    switch ((name || '').toLowerCase()) {
+    switch (lc) {
       case '':
         break;
       case 'help':
@@ -129,7 +135,7 @@ function InteractiveTerminal({ onEnterVSCode, onMatrix, onGotoTab, onDownloadCV,
         break;
       case 'sudo':
         out.push({ t: 'err', v: `${profile.firstName} is not in the sudoers file. This incident will be reported. 😏` });
-        petReact('laugh');
+        petReact('laugh', 'nice try 😏');
         break;
       case 'banner':
         out.push({ t: 'ascii', v: BANNER });
@@ -142,7 +148,8 @@ function InteractiveTerminal({ onEnterVSCode, onMatrix, onGotoTab, onDownloadCV,
         break;
       default:
         out.push({ t: 'err', v: `command not found: ${name} — type 'help'` });
-        petReact('confused');
+        petReact(ANNOY[Math.min(wrongRef.current, ANNOY.length - 1)]);
+        wrongRef.current += 1;
     }
     push(out);
   }, [push, onEnterVSCode, onMatrix, onGotoTab, onDownloadCV]);

@@ -237,7 +237,10 @@ function ProjectsModern() {
     [filter, tagged]
   );
 
-  const open = useCallback((p) => setSelected(p), []);
+  const open = useCallback((p) => {
+    setSelected(p);
+    try { window.dispatchEvent(new CustomEvent('pet-react', { detail: { emotion: 'smile', say: 'checking my work? 😊' } })); } catch (e) { /* ignore */ }
+  }, []);
 
   return (
     <section id="projects" className="mp-section">

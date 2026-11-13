@@ -21,9 +21,9 @@ function ModernPortfolio({ onEnterVSCode }) {
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [matrix, setMatrix] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [showTop, setShowTop] = useState(false);
   const cursorRef = useRef(null);
   const konamiRef = useRef([]);
+  const seenPlayground = useRef(false);
 
   const navigate = useCallback((id) => {
     const el = document.getElementById(id);
@@ -37,6 +37,7 @@ function ModernPortfolio({ onEnterVSCode }) {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    try { window.dispatchEvent(new CustomEvent('pet-react', { detail: { emotion: 'laugh', say: 'thanks for grabbing my CV! 📄' } })); } catch (e) { /* ignore */ }
   }, []);
 
   // apply saved accent theme
@@ -67,13 +68,20 @@ function ModernPortfolio({ onEnterVSCode }) {
     return () => obs.disconnect();
   }, []);
 
+  // character reacts when the visitor first reaches the playground
+  useEffect(() => {
+    if (activeSection === 'playground' && !seenPlayground.current) {
+      seenPlayground.current = true;
+      try { window.dispatchEvent(new CustomEvent('pet-react', { detail: { emotion: 'laugh', say: 'the playground! have fun 🎮' } })); } catch (e) { /* ignore */ }
+    }
+  }, [activeSection]);
+
   // scroll progress + back-to-top
   useEffect(() => {
     const onScroll = () => {
       const h = document.documentElement;
       const max = h.scrollHeight - h.clientHeight;
       setProgress(max > 0 ? (h.scrollTop / max) * 100 : 0);
-      setShowTop(h.scrollTop > 700);
     };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -138,14 +146,6 @@ function ModernPortfolio({ onEnterVSCode }) {
         <Playground onEnterVSCode={onEnterVSCode} onMatrix={() => setMatrix(true)} onDownloadCV={downloadCV} />
         <ContactModern onDownloadCV={downloadCV} onEnterVSCode={onEnterVSCode} />
       </main>
-
-      <button
-        className={`mp-top ${showTop ? 'show' : ''}`}
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        aria-label="Back to top"
-      >
-        <i className="fas fa-chevron-up" />
-      </button>
 
       <TerminalDock
         onEnterVSCode={onEnterVSCode}

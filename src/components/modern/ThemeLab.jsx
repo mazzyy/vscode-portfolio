@@ -58,7 +58,7 @@ function ThemeLab() {
           <button
             key={p.key}
             className={`mp-swatch ${active === p.key ? 'active' : ''}`}
-            onClick={() => setActive(p.key)}
+            onClick={() => { setActive(p.key); try { window.dispatchEvent(new CustomEvent('pet-react', { detail: { emotion: 'smile', say: 'ooh, new colors ✨' } })); } catch (e) { /* ignore */ } }}
             style={{ '--sw-a': p.a, '--sw-b': p.b }}
           >
             <span className="mp-swatch-chip" />
