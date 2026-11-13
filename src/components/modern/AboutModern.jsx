@@ -1,6 +1,7 @@
 import React from 'react';
 import { profile, skills } from '../../data/profile';
 import { useInView, useCountUp } from './hooks';
+import WandReveal from './WandReveal';
 
 function StatCard({ stat }) {
   const [ref, inView] = useInView();
@@ -45,6 +46,7 @@ function AboutModern() {
 
       <div className="mp-about-grid">
         <div className="mp-about-bio reveal">
+          <WandReveal />
           <p className="mp-comment">{'/**'}</p>
           <p className="mp-bio-text">{profile.bio}</p>
           <p className="mp-comment">{' */'}</p>

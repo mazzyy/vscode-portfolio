@@ -886,3 +886,33 @@ body.mode-modern ::selection { background: rgba(139,92,246,0.32); color: #fff; }
   .mp-intro { transition: opacity 0.4s; }
   .mp-intro.leaving { transform: none; opacity: 0; }
 }
+
+/* ---- wand reveal portrait (About) ---- */
+.mp-wand {
+  position: relative; width: 100%; height: 300px; border-radius: 16px; overflow: hidden;
+  border: 1px solid var(--mp-border); margin-bottom: 24px; cursor: none;
+  --x: -240px; --y: -240px;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--mp-accent) 14%, #0e0e14), #0a0a0f);
+}
+.mp-wand-bg { position: absolute; inset: 0; background: radial-gradient(120% 90% at 50% 8%, color-mix(in srgb, var(--mp-purple) 26%, transparent), transparent 70%); }
+.mp-wand-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center bottom; -webkit-user-select: none; user-select: none; }
+.mp-wand-img.gray {
+  filter: grayscale(1) brightness(0.55) contrast(1.05);
+  -webkit-mask-image: radial-gradient(circle 120px at var(--x) var(--y), transparent 0, transparent 46%, #000 80%);
+  mask-image: radial-gradient(circle 120px at var(--x) var(--y), transparent 0, transparent 46%, #000 80%);
+}
+.mp-wand-ring {
+  position: absolute; left: var(--x); top: var(--y); width: 120px; height: 120px; margin: -60px 0 0 -60px; border-radius: 50%;
+  border: 1.5px solid color-mix(in srgb, var(--mp-accent) 75%, transparent);
+  box-shadow: 0 0 26px color-mix(in srgb, var(--mp-accent) 45%, transparent), inset 0 0 26px color-mix(in srgb, var(--mp-accent) 22%, transparent);
+  opacity: 0; transition: opacity 0.2s; pointer-events: none;
+}
+.mp-wand.on .mp-wand-ring { opacity: 1; }
+.mp-wand-hint { position: absolute; bottom: 12px; left: 0; right: 0; text-align: center; font-family: var(--mp-mono); font-size: 0.74rem; color: var(--mp-text-dim); transition: opacity 0.2s; pointer-events: none; }
+.mp-wand.on .mp-wand-hint { opacity: 0; }
+.mp-wand-hint i { color: var(--mp-accent); margin-right: 6px; }
+@media (pointer: coarse) {
+  .mp-wand { cursor: auto; }
+  .mp-wand-img.gray { -webkit-mask-image: none; mask-image: none; filter: none; }
+  .mp-wand-hint { display: none; }
+}
