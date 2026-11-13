@@ -513,6 +513,7 @@ export const projects = [
         'Auto-generated remediation pull requests',
         'Human-in-the-loop approval',
       ],
+      video: 'https://www.youtube.com/embed/uCTFqZxQGJs?start=109',
       images: ['projects/covers/warden.svg'],
       status: 'Active Development',
       year: '2026',
@@ -532,6 +533,7 @@ export const projects = [
         'Kubernetes manifest generation',
         'Opens a ready-to-review pull request',
       ],
+      video: 'https://www.youtube.com/embed/gYXBkB6T5pU?start=105',
       images: ['projects/covers/warden-flow.svg'],
       status: 'Active Development',
       year: '2026',
@@ -551,6 +553,7 @@ export const projects = [
         'PayPal integration monitoring',
         'Revenue-protecting alerts',
       ],
+      video: 'https://www.youtube.com/embed/mnbAXQDoEko?start=11',
       images: [
         'projects/flatline/transactions.png',
         'projects/flatline/overview.png',
