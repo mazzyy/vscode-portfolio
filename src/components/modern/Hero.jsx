@@ -2,6 +2,7 @@ import React from 'react';
 import { profile, socials } from '../../data/profile';
 import { useTypewriter, useMagnetic } from './hooks';
 import InteractiveTerminal from './InteractiveTerminal';
+import NeonStreak from './NeonStreak';
 
 const heroIntro = [
   { t: 'cmd', v: 'whoami' },
@@ -29,13 +30,10 @@ function Hero({ onNavigate, onEnterVSCode, onDownloadCV, onMatrix }) {
     <section id="home" className="mp-hero">
       <div className="mp-hero-scanlines" aria-hidden="true" />
       <div className="mp-hero-grid" aria-hidden="true" />
+      <NeonStreak className="mp-hero-neon" />
 
       <div className="mp-hero-inner">
         <div className="mp-hero-left reveal">
-          <div className="mp-hero-badge">
-            <span className="mp-pulse" /> Available for opportunities
-          </div>
-
           <p className="mp-hero-hi">
             <span className="mp-mono-accent">const</span> greeting = <span className="mp-str">'Hi, I am'</span>;
           </p>
@@ -86,7 +84,7 @@ function Hero({ onNavigate, onEnterVSCode, onDownloadCV, onMatrix }) {
               onEnterVSCode={onEnterVSCode}
               onDownloadCV={onDownloadCV}
               onMatrix={onMatrix}
-              onGotoTab={() => onNavigate('playground')}
+              onGotoTab={() => onNavigate('projects')}
             />
           </div>
         </div>

@@ -23,7 +23,7 @@ function petReact(emotion, say) {
   try { window.dispatchEvent(new CustomEvent('pet-react', { detail: { emotion, say } })); } catch (e) { /* ignore */ }
 }
 
-const KNOWN_CMDS = new Set(['', 'help', 'whoami', 'about', 'skills', 'projects', 'ls', 'cat', 'social', 'contact', 'resume', 'cv', 'neofetch', 'date', 'echo', 'joke', 'game', 'snake', 'matrix', 'theme', 'vscode', 'sudo', 'banner', 'clear', 'exit']);
+const KNOWN_CMDS = new Set(['', 'help', 'whoami', 'about', 'skills', 'projects', 'ls', 'cat', 'social', 'contact', 'resume', 'cv', 'neofetch', 'date', 'echo', 'joke', 'matrix', 'vscode', 'sudo', 'banner', 'clear', 'exit']);
 const ANNOY = ['confused', 'anger', 'facepalm']; // escalation on repeated bad commands
 
 const DEFAULT_INTRO = [
@@ -61,7 +61,7 @@ function InteractiveTerminal({ onEnterVSCode, onMatrix, onGotoTab, onDownloadCV,
         out.push({ t: 'grid', v: [
           'help', 'whoami', 'about', 'skills', 'projects', 'ls',
           'cat <file>', 'social', 'resume', 'neofetch', 'date', 'echo <t>',
-          'joke', 'game', 'matrix', 'theme', 'vscode', 'sudo', 'clear', 'banner',
+          'joke', 'matrix', 'vscode', 'sudo', 'clear', 'banner',
         ] });
         break;
       case 'whoami':
@@ -116,18 +116,9 @@ function InteractiveTerminal({ onEnterVSCode, onMatrix, onGotoTab, onDownloadCV,
         out.push({ t: 'out', v: JOKES[Math.floor(Math.random() * JOKES.length)] });
         petReact('laugh');
         break;
-      case 'game':
-      case 'snake':
-        out.push({ t: 'ok', v: 'Launching Snake… use the Snake tab above. Arrow keys / WASD to play.' });
-        if (onGotoTab) onGotoTab('snake');
-        break;
       case 'matrix':
         out.push({ t: 'ok', v: 'Entering the matrix… (click anywhere to exit)' });
         if (onMatrix) onMatrix();
-        break;
-      case 'theme':
-        out.push({ t: 'ok', v: 'Open the Theme Lab tab to recolor this experience live.' });
-        if (onGotoTab) onGotoTab('theme');
         break;
       case 'vscode':
         out.push({ t: 'ok', v: 'Switching to VS Code mode…' });

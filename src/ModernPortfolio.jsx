@@ -5,7 +5,6 @@ import Hero from './components/modern/Hero';
 import AboutModern from './components/modern/AboutModern';
 import ProjectsModern from './components/modern/ProjectsModern';
 import ExperienceModern from './components/modern/ExperienceModern';
-import Playground from './components/modern/Playground';
 import ContactModern from './components/modern/ContactModern';
 import CommandPalette from './components/modern/CommandPalette';
 import TerminalDock from './components/modern/TerminalDock';
@@ -13,7 +12,7 @@ import CharacterPet from './components/modern/CharacterPet';
 import MatrixRain from './components/modern/MatrixRain';
 import { loadSavedTheme } from './components/modern/ThemeLab';
 
-const SECTIONS = ['home', 'about', 'projects', 'experience', 'playground', 'contact'];
+const SECTIONS = ['home', 'about', 'projects', 'experience', 'contact'];
 const KONAMI = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
 
 function ModernPortfolio({ onEnterVSCode }) {
@@ -23,7 +22,6 @@ function ModernPortfolio({ onEnterVSCode }) {
   const [progress, setProgress] = useState(0);
   const cursorRef = useRef(null);
   const konamiRef = useRef([]);
-  const seenPlayground = useRef(false);
 
   const navigate = useCallback((id) => {
     const el = document.getElementById(id);
@@ -67,14 +65,6 @@ function ModernPortfolio({ onEnterVSCode }) {
     SECTIONS.forEach((id) => { const el = document.getElementById(id); if (el) obs.observe(el); });
     return () => obs.disconnect();
   }, []);
-
-  // character reacts when the visitor first reaches the playground
-  useEffect(() => {
-    if (activeSection === 'playground' && !seenPlayground.current) {
-      seenPlayground.current = true;
-      try { window.dispatchEvent(new CustomEvent('pet-react', { detail: { emotion: 'laugh', say: 'the playground! have fun 🎮' } })); } catch (e) { /* ignore */ }
-    }
-  }, [activeSection]);
 
   // scroll progress + back-to-top
   useEffect(() => {
@@ -143,7 +133,6 @@ function ModernPortfolio({ onEnterVSCode }) {
         <AboutModern />
         <ProjectsModern />
         <ExperienceModern />
-        <Playground onEnterVSCode={onEnterVSCode} onMatrix={() => setMatrix(true)} onDownloadCV={downloadCV} />
         <ContactModern onDownloadCV={downloadCV} onEnterVSCode={onEnterVSCode} />
       </main>
 

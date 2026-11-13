@@ -47,7 +47,7 @@ function TerminalDock({ onEnterVSCode, onMatrix, onDownloadCV, onNavigate }) {
             onEnterVSCode={onEnterVSCode}
             onMatrix={onMatrix}
             onDownloadCV={onDownloadCV}
-            onGotoTab={() => { setOpen(false); onNavigate && onNavigate('playground'); }}
+            onGotoTab={() => { setOpen(false); onNavigate && onNavigate('projects'); }}
           />
         )}
       </aside>

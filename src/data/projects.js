@@ -340,7 +340,7 @@ export const projects = [
         '7 Department Knowledge Spaces',
         'TLS 1.3 Encryption'
       ],
-      images: [],
+      images: ['projects/covers/eta-hybrid-ai.svg'],
       status: 'Active Development',
       year: '2026',
       isShowcase: true,
@@ -513,7 +513,7 @@ export const projects = [
         'Auto-generated remediation pull requests',
         'Human-in-the-loop approval',
       ],
-      images: [],
+      images: ['projects/covers/warden.svg'],
       status: 'Active Development',
       year: '2026',
     },
@@ -532,7 +532,7 @@ export const projects = [
         'Kubernetes manifest generation',
         'Opens a ready-to-review pull request',
       ],
-      images: [],
+      images: ['projects/covers/warden-flow.svg'],
       status: 'Active Development',
       year: '2026',
     },
@@ -599,7 +599,7 @@ export const projects = [
         'Python-first codegen',
         'Provider-swappable architecture',
       ],
-      images: [],
+      images: ['projects/covers/alloy.svg'],
       status: 'Work in Progress',
       year: '2026',
     },
@@ -618,7 +618,7 @@ export const projects = [
         'Data cleaning & transformation',
         'Web-based workflow',
       ],
-      images: [],
+      images: ['projects/covers/xcelbot.svg'],
       status: 'Completed',
       year: '2026',
     },
@@ -788,7 +788,7 @@ export const projects = [
         'Sales pipeline management',
         'Reporting & analytics'
       ],
-      images: [],
+      images: ['projects/covers/crm.svg'],
       status: 'Production',
       year: '2022'
     },
@@ -807,7 +807,7 @@ export const projects = [
         'Infrastructure recommendations',
         'Security best practices'
       ],
-      images: [],
+      images: ['projects/covers/devopsgenie.svg'],
       status: 'Active Development',
       year: '2024'
     }

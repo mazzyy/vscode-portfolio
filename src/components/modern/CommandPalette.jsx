@@ -10,7 +10,6 @@ function CommandPalette({ onClose, onNavigate, onEnterVSCode, onDownloadCV, onMa
     { id: 'about', label: 'Go to About', icon: 'fa-user', run: () => onNavigate('about') },
     { id: 'projects', label: 'Go to Projects', icon: 'fa-folder-open', run: () => onNavigate('projects') },
     { id: 'experience', label: 'Go to Experience', icon: 'fa-briefcase', run: () => onNavigate('experience') },
-    { id: 'playground', label: 'Go to Playground', icon: 'fa-gamepad', run: () => onNavigate('playground') },
     { id: 'contact', label: 'Go to Contact', icon: 'fa-envelope', run: () => onNavigate('contact') },
     { id: 'cv', label: 'Download CV / Resume', icon: 'fa-download', run: () => onDownloadCV() },
     { id: 'vscode', label: 'Switch to VS Code mode', icon: 'fa-code', run: () => onEnterVSCode() },

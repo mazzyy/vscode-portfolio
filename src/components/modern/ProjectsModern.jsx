@@ -12,6 +12,9 @@ const FILTERS = [
   { key: 'tools', label: 'Tools' },
 ];
 
+// bold accent per slide tile (reference-style colourful strip)
+const PALETTE = ['#00ffc3', '#00d4ff', '#b14eff', '#ff7a21', '#ff2d6b', '#2ec28f', '#ffd43b'];
+
 const AI = ['ai', 'rag', 'openai', 'gemini', 'llm', 'ml', 'agent', 'pydantic', 'litellm', 'copilot', 'matching', 'deep learning', 'computer vision', 'onnx', 'chromadb', 'analytics', 'nlp'];
 const CLOUD = ['kubernetes', 'docker', 'azure', 'aws', 'terraform', 'github actions', 'devops', 'aks', 'observability', 'infrastructure', 'ci/cd'];
 const WEB = ['react', 'vue', 'node', 'typescript', 'fastapi', 'django', 'flask', 'express', 'webview', 'android', 'macos'];
@@ -28,6 +31,35 @@ function catsFor(p) {
   return cats;
 }
 
+/* ---------- Sliding filmstrip card ---------- */
+function SlideCard({ project, n, onOpen }) {
+  const img = project.images && project.images[0];
+  const color = PALETTE[(n - 1) % PALETTE.length];
+  return (
+    <button className="mp-slide" onClick={() => onOpen(project)} style={{ '--c': color }}>
+      <div className="mp-slide-top">
+        <span className="mp-slide-num">({String(n).padStart(2, '0')})</span>
+        <span className="mp-slide-name">{project.title}</span>
+        <span className="mp-slide-year">{project.year}</span>
+      </div>
+      <div className="mp-slide-card">
+        {img
+          ? <img src={img} alt={project.title} loading="lazy" draggable="false" />
+          : <div className="mp-slide-ico"><i className={`fas ${project.icon}`} /></div>}
+        <div className="mp-slide-badges">
+          {project.isShowcase && <span className="mp-slide-badge">★</span>}
+          {project.downloads && project.downloads.length > 0 && <span className="mp-slide-badge"><i className="fas fa-download" /></span>}
+        </div>
+        <div className="mp-slide-foot">
+          <span className="mp-slide-tech">{project.tech[0]}</span>
+          <span className="mp-slide-cta">View <i className="fas fa-arrow-right" /></span>
+        </div>
+      </div>
+    </button>
+  );
+}
+
+/* ---------- Grid card (tilt) ---------- */
 function ProjectCard({ project, onOpen, index }) {
   const tilt = useTilt(8);
   const isGithub = project.link && project.link.includes('github.com');
@@ -50,15 +82,12 @@ function ProjectCard({ project, onOpen, index }) {
           <span className="mp-pcard-year">{project.year}</span>
         </div>
       </div>
-
       <h3 className="mp-pcard-title">{project.title}</h3>
       <p className="mp-pcard-desc">{project.shortDesc}</p>
-
       <div className="mp-pcard-tech">
         {project.tech.slice(0, 4).map((t) => <span key={t}>{t}</span>)}
         {project.tech.length > 4 && <span className="mp-more">+{project.tech.length - 4}</span>}
       </div>
-
       <div className="mp-pcard-foot">
         <span className={`mp-status mp-status-${(project.status || '').toLowerCase().replace(/[^a-z]/g, '')}`}>
           <span className="mp-status-dot" />{project.status}
@@ -73,6 +102,7 @@ function ProjectCard({ project, onOpen, index }) {
   );
 }
 
+/* ---------- Detail modal ---------- */
 function ProjectModal({ project, onClose }) {
   const [img, setImg] = useState(0);
   const images = project.images || [];
@@ -83,10 +113,7 @@ function ProjectModal({ project, onClose }) {
     document.addEventListener('keydown', onKey);
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = prev;
-    };
+    return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = prev; };
   }, [onClose]);
 
   return (
@@ -98,13 +125,10 @@ function ProjectModal({ project, onClose }) {
           <div className="mp-modal-ico"><i className={`fas ${project.icon}`} /></div>
           <div>
             <h3>{project.title}</h3>
-            <div className="mp-modal-sub">
-              <span className="mp-status-dot" />{project.status} · {project.year}
-            </div>
+            <div className="mp-modal-sub"><span className="mp-status-dot" />{project.status} · {project.year}</div>
           </div>
         </div>
 
-        {/* Download buttons — prominent for app projects */}
         {project.downloads && project.downloads.length > 0 && (
           <div className="mp-modal-downloads">
             {project.downloads.map((d) => (
@@ -115,19 +139,12 @@ function ProjectModal({ project, onClose }) {
           </div>
         )}
 
-        {/* Video demo */}
         {project.video && (
           <div className="mp-modal-video">
-            <iframe
-              src={project.video}
-              title={`${project.title} demo`}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
+            <iframe src={project.video} title={`${project.title} demo`} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
           </div>
         )}
 
-        {/* Screenshot gallery */}
         {images.length > 0 && (
           <div className="mp-modal-gallery">
             <div className="mp-modal-main-img">
@@ -136,14 +153,7 @@ function ProjectModal({ project, onClose }) {
             {images.length > 1 && (
               <div className="mp-modal-thumbs">
                 {images.map((src, i) => (
-                  <img
-                    key={src}
-                    src={src}
-                    alt={`thumb ${i + 1}`}
-                    className={i === img ? 'active' : ''}
-                    onClick={() => setImg(i)}
-                    loading="lazy"
-                  />
+                  <img key={src} src={src} alt={`thumb ${i + 1}`} className={i === img ? 'active' : ''} onClick={() => setImg(i)} loading="lazy" />
                 ))}
               </div>
             )}
@@ -163,7 +173,6 @@ function ProjectModal({ project, onClose }) {
           </div>
         )}
 
-        {/* Grouped feature categories (showcase projects) */}
         {project.featureCategories ? (
           <div className="mp-modal-featcats">
             {project.featureCategories.map((cat) => (
@@ -173,10 +182,7 @@ function ProjectModal({ project, onClose }) {
                   {cat.items.map((it) => (
                     <div key={it.name} className="mp-featcat-item">
                       <i className={`fas ${it.icon}`} style={{ color: cat.color || 'var(--mp-accent)' }} />
-                      <div>
-                        <b>{it.name}</b>
-                        <span>{it.desc}</span>
-                      </div>
+                      <div><b>{it.name}</b><span>{it.desc}</span></div>
                     </div>
                   ))}
                 </div>
@@ -186,15 +192,10 @@ function ProjectModal({ project, onClose }) {
         ) : project.features && project.features.length > 0 && (
           <div className="mp-modal-feats">
             <h4>Key Features</h4>
-            <ul>
-              {project.features.map((f) => (
-                <li key={f}><i className="fas fa-check" />{f}</li>
-              ))}
-            </ul>
+            <ul>{project.features.map((f) => <li key={f}><i className="fas fa-check" />{f}</li>)}</ul>
           </div>
         )}
 
-        {/* Tech stack (grouped by layer when available) */}
         {project.techStack ? (
           <div className="mp-modal-stacklayers">
             <h4>Tech Stack</h4>
@@ -202,19 +203,13 @@ function ProjectModal({ project, onClose }) {
               <div key={layer.layer} className="mp-stacklayer">
                 <span className="mp-stacklayer-name">{layer.layer}</span>
                 <div className="mp-stacklayer-items">
-                  {layer.items.map((it) => (
-                    <span key={it.name} className="mp-stacklayer-chip" style={{ '--chip': it.color }}>
-                      {it.name}
-                    </span>
-                  ))}
+                  {layer.items.map((it) => <span key={it.name} className="mp-stacklayer-chip" style={{ '--chip': it.color }}>{it.name}</span>)}
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <div className="mp-modal-tech">
-            {project.tech.map((t) => <span key={t}>{t}</span>)}
-          </div>
+          <div className="mp-modal-tech">{project.tech.map((t) => <span key={t}>{t}</span>)}</div>
         )}
 
         {project.link && (
@@ -227,8 +222,10 @@ function ProjectModal({ project, onClose }) {
   );
 }
 
+/* ---------- Section ---------- */
 function ProjectsModern() {
   const [filter, setFilter] = useState('all');
+  const [view, setView] = useState('slider'); // 'slider' | 'grid'
   const [selected, setSelected] = useState(null);
 
   const tagged = useMemo(() => projects.map((p) => ({ ...p, cats: catsFor(p) })), []);
@@ -242,37 +239,52 @@ function ProjectsModern() {
     try { window.dispatchEvent(new CustomEvent('pet-react', { detail: { emotion: 'smile', say: 'checking my work? 😊' } })); } catch (e) { /* ignore */ }
   }, []);
 
+  const trackStyle = { animationDuration: `${Math.max(28, visible.length * 4.2)}s` };
+
   return (
     <section id="projects" className="mp-section">
       <div className="mp-section-head reveal">
         <span className="mp-section-index">02.</span>
         <h2 className="mp-section-title">projects<span className="mp-grad">[]</span></h2>
         <div className="mp-section-rule" />
-        <a className="mp-section-link" href={`${socials.github}?tab=repositories`} target="_blank" rel="noopener noreferrer">
-          <i className="fab fa-github" /> all repos
-        </a>
+        <div className="mp-proj-views">
+          <button className={view === 'slider' ? 'active' : ''} onClick={() => setView('slider')} title="Sliding view">
+            <i className="fas fa-film" /><span>Slider</span>
+          </button>
+          <button className={view === 'grid' ? 'active' : ''} onClick={() => setView('grid')} title="Grid view">
+            <i className="fas fa-table-cells-large" /><span>Grid</span>
+          </button>
+        </div>
       </div>
 
       <div className="mp-filters reveal">
         {FILTERS.map((f) => (
-          <button
-            key={f.key}
-            className={`mp-filter ${filter === f.key ? 'active' : ''}`}
-            onClick={() => setFilter(f.key)}
-          >
+          <button key={f.key} className={`mp-filter ${filter === f.key ? 'active' : ''}`} onClick={() => setFilter(f.key)}>
             {f.label}
-            <span className="mp-filter-count">
-              {f.key === 'all' ? tagged.length : tagged.filter((p) => p.cats.includes(f.key)).length}
-            </span>
+            <span className="mp-filter-count">{f.key === 'all' ? tagged.length : tagged.filter((p) => p.cats.includes(f.key)).length}</span>
           </button>
         ))}
+        <a className="mp-section-link mp-filters-repos" href={`${socials.github}?tab=repositories`} target="_blank" rel="noopener noreferrer">
+          <i className="fab fa-github" /> all repos
+        </a>
       </div>
 
-      <div className="mp-projects-grid">
-        {visible.map((p, i) => (
-          <ProjectCard key={p.id} project={p} onOpen={open} index={i} />
-        ))}
-      </div>
+      {view === 'slider' ? (
+        <div className="mp-slider reveal">
+          <div className="mp-slider-edge left" />
+          <div className="mp-slider-edge right" />
+          <div className="mp-slider-track" style={trackStyle} key={filter}>
+            {[...visible, ...visible].map((p, i) => (
+              <SlideCard key={`${p.id}-${i}`} project={p} n={(i % visible.length) + 1} onOpen={open} />
+            ))}
+          </div>
+          <p className="mp-slider-hint"><i className="fas fa-hand-pointer" /> hover to pause · click a card for details</p>
+        </div>
+      ) : (
+        <div className="mp-projects-grid">
+          {visible.map((p, i) => <ProjectCard key={p.id} project={p} onOpen={open} index={i} />)}
+        </div>
+      )}
 
       {selected && <ProjectModal project={selected} onClose={() => setSelected(null)} />}
     </section>
