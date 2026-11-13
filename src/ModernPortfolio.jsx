@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import ParticleField from './components/modern/ParticleField';
 import ModernNav from './components/modern/ModernNav';
 import Hero from './components/modern/Hero';
+import Ticker from './components/modern/Ticker';
 import AboutModern from './components/modern/AboutModern';
 import ProjectsModern from './components/modern/ProjectsModern';
 import ExperienceModern from './components/modern/ExperienceModern';
@@ -130,6 +131,7 @@ function ModernPortfolio({ onEnterVSCode }) {
       <div ref={cursorRef} className="mp-cursor-glow" aria-hidden="true" />
       <ParticleField />
       <div className="mp-vignette" aria-hidden="true" />
+      <div className="mp-grain" aria-hidden="true" />
 
       <ModernNav
         activeSection={activeSection}
@@ -140,6 +142,7 @@ function ModernPortfolio({ onEnterVSCode }) {
 
       <main className="mp-main">
         <Hero onNavigate={navigate} onEnterVSCode={onEnterVSCode} onDownloadCV={downloadCV} onMatrix={() => setMatrix(true)} />
+        <Ticker />
         <AboutModern />
         <ProjectsModern />
         <ExperienceModern />

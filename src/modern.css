@@ -916,3 +916,25 @@ body.mode-modern ::selection { background: rgba(139,92,246,0.32); color: #fff; }
   .mp-wand-img.gray { -webkit-mask-image: none; mask-image: none; filter: none; }
   .mp-wand-hint { display: none; }
 }
+
+/* ---- tech ticker ---- */
+.mp-ticker {
+  position: relative; z-index: 2; overflow: hidden;
+  border-top: 1px solid var(--mp-border); border-bottom: 1px solid var(--mp-border);
+  background: color-mix(in srgb, var(--mp-accent) 5%, transparent);
+  padding: 15px 0; margin-top: 4px;
+}
+.mp-ticker-track { display: flex; width: max-content; animation: mpTicker 32s linear infinite; }
+.mp-ticker:hover .mp-ticker-track { animation-play-state: paused; }
+@keyframes mpTicker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.mp-ticker-row { display: flex; align-items: center; }
+.mp-ticker-item { display: inline-flex; align-items: center; font-family: var(--mp-mono); font-size: 1.05rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mp-text-bright); white-space: nowrap; }
+.mp-ticker-sep { margin: 0 26px; color: var(--mp-accent); font-style: normal; }
+
+/* ---- film grain texture ---- */
+.mp-grain {
+  position: fixed; inset: 0; z-index: 40; pointer-events: none; opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+@media (prefers-reduced-motion: reduce) { .mp-ticker-track { animation: none; } }
