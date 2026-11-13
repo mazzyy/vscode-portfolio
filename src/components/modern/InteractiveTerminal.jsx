@@ -19,6 +19,10 @@ const BANNER = String.raw`
  |_|  |_|\__,_|___/\__,_| \_/\_/ \__,_|_|
 `;
 
+function petReact(emotion) {
+  try { window.dispatchEvent(new CustomEvent('pet-react', { detail: { emotion } })); } catch (e) { /* ignore */ }
+}
+
 const DEFAULT_INTRO = [
   { t: 'sys', v: "Welcome to musawar.sh — an interactive shell. Type 'help' to begin." },
 ];
@@ -104,6 +108,7 @@ function InteractiveTerminal({ onEnterVSCode, onMatrix, onGotoTab, onDownloadCV,
         break;
       case 'joke':
         out.push({ t: 'out', v: JOKES[Math.floor(Math.random() * JOKES.length)] });
+        petReact('laugh');
         break;
       case 'game':
       case 'snake':
@@ -124,6 +129,7 @@ function InteractiveTerminal({ onEnterVSCode, onMatrix, onGotoTab, onDownloadCV,
         break;
       case 'sudo':
         out.push({ t: 'err', v: `${profile.firstName} is not in the sudoers file. This incident will be reported. 😏` });
+        petReact('laugh');
         break;
       case 'banner':
         out.push({ t: 'ascii', v: BANNER });
@@ -136,6 +142,7 @@ function InteractiveTerminal({ onEnterVSCode, onMatrix, onGotoTab, onDownloadCV,
         break;
       default:
         out.push({ t: 'err', v: `command not found: ${name} — type 'help'` });
+        petReact('confused');
     }
     push(out);
   }, [push, onEnterVSCode, onMatrix, onGotoTab, onDownloadCV]);
