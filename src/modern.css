@@ -887,39 +887,24 @@ body.mode-modern ::selection { background: rgba(139,92,246,0.32); color: #fff; }
   .mp-intro.leaving { transform: none; opacity: 0; }
 }
 
-/* ---- flip ID badge + wand (About) ---- */
-.mp-badge-wrap { position: relative; width: 100%; min-height: 500px; perspective: 1400px; display: flex; flex-direction: column; align-items: center; margin-bottom: 18px; }
-
-.mp-badge-hang { position: relative; display: flex; flex-direction: column; align-items: center; transform-style: preserve-3d; transform-origin: top center; animation: mpSway 6s ease-in-out infinite; }
-@keyframes mpSway { 0%, 100% { transform: rotate(-4.5deg); } 50% { transform: rotate(-1deg); } }
-
-.mp-badge-strap { width: 30px; height: 74px; overflow: hidden; border-radius: 5px 5px 0 0; border: 1px solid var(--mp-border); border-bottom: none; background: linear-gradient(var(--mp-bg-2), #1a1a20); display: flex; align-items: center; justify-content: center; }
-.mp-badge-strap span { writing-mode: vertical-rl; font-family: var(--mp-mono); font-size: 0.46rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mp-text-dim); white-space: nowrap; }
-.mp-badge-clip { width: 42px; height: 14px; border-radius: 7px; background: linear-gradient(#45454e, #2a2a30); border: 1px solid var(--mp-border); margin-bottom: 8px; box-shadow: 0 2px 7px rgba(0,0,0,0.45); z-index: 4; }
-
-.mp-badge { position: relative; width: 258px; height: 356px; transform-style: preserve-3d; transition: transform 1.15s cubic-bezier(0.68, 0, 0.22, 1); }
-.mp-badge-wrap:hover .mp-badge { transform: rotateY(540deg); }
-.mp-badge-face { position: absolute; inset: 0; border-radius: 18px; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; box-shadow: 0 32px 64px rgba(0,0,0,0.55); }
-
-.mp-badge-front { background: linear-gradient(150deg, #1c1c24, #0b0b10 66%); border: 1px solid color-mix(in srgb, var(--mp-accent) 28%, var(--mp-border)); display: flex; align-items: center; justify-content: center; }
-.mp-badge-front::before { content: ''; position: absolute; inset: 0; opacity: 0.55; background-image: repeating-linear-gradient(135deg, rgba(255,255,255,0.03) 0 2px, transparent 2px 8px); }
-.mp-badge-front::after { content: ''; position: absolute; inset: 0; background: radial-gradient(120% 80% at 50% 12%, color-mix(in srgb, var(--mp-accent) 20%, transparent), transparent 60%); }
-.mp-badge-monobig { position: relative; font-family: var(--mp-mono); font-weight: 800; font-size: 3.6rem; letter-spacing: -0.05em; background: linear-gradient(120deg, #ffffff, #c4b5fd); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-.mp-badge-frontname { position: absolute; bottom: 26px; font-family: var(--mp-mono); font-size: 0.6rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--mp-text-dim); }
-
-.mp-badge-back { transform: rotateY(180deg); background: #f4f4f6; border: 1px solid #e4e4e7; display: flex; flex-direction: column; align-items: center; padding: 16px 14px; }
-.mp-badge-corner { position: absolute; top: 13px; left: 15px; font-family: var(--mp-mono); font-weight: 800; font-size: 0.85rem; color: #18181b; }
-.mp-badge-pic { width: calc(100% - 4px); height: 230px; border-radius: 10px; overflow: hidden; margin-top: 30px; background: linear-gradient(180deg, #bfe1ff 0%, #dfe6f5 65%, #efe7dc 100%); }
-.mp-badge-pic img { width: 100%; height: 100%; object-fit: contain; object-position: center bottom; -webkit-user-select: none; user-select: none; }
-.mp-badge-backname { margin-top: 14px; font-weight: 700; font-size: 1.1rem; color: #18181b; }
-.mp-badge-backrole { font-family: var(--mp-mono); font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: #71717a; margin-top: 3px; }
-
-.mp-wandfx { position: absolute; left: 1%; top: 60px; width: 48px; height: 430px; z-index: 6; pointer-events: none; filter: drop-shadow(0 0 7px rgba(255,255,255,0.3)); transition: transform 1.15s cubic-bezier(0.68, 0, 0.22, 1), filter 0.4s; transform: translateX(0) rotate(-2deg); }
-.mp-badge-wrap:hover .mp-wandfx { transform: translateX(min(72vw, 330px)) rotate(10deg); filter: drop-shadow(0 0 16px color-mix(in srgb, var(--mp-accent) 75%, #fff)); }
-
-.mp-badge-hint { text-align: center; font-family: var(--mp-mono); font-size: 0.68rem; color: var(--mp-text-dim); margin-top: 16px; }
+/* ---- badge GIF + wand (About) ---- */
+.mp-badge-wrap { position: relative; width: 100%; display: flex; flex-direction: column; align-items: center; min-height: 480px; margin-bottom: 8px; }
+.mp-badgegif { position: relative; z-index: 2; height: 460px; width: auto; max-width: 92%; filter: drop-shadow(0 26px 46px rgba(0,0,0,0.5)); -webkit-user-select: none; user-select: none; }
+.mp-wandimg {
+  position: absolute; left: 2%; top: 26px; height: 388px; width: auto; z-index: 3; pointer-events: none;
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--mp-accent) 40%, transparent));
+  animation: mpWandFloat 4.5s ease-in-out infinite;
+}
+@keyframes mpWandFloat { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-9px) rotate(-3deg); } }
+.mp-badge-wrap:hover .mp-wandimg {
+  animation: none;
+  transform: translateX(min(66vw, 300px)) rotate(12deg);
+  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--mp-accent) 75%, #fff));
+  transition: transform 1s cubic-bezier(0.68, 0, 0.22, 1), filter 0.4s;
+}
+.mp-badge-hint { margin-top: 12px; text-align: center; font-family: var(--mp-mono); font-size: 0.68rem; color: var(--mp-text-dim); }
 .mp-badge-hint i { color: var(--mp-accent); margin-right: 5px; }
-@media (max-width: 480px) { .mp-badge { width: 228px; height: 316px; } .mp-wandfx { display: none; } }
+@media (max-width: 480px) { .mp-badgegif { height: 380px; } .mp-wandimg { display: none; } }
 
 /* ---- tech ticker ---- */
 .mp-ticker {
