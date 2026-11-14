@@ -1,39 +1,36 @@
-import React, { useRef, useCallback } from 'react';
+import React from 'react';
+import { useTilt } from './hooks';
 
 /*
-  A portrait that stays greyscale until you sweep a glowing "wand" over it —
-  a spotlight ring follows the cursor and colourises the photo underneath.
+  A holographic ID-badge card (hanging from a lanyard) that tilts in 3D
+  toward the cursor, with a glossy sheen that tracks the pointer — the photo
+  is shown on the badge. Inspired by aayushbharti.in.
 */
-function WandReveal({ src = 'character/look-00.webp', name = 'Abdul Musawar Soomro' }) {
-  const ref = useRef(null);
-
-  const onMove = useCallback((e) => {
-    const el = ref.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    el.style.setProperty('--x', `${e.clientX - r.left}px`);
-    el.style.setProperty('--y', `${e.clientY - r.top}px`);
-    el.classList.add('on');
-  }, []);
-
-  const toggle = useCallback((on) => {
-    const el = ref.current;
-    if (el) el.classList.toggle('on', on);
-  }, []);
+function WandReveal({ src = 'character/look-00.webp', name = 'Abdul Musawar Soomro', role = 'Cloud & AI Engineer' }) {
+  const tilt = useTilt(15);
 
   return (
-    <div
-      className="mp-wand"
-      ref={ref}
-      onMouseMove={onMove}
-      onMouseEnter={() => toggle(true)}
-      onMouseLeave={() => toggle(false)}
-    >
-      <div className="mp-wand-bg" />
-      <img className="mp-wand-img color" src={src} alt={name} draggable="false" />
-      <img className="mp-wand-img gray" src={src} alt="" aria-hidden="true" draggable="false" />
-      <div className="mp-wand-ring" aria-hidden="true" />
-      <div className="mp-wand-hint"><i className="fas fa-wand-magic-sparkles" /> wave to reveal</div>
+    <div className="mp-badge-wrap">
+      <div className="mp-badge-strap"><span>musawar.tech · musawar.tech ·</span></div>
+      <div
+        className="mp-badge"
+        ref={tilt.ref}
+        onMouseMove={tilt.onMouseMove}
+        onMouseLeave={tilt.onMouseLeave}
+      >
+        <div className="mp-badge-clip" />
+        <div className="mp-badge-tex" />
+        <div className="mp-badge-photo"><img src={src} alt={name} draggable="false" /></div>
+        <div className="mp-badge-sheen" />
+        <div className="mp-badge-info">
+          <span className="mp-badge-mono">{'</>'}</span>
+          <div>
+            <b>{name}</b>
+            <small>{role}</small>
+          </div>
+        </div>
+      </div>
+      <div className="mp-badge-hint"><i className="fas fa-wand-magic-sparkles" /> hover to tilt</div>
     </div>
   );
 }

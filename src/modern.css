@@ -887,35 +887,43 @@ body.mode-modern ::selection { background: rgba(139,92,246,0.32); color: #fff; }
   .mp-intro.leaving { transform: none; opacity: 0; }
 }
 
-/* ---- wand reveal portrait (About) ---- */
-.mp-wand {
-  position: relative; width: 100%; height: 300px; border-radius: 16px; overflow: hidden;
-  border: 1px solid var(--mp-border); margin-bottom: 24px; cursor: none;
-  --x: -240px; --y: -240px;
-  background: linear-gradient(160deg, color-mix(in srgb, var(--mp-accent) 14%, #0e0e14), #0a0a0f);
+/* ---- 3D holographic ID badge (About) ---- */
+.mp-badge-wrap { perspective: 1100px; display: flex; flex-direction: column; align-items: center; margin-bottom: 26px; }
+.mp-badge-strap {
+  width: 32px; height: 64px; margin-bottom: -8px; z-index: 1; overflow: hidden;
+  border: 1px solid var(--mp-border); border-bottom: none; border-radius: 5px 5px 0 0;
+  background: linear-gradient(var(--mp-bg-2), color-mix(in srgb, var(--mp-accent) 22%, #18181b));
+  display: flex; align-items: center; justify-content: center;
 }
-.mp-wand-bg { position: absolute; inset: 0; background: radial-gradient(120% 90% at 50% 8%, color-mix(in srgb, var(--mp-purple) 26%, transparent), transparent 70%); }
-.mp-wand-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center bottom; -webkit-user-select: none; user-select: none; }
-.mp-wand-img.gray {
-  filter: grayscale(1) brightness(0.55) contrast(1.05);
-  -webkit-mask-image: radial-gradient(circle 120px at var(--x) var(--y), transparent 0, transparent 46%, #000 80%);
-  mask-image: radial-gradient(circle 120px at var(--x) var(--y), transparent 0, transparent 46%, #000 80%);
+.mp-badge-strap span { writing-mode: vertical-rl; font-family: var(--mp-mono); font-size: 0.5rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mp-text-dim); white-space: nowrap; }
+.mp-badge {
+  position: relative; width: 262px; height: 362px; border-radius: 18px; overflow: hidden;
+  background: linear-gradient(150deg, #1b1b23, #0c0c11 62%);
+  border: 1px solid color-mix(in srgb, var(--mp-accent) 30%, var(--mp-border));
+  box-shadow: 0 30px 60px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(255,255,255,0.03);
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.12s ease-out, box-shadow 0.3s;
+  will-change: transform;
 }
-.mp-wand-ring {
-  position: absolute; left: var(--x); top: var(--y); width: 120px; height: 120px; margin: -60px 0 0 -60px; border-radius: 50%;
-  border: 1.5px solid color-mix(in srgb, var(--mp-accent) 75%, transparent);
-  box-shadow: 0 0 26px color-mix(in srgb, var(--mp-accent) 45%, transparent), inset 0 0 26px color-mix(in srgb, var(--mp-accent) 22%, transparent);
-  opacity: 0; transition: opacity 0.2s; pointer-events: none;
+.mp-badge:hover { box-shadow: 0 34px 74px rgba(0,0,0,0.6), 0 0 34px color-mix(in srgb, var(--mp-accent) 30%, transparent); }
+.mp-badge-clip { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 54px; height: 9px; border-radius: 6px; background: #26262c; border: 1px solid var(--mp-border); z-index: 3; }
+.mp-badge-tex { position: absolute; inset: 0; opacity: 0.6; background-image: repeating-linear-gradient(135deg, rgba(255,255,255,0.03) 0 2px, transparent 2px 7px); pointer-events: none; }
+.mp-badge-photo { position: absolute; inset: 26px 12px 72px; }
+.mp-badge-photo img { width: 100%; height: 100%; object-fit: contain; object-position: center bottom; filter: drop-shadow(0 10px 22px rgba(0,0,0,0.55)); -webkit-user-select: none; user-select: none; }
+.mp-badge-sheen {
+  position: absolute; inset: 0; pointer-events: none; mix-blend-mode: overlay; opacity: 0; transition: opacity 0.25s;
+  background:
+    radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.3), transparent 42%),
+    linear-gradient(120deg, rgba(139,92,246,0.3), rgba(236,72,153,0.22) 45%, rgba(99,102,241,0.3));
 }
-.mp-wand.on .mp-wand-ring { opacity: 1; }
-.mp-wand-hint { position: absolute; bottom: 12px; left: 0; right: 0; text-align: center; font-family: var(--mp-mono); font-size: 0.74rem; color: var(--mp-text-dim); transition: opacity 0.2s; pointer-events: none; }
-.mp-wand.on .mp-wand-hint { opacity: 0; }
-.mp-wand-hint i { color: var(--mp-accent); margin-right: 6px; }
-@media (pointer: coarse) {
-  .mp-wand { cursor: auto; }
-  .mp-wand-img.gray { -webkit-mask-image: none; mask-image: none; filter: none; }
-  .mp-wand-hint { display: none; }
-}
+.mp-badge:hover .mp-badge-sheen { opacity: 1; }
+.mp-badge-info { position: absolute; left: 0; right: 0; bottom: 0; padding: 13px 15px; display: flex; align-items: center; gap: 11px; background: linear-gradient(transparent, rgba(6,6,10,0.94)); border-top: 1px solid var(--mp-border); }
+.mp-badge-mono { font-family: var(--mp-mono); font-weight: 700; font-size: 0.95rem; color: #fff; background: linear-gradient(120deg, var(--mp-accent), var(--mp-accent-2)); border-radius: 8px; padding: 5px 8px; flex-shrink: 0; }
+.mp-badge-info b { display: block; font-size: 0.84rem; color: var(--mp-text-bright); line-height: 1.2; }
+.mp-badge-info small { display: block; font-family: var(--mp-mono); font-size: 0.66rem; color: var(--mp-accent); margin-top: 2px; }
+.mp-badge-hint { text-align: center; font-family: var(--mp-mono); font-size: 0.7rem; color: var(--mp-text-dim); margin-top: 12px; }
+.mp-badge-hint i { color: var(--mp-accent); margin-right: 5px; }
+@media (max-width: 480px) { .mp-badge { width: 230px; height: 322px; } }
 
 /* ---- tech ticker ---- */
 .mp-ticker {
