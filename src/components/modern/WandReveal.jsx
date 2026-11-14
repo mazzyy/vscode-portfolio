@@ -3,14 +3,16 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 /*
   Cursor-scrubbed ID badge (aayushbharti-style wand reveal).
 
-  The badge rotation was exported from badge.gif into individual frames
-  (public/badge/f00.webp .. f36.webp). Frame 0 = face, last frame = back.
-  The wand.png follows the cursor across the box: moving left -> right scrubs
-  the rotation forward (toward the back), right -> left reverses it back to the
-  face. It never auto-loops, so no stray dark frame flashes on its own.
+  The badge rotation was exported from badge.gif into a trimmed set of frames
+  (public/badge/f00.webp .. f17.webp) spanning the real 180 deg flip:
+  frame 0 = flat face, the middle frames pass edge-on, and the last frame is
+  the flat back of the card (AMS logo + name). Fewer frames => each wand move
+  rotates further, so the spin feels fast and snappy, not a slow crawl.
+  The wand.png follows the cursor across the box: left -> right flips to the
+  back, right -> left reverses to the face. It never auto-loops.
 */
 
-const FRAME_COUNT = 37; // f00..f36
+const FRAME_COUNT = 18; // f00..f17 (face -> back, 180 deg)
 const FRAMES = Array.from({ length: FRAME_COUNT }, (_, i) => `badge/f${String(i).padStart(2, '0')}.webp`);
 const LAST = FRAME_COUNT - 1;
 
