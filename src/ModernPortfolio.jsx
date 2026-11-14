@@ -13,6 +13,7 @@ import CharacterPet from './components/modern/CharacterPet';
 import MatrixRain from './components/modern/MatrixRain';
 import IntroSequence from './components/modern/IntroSequence';
 import { loadSavedTheme } from './components/modern/ThemeLab';
+import { profile } from './data/profile';
 
 const SECTIONS = ['home', 'about', 'projects', 'experience', 'contact'];
 const KONAMI = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
@@ -147,6 +148,10 @@ function ModernPortfolio({ onEnterVSCode }) {
         <ProjectsModern />
         <ExperienceModern />
         <ContactModern onDownloadCV={downloadCV} onEnterVSCode={onEnterVSCode} />
+
+        <div className="mp-bigname-wrap" aria-hidden="true">
+          <span className="mp-bigname">{profile.name}</span>
+        </div>
       </main>
 
       <TerminalDock
