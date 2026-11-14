@@ -9,3 +9,7 @@ build/
 # macOS AppleDouble files
 ._*
 .DS_Store
+
+# local-only badge rotation source (frames live in public/badge/)
+public/badge.gif
+public/badge.webp
